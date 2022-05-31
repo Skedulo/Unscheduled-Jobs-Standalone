@@ -1,0 +1,16 @@
+{
+	"folders": [
+		{
+			"path": "sfdx"
+		},
+		{
+			"path": "frontend"
+		},
+		{
+			"path": "custom-form"
+		},
+		{
+			"path": "document"
+		}
+	]
+}
