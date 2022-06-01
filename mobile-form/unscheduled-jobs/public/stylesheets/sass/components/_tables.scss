@@ -1,0 +1,155 @@
+//
+// Tables
+// --------------------------------------------------
+
+table{
+  max-width:100%;
+  background-color:transparent;
+  border-collapse:collapse;
+  border-spacing:0;
+}
+.table{
+  width:100%;
+  th, td{
+    padding:8px;
+    line-height:20px;
+    text-align: left;
+    vertical-align:top;
+    background: #fff;
+    &.center{
+      text-align: center;
+    }
+    &.right{
+      text-align: right;
+    }
+    &.colSmall{
+      width:1%;
+    }
+  }
+  &.large{
+    th, td{padding:16px;}
+  }
+  thead{
+    td, th{
+      vertical-align:bottom;
+      background-color:#f9f9f9;
+      color: #555;
+      font-weight: bold;
+      font-size: 12px;
+      padding-top: 7px;
+      padding-bottom: 7px;
+      border-right: 1px solid $form_element_border_color;
+    }
+    thead:first-child tr:first-child th,
+    thead:first-child tr:first-child td{border-top:0;}
+  }
+  p{margin: 0}
+  
+  tbody{
+    th, td{
+      border-top:1px solid #dddddd;
+    }
+  }
+  &.simpleheader{
+    thead{
+      td, th{
+        vertical-align:middle;
+        background-color:#fff;
+        color: #777777;
+        font-weight: normal;
+        font-size: 14px;
+        padding-bottom: 20px;
+        border:none;
+      }
+    }
+    tbody:first-child{
+      tr:first-child td{
+        border:none;
+      }
+    }
+  }
+}
+
+.table-noborders{
+  th, td{
+    padding:15px 20px 15px 0;
+    line-height:20px;
+    text-align: left;
+    vertical-align:top;
+    background: #fff;
+    .icon{
+      font-size:16px;
+      margin-right:5px;
+    }
+    &:last-child {
+      padding-right:0;
+    }
+  }
+  thead{
+    td, th{
+      color: #000;
+      font-size: 14px;
+      background:transparent;
+      border:none;
+      font-weight: normal;
+    }
+  }
+  tbody{
+    th, td{
+      border:none;
+    }
+  }
+}
+
+.table-bordered{
+  border:1px solid $form_element_border_color;
+  border-collapse:separate;
+  th, td{
+    border-right:1px solid #dddddd;
+    &:last-child{
+      border-right:none;
+    }
+  }
+  thead:first-child tr:first-child th,
+  tbody:first-child tr:first-child th,
+  tbody:first-child tr:first-child td{
+    border-top:0;
+  }
+}
+
+.table-withbord{
+  border:1px solid $form_element_border_color;
+  border-collapse:separate;
+}
+
+
+// Simple table with no styling
+.simpletable{
+  margin: 0 !important;
+  tr{
+    border: none !important;
+    margin: 0 !important;
+    td{
+      padding: 0 !important;
+      border: none !important;
+      font-size: inherit !important;
+    }
+  }
+}
+
+
+// Zebra-striping
+//
+// Default zebra-stripe styles (alternating gray and transparent backgrounds)
+.table-striped {
+  > tbody > tr:nth-child(odd) {
+    > td,
+    > th {
+      background-color: #eff6fb;
+    }
+  }
+}
+
+.td-middle td, .td-middle{vertical-align: middle}
+.td-top td, .td-top{vertical-align: top}
+.td-bottom td, .td-bottom{vertical-align: bottom;}

@@ -1,0 +1,33 @@
+// -- SF page
+body {
+  &.hasMotif {
+    margin: 0 !important;
+  }
+}
+#sidebarCell, #AppBodyHeader {
+  display: none;
+}
+#bodyCell {
+  padding: 0;
+}
+#contentWrapper {
+  height: 100%;
+  min-width: unset;
+
+  .bodyDiv {
+    border: none;
+  }
+}
+
+button {
+  border: none;
+  margin: 0;
+  background-image: none;
+}
+
+select.form-control {
+  padding: 8px;
+  padding-right: 16px;
+}
+
+//-----

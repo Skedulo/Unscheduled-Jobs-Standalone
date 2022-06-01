@@ -1,0 +1,81 @@
+.text-color, input.text-color{color: $main_color}
+
+// Dark style
+.dark{
+    background: $dark_color;
+    color: #fff;
+}
+
+.light{
+    background: #fff;
+}
+
+////////////////////////////////////
+// Statuses background and buttons
+/////////////////////////////////////
+.color-amethyst     {color:$color_amethyst}
+.color-base         {color: $base-color}
+.color-black        {color:#000}
+.color-blue         {color: $color_blue}
+.color-darkgrey     {color: $color_grey_dark}
+.color-green        {color: $color_green}
+.color-grey         {color: $color_grey}
+.color-lightblue    {color: $color-blue-light}
+.color-lightgrey    {color: $color_grey_light}
+.color-magenta      {color: $color_magenta}
+.color-orange       {color: $color_orange}
+.color-orchid       {color: $color_orchid}
+.color-purple       {color: $color_purple}
+.color-red          {color: $color_red}
+.color-white        {color: #fff}
+.color-yellow       {color: $color_yellow}
+
+.border-amethyst    {border-color: $color_amethyst !important;}
+.border-base        {border-color: $base-color}
+.border-black       {border-color: #000 !important;}
+.border-blue        {border-color: $color_blue !important;}
+.border-darkgrey    {border-color: $color_grey_dark !important;}
+.border-green       {border-color: $color_green !important;}
+.border-grey        {border-color: $color_grey !important;}
+.border-lightblue   {border-color: $color-blue-light !important;}
+.border-lightgrey   {border-color: $color_grey_light !important;}
+.border-magenta     {border-color: $color_magenta !important;}
+.border-orange      {border-color: $color_orange !important;}
+.border-orchid      {border-color: $color_orchid !important;}
+.border-purple      {border-color: $color_purple !important;}
+.border-red         {border-color: $color_red !important;}
+.border-white       {border-color: #fff !important;}
+.border-yellow      {border-color: $color_yellow !important;}
+
+.bg-amethyst    {background: $color_amethyst; color: #fff;}
+.bg-base        {background: $base-color}
+.bg-black       {background: #000}
+.bg-blue        {background: $color_blue; color: #fff;}
+.bg-darkgrey    {background: $color_grey_dark; color: #fff;}
+.bg-green       {background: $color_green; color: #fff;}
+.bg-grey        {background: $color_grey; color: #fff;}
+.bg-lightblue   {background: $color-blue-light; color: #fff;}
+.bg-lightgrey   {background: $color_grey_light; color: #fff;}
+.bg-magenta     {background: $color_magenta; color: #fff;}
+.bg-orange      {background: $color_orange;color: #fff;}
+.bg-orchid      {background: $color_orchid; color: #fff;}
+.bg-purple      {background: $color_purple; color: #fff;}
+.bg-red         {background: $color_red; color: #fff;}
+.bg-white       {background: #fff; color:$base-color;}
+.bg-yellow      {background: $color_yellow;}
+
+.bg-amethyst-hover:hover    {background: $color_amethyst; border-color:darken($color_amethyst, 10%) !important}
+.bg-base-hover:hover        {background: $base-color; border-color:darken($base-color, 10%) !important}
+.bg-blue-hover:hover        {background: $color_blue; color: #fff; border-color:darken($color_blue, 10%) !important }
+.bg-darkgrey-hover:hover    {background: darken($color_grey_dark, 20%); color: #fff; border-color:darken($color_grey_dark, 30%) !important}
+.bg-green-hover:hover       {background: $color_green; color: #fff; border-color:darken($color_green, 10%) !important}
+.bg-grey-hover:hover        {background: $color_grey; color: #fff; border-color:darken($color_grey, 10%) !important}
+.bg-lightblue-hover:hover   {background: $color-blue-light; color: #fff; border-color:darken($color-blue-light, 10%) !important }
+.bg-lightgrey-hover:hover   {background: darken($color_grey_light, 20%); color: #fff; border-color:darken($color_grey_light, 30%) !important}
+.bg-magenta-hover:hover     {background: $color_magenta; color: #fff; border-color:darken($color_magenta, 10%) !important}
+.bg-orange-hover:hover      {background: $color_orange;color: #fff; border-color:darken($color_orange, 10%) !important}
+.bg-orchid-hover:hover      {background: $color_orchid; color: #fff; border-color:darken($color_orchid, 10%) !important}
+.bg-purple-hover:hover      {background: $color_purple; color: #fff; border-color:darken($color_purple, 10%) !important}
+.bg-red-hover:hover         {background: $color_red; color: #fff; border-color:darken($color_red, 10%) !important}
+.bg-white-hover:hover       {background: #fff; border-color:darken(#fff, 10%) !important}
+.bg-yellow-hover:hover      {background: $color_yellow; border-color:darken($color_yellow, 10%) !important}

@@ -1,0 +1,183 @@
+////////////////////////////////////////////////////
+// Utils and Helpers
+////////////////////////////////////////////////////
+.voiceReader{
+    position:absolute;
+    left:-10000px;
+    top:auto;
+    width:1px;
+    height:1px;
+    overflow:hidden;
+}
+
+.trimText{text-overflow:ellipsis;display: inline-block;overflow: hidden;white-space:nowrap;width: 100%}
+.clearfix { @include clearfix(); }
+.hidden{display:none}
+.boxsize {@include box-sizing();}
+.scroll-disabled{overflow: hidden !important;}
+.scroll{@include scroll-vertical();}
+.fl { float: left}
+.fr { float: right}
+.rel{position: relative;}
+.fw{width:100%}
+.fh{height:100%}
+.ab {position: absolute;top: 0px;left: 0px;z-index: 2}
+.pointer{cursor: pointer;}
+.muted{color:#999999;}
+
+// Visual indication of focused element for accessibility
+.focusable:focus{
+  @include box-shadow(0px 0px 5px 0px $main_color);
+  z-index: 999 !important;
+}
+
+// Padding helper classes
+.pad-t{padding: $content-padding 0 0 0}
+.pad-r{padding: 0 $content-padding 0 0}
+.pad-b{padding: 0 0$content-padding 0}
+.pad-l{padding: 0 0 0 0$content-padding}
+.pad-v{padding: $content-padding 0}
+.pad-h{padding: 0 $content-padding}
+
+.rm-pad-t{padding-top: 0 !important}
+.rm-pad-r{padding-right: 0 !important}
+.rm-pad-b{padding-bottom: 0 !important}
+.rm-pad-l{padding-left: 0 !important}
+.rm-pad-all{padding: 0 !important}
+
+// Margin helper classes
+.rm-margin-t{margin-top: 0 !important}
+.rm-margin-r{margin-right: 0 !important}
+.rm-margin-b{margin-bottom: 0 !important}
+.rm-margin-l{margin-left: 0 !important}
+.rm-margin-all{margin: 0 !important}
+
+// Border helper classes
+.border-trb{border-width: 1px 1px 1px 0}
+.border-tbl{border-width: 1px 0 1px 1px}
+.border-tb{border-width: 1px 0}
+.border-t{border-top: 1px solid $form_element_border_color}
+.border-r{border-right: 1px solid $form_element_border_color}
+.border-b{border-bottom: 1px solid $form_element_border_color}
+.border-l{border-left: 1px solid $form_element_border_color}
+
+.transparent{
+    background: transparent !important;
+    border-color: transparent !important;
+}
+.important-display{display: inline-block !important}
+
+.flexible {
+    position: relative;
+    padding-top: 25px;
+    padding-bottom: 30%;
+    height: 0;
+    overflow: hidden;
+    &.large{padding-bottom: 50%}
+}
+
+.flexible iframe, .flexible object, .flexible embed, .flexible .job-map, .flexible .map-canvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+@media only screen and (max-device-width: 800px), only screen and (device-width: 1024px) and (device-height: 600px), only screen and (width: 1280px) and (orientation: landscape), only screen and (device-width: 800px), only screen and (max-width: 767px) {
+    .flexible {padding-top: 0;}
+}
+
+// Reduce map height on large tablets
+@media screen and (min-width: 578px) {
+    .flexible {
+        &.large{padding-bottom: 30%}
+    }
+}
+
+@media screen and (min-width: 1024px) {
+    .flexible {
+        &.large{padding-bottom: 20%}
+    }
+}
+
+.clickable, label, input[type=button], input[type=submit], button {cursor: pointer;text-decoration: none;}
+
+// Disabled styles
+.disabled{
+    cursor: default !important;
+    background:#eee;
+    opacity:0.6;
+    input, select{
+        background:#eee;
+    }
+    label{
+        cursor: default !important;
+    }
+    .checkbox input:before{
+        background:#eee;
+    }
+}
+.btn[disabled]{
+    cursor: default !important;
+    opacity:0.6;
+}
+
+.zindex1, .zindex2, .zindex3{position: relative;}
+.zindex1{z-index: 1}
+.zindex2{z-index: 2}
+.zindex3{z-index: 3}
+.none{color: lightgrey}
+.w30, .w40{padding: 0;margin-top: 0}
+.w30{width: 30%}
+.w40{width: 40%}
+
+// Wrap text
+.nowrap{white-space: nowrap;}
+.wrap{
+    white-space: pre;           /* CSS 2.0 */
+    white-space: pre-wrap;      /* CSS 2.1 */
+    white-space: pre-line;      /* CSS 3.0 */
+    white-space: -pre-wrap;     /* Opera 4-6 */
+    white-space: -o-pre-wrap;   /* Opera 7 */
+    white-space: -moz-pre-wrap; /* Mozilla */
+    white-space: -hp-pre-wrap;  /* HP Printers */
+    word-wrap: break-word;      /* IE 5+ */
+}
+.db{display: block;}
+input:-moz-placeholder,textarea:-moz-placeholder{color:$form_element_border_color;}
+input:-ms-input-placeholder,textarea:-ms-input-placeholder{color:$form_element_border_color;}
+input::-webkit-input-placeholder,textarea::-webkit-input-placeholder{color:$form_element_border_color;}
+
+.bg-gradient-blue{
+    background: $main_color;
+}
+
+// Enable text select
+.select-text,
+.select-text div,
+.select-text p,
+.select-text span{
+    -webkit-user-select: text !important;
+    -khtml-user-select: text !important;
+    -moz-user-select: text !important;
+    -ms-user-select: text !important;
+    user-select: text !important;
+    -webkit-tap-highlight-color: rgba($color_blue, 0.5) !important;
+    &::selection,
+    &::-moz-selection {
+        background: rgba($color_blue, 0.5) !important;
+    }
+}
+// Enable select on links
+.select-link{
+    -webkit-touch-callout: default !important;
+    -moz-touch-callout: default !important;
+    -ms-touch-callout: default !important;
+    touch-callout: default !important;
+    -webkit-tap-highlight-color: rgba($color_blue, 0.5) !important;
+    &::selection,
+    &::-moz-selection {
+        background: rgba($color_blue, 0.5) !important;
+    }
+}

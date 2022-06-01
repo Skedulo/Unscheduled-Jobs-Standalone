@@ -1,0 +1,212 @@
+// Fixed colors
+$color_grey_dark:                   #787878;
+$color_grey_light:                  rgba(238, 239, 242);
+$color_grey:                        #bbb;
+$color_sked_blue:                   #0461CB;
+$color_blue:                        #349de3;
+$color-blue-light:                  #74b1d4;
+$color_green_light:                 #59B66E;
+$color_green:                       #03AA55;
+$color_red:                         #df4040;
+$color_orange:                      #faa928;
+$color_yellow:                      #FFDE00;
+$color_purple:                      #620c5f;
+$color_magenta:                     #944292;
+$color_orchid:                      #bc8ebe;
+$color_amethyst:                    #8562a7;
+$color_navy:                        #223049;
+
+$color-disabled:                    #ddd;
+
+// Statuses colors to reflect whatever is in 
+// assets/javascripts/helpers/Metadata.coffee
+$queued:                            $color_grey_light;
+$pending_allocation:                $color_grey;
+$pending_dispatch:                  $color_orange;
+$dispatched:                        $color-blue-light;
+$ready:                             $color_blue;
+$en_route:                          $color_orchid;
+$on_site:                           $color_magenta;
+$in_progress:                       $color_purple;
+$complete:                          $color_green;
+$cancelled:                         $color_red;
+
+// App basic colors
+$inactive_color:                    $color_grey_light;
+$dark_color:                        #24333c;
+$activity_color:                    $color_amethyst;
+
+$form_element_border_color:         #dcdcdc;
+
+// Toggle Menu
+$toggle-menu-height:55px;
+
+// Base
+// -------------------------------
+
+$font-family-sans-serif:            "Helvetica Neue", "Roboto", sans-serif !default;
+$font-family-base:                  $font-family-sans-serif !default;
+
+$base-color:                        #000 !default;
+
+$link-color:                        $color_blue !default;
+
+// Feed
+$feed-background:                   #fcfcfc;
+
+// Layout
+$blue-ios:                          #0f7de2;
+$blue-android:                      #007ee5;
+
+$fonts-path:                        "../fonts/";
+$images-path:                       "../images/";
+$main_color:                        $blue-ios;
+$global-border-radius:              2px;
+
+$content-padding:                   16px !default;
+$tablet_breakpoint:                 960px;
+
+
+// Elements variable
+$ios-top-padding:                       20px;
+
+$headings-font-family:              $font-family-base !default;
+$headings-font-weight:              500 !default;
+$headings-line-height:              1.2 !default;
+
+$font-size-base:                    14px !default;
+$line-height-base:                  1.428571429 !default; // 20/14
+
+$font-size-h1:                      22px;
+$font-size-h2:                      18px;
+$font-size-h3:                      16px;
+$font-size-h4:                      14px;
+$font-size-h5:                      14px;
+$font-size-h6:                      10px;
+
+// Custom SVG Icons
+$svg-chevron-right:                "data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiIHN0YW5kYWxvbmU9Im5vIj8+Cjxzdmcgd2lkdGg9IjhweCIgaGVpZ2h0PSIxNHB4IiB2aWV3Qm94PSIwIDAgOCAxNCIgdmVyc2lvbj0iMS4xIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIj4KICAgIDxkZWZzPjwvZGVmcz4KICAgIDxnIGlkPSJQYWdlLTEiIHN0cm9rZT0ibm9uZSIgc3Ryb2tlLXdpZHRoPSIxIiBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPgogICAgICAgIDxwYXRoIGQ9Ik0wLDEyLjM1OTM3NSBMNC45NjIwMjUzMiw3IEwwLDEuNjQwNjI1IEwxLjUxODk4NzM0LDAgTDgsNyBMMS41MTg5ODczNCwxNCBMMCwxMi4zNTkzNzUgWiIgaWQ9IlNoYXBlLUNvcHktMyIgZmlsbD0iI2RjZGNkYyI+PC9wYXRoPgogICAgPC9nPgo8L3N2Zz4=";
+
+$focus-background-color:            darken(#fff, 5%);
+
+// Buttons
+// -------------------------------
+
+$button-color-grey-dark:            #20272c;
+$button-color-grey-light:           $color_grey_light;
+$button-color-grey:                 $color_grey;
+$button-color-blue:                 $main_color;
+$button-color-blue-light:           $color-blue-light;
+$button-color-green:                $color_green;
+$button-color-red:                  $color_red;
+$button-color-orange:               $color_orange;
+$button-color-yellow:               $color_yellow;
+$button-color-purple:               $color_purple;
+$button-color-magenta:              $color_magenta;
+$button-color-orchid:               $color_orchid;
+$button-color-ametist:              $color_amethyst;
+$button-color-default:              #000;
+
+$button-color:                      $button-color-default !default;
+$button-block-margin:               10px !default;
+$button-clear-padding:              6px !default;
+$button-border-radius:              $global-border-radius !default;
+$button-border-width:               1px !default;
+
+$button-font-size:                  16px !default;
+$button-height:                     44px !default;
+$button-padding:                    12px !default;
+$button-icon-size:                  24px !default;
+
+$button-large-font-size:            20px !default;
+$button-large-height:               54px !default;
+$button-large-padding:              16px !default;
+$button-large-icon-size:            32px !default;
+
+$button-small-font-size:            12px !default;
+$button-small-height:               28px !default;
+$button-small-padding:              4px !default;
+$button-small-icon-size:            16px !default;
+
+$button-default-bg:                 #fff !default;
+$button-default-text:               #000 !default;
+$button-default-border:             $form_element_border_color !default;
+
+// Left menu
+$menu-animation-speed:              200ms !default;
+$menu-text-color:                   #dadada;
+$menu-font-size:                    16px;
+$left-menu-width:                   270px;
+$left-menu-background:              #394044;
+$left-menu-background-active:       #24272b;
+$left-menu-background-focus:        darken($left-menu-background-active, 30%);
+
+// Page
+$page-header-background:            $main_color;
+$page-header-height:                55px;
+$page-header-font-size:             18px;
+$page-header-color:                 #fff;
+$page-header-padding:               0 5px;
+
+$page-header-button-height:         $page-header-height - 4;
+$page-header-button-line-height:    $page-header-button-height - 2;
+$page-header-button-margin-top:     math.div($page-header-height - $page-header-button-height, 2);
+$page-header-icon-font-size:        20px;
+
+// Modals
+$modal-header-bg:                   $color_grey_dark;
+$modal-header-color:                #010101;
+$modal-content-bg:                  #fff;
+$modal-content-color:               $base-color;
+$modal-footer-bg:                   $color_grey_dark;
+$modal-footer-color:                $color_grey_light;
+
+// Forms
+$input-border-focus:                $main_color !default;
+$input-height:                      $button-height + 2 !default;
+$input-border-radius:               $global-border-radius;
+
+//Checkbox
+$checkbox-size: 					28px;
+
+// Badges
+// -------------------------------
+
+$badge-font-size:                   $font-size-base !default;
+$badge-line-height:                 16px !default;
+$badge-font-weight:                 300 !default;
+$badge-border-radius:               10px !default;
+
+$badge-default-bg:                  lighten($color_blue, 40%) !default;
+$badge-default-text:                $color_blue !default;
+
+// Items
+// -------------------------------
+
+$item-font-size:                    $font-size-base !default;
+$item-border-width:                 1px !default;
+$item-padding:                      $content-padding !default;
+
+$item-icon-font-size:               $item-font-size * 1.5 !default;
+
+$item-divider-bg:                   #f3f3f3 !default;
+$item-divider-color:                #000 !default;
+$item-divider-padding:              ceil(math.div($item-padding, 2)) $item-padding !default;
+$item-divider-font-size:            $item-font-size !default;
+
+$item-default-bg:                   #fff !default;
+$item-default-border:               $form_element_border_color !default;
+$item-default-text:                 $base-color !default;
+$item-default-active-bg:            #D9D9D9 !default;
+$item-default-active-border:        $form_element_border_color !default;
+$item-arrow-size:                   16px;
+
+// Z-Indexes
+// -------------------------------
+
+$z-index-left-menu:                 0 !default;
+$z-index-menu-content:              1 !default;
+$z-index-badge:                     1 !default;
+$z-index-item:                      2 !default;
+$z-index-tabs:                      99 !default;
+$z-index-loading:                   9999 !default;

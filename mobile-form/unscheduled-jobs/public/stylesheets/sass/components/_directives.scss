@@ -1,0 +1,31 @@
+//
+// Directives
+// --------------------------------------------------
+
+// Thumbnail Directive
+.sked-thumbnail{
+    display: block;
+    overflow: hidden;
+    background: #5aa5d3;
+    text-align:center;
+    position: relative;
+    @include sked-thumbnail-size(40px);
+    @include border-radius(3px);
+    img{
+        display: block;
+        position: absolute;
+        top: 0px;
+        left: 0px;
+        z-index: 1;
+        max-width: none;
+        -webkit-transition: opacity 0.3s ease-in-out;
+        -moz-transition: opacity 0.3s ease-in-out;
+        -o-transition: opacity 0.3s ease-in-out;
+        transition: opacity 0.3s ease-in-out;
+        opacity:0;
+        @include border-radius(3px);
+        &.loaded{
+            opacity:1;
+        }
+    }
+}

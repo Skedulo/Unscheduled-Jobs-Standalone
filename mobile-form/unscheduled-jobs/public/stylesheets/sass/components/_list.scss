@@ -1,0 +1,141 @@
+//
+// Lists styles
+// --------------------------------------------------
+
+.list{
+    position: relative;
+    padding-top: $item-border-width;
+    padding-bottom: $item-border-width;
+    padding-left: 0; // reset padding because ul and ol
+    background: #fff;
+    // Inset list
+    &.inset {
+        margin-right: $item-padding;
+        margin-left: $item-padding;
+        &.insideContentPadded{
+            margin-left:0;
+            margin-right:0;
+        }
+    }
+}
+
+.list-item{
+    @include item-style($item-default-bg, $item-default-border, $item-default-text);
+    @include clearfix();
+    position: relative;
+    overflow: hidden;
+    z-index:$z-index-item;
+    display: block;
+    margin: $item-border-width * -1;
+    padding: $item-padding;
+    min-height: $input-height;
+    border-width: $item-border-width;
+    border-style: solid;
+    font-size: $item-font-size;
+    .label {
+        margin: 0;
+    }
+    &.hasArrow{
+        padding-right: $item-arrow-size + $content-padding;
+        &:after{
+            position:absolute;
+            top: 50%;
+            right: $content-padding - 8;
+            margin-top: - math.div($item-arrow-size, 2);
+            width: $item-arrow-size;
+            height: $item-arrow-size;
+            background-size: $item-arrow-size $item-arrow-size;
+            background-image: url($svg-chevron-right);
+            background-repeat: no-repeat;
+        }
+    }
+    &.active{
+        background: $item-default-active-bg;
+        border-color:$item-default-active-border;
+    }
+    .itemRight{
+        position: absolute;
+        top: 50%;
+        right: $item-padding;
+        margin-top: -23px;
+        line-height:20px;
+        z-index: 20;
+        &.btn{
+            margin-top: -23px;
+        }
+        &.btn-small{
+            margin-top: -15px;
+        }
+    }
+    .btn.itemRight{
+        border-color: $form_element_border_color;
+    }
+    
+    .label,
+    .field {
+        display: inline-block;
+        float: left;
+        margin: 0;
+    }
+    .label {
+        width: 40%;
+        color: $base-color;
+    }
+    .field {
+        width: 60%;
+        text-align: right;
+        &.hasRightBtn{
+            padding-right: 70px;
+        }
+        .right-btn{
+            position: absolute;
+            top: 50%;
+            right: 10px;
+            margin-top: -15px;
+        }
+    }
+}
+
+.list .list-item > a:not([class*="button"]) {
+    position: relative;
+    display: block;
+    padding: inherit;
+    margin: -10px;
+    color: inherit;
+    z-index: 10;
+    color: $main_color
+}
+
+.thumbnail-list{
+    .list-item{
+        padding-left: 60px;
+        padding-right: 60px;
+        position: relative;
+        min-height: 68px;
+        &.item-divider{
+            padding-top: ceil(math.div($item-padding, 2));
+            padding-top: ceil(math.div($item-padding, 2));
+            padding-left: $item-padding;
+            padding-right: $item-padding;
+            min-height: 30px;
+        }
+    }
+    .user-thumbnail, .sked-thumbnail{
+        position: absolute;
+        top: 14px;
+        left: 10px;
+    }
+    &.large{
+        .list-item{
+            padding-left: 90px;
+            min-height: 98px;
+        }
+        .user-thumbnail, .sked-thumbnail{
+            width: 70px;
+            height: 70px;
+            i{
+                font-size:68px;
+            }
+        }
+    }
+}

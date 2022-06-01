@@ -1,0 +1,233 @@
+@font-face {
+    font-family: 'mobileskedicons';
+    src:    url('#{$fonts-path}mobileskedicons.eot?4sx9mp');
+    src:    url('#{$fonts-path}mobileskedicons.eot?4sx9mp#iefix') format('embedded-opentype'),
+        url('#{$fonts-path}mobileskedicons.ttf?4sx9mp') format('truetype'),
+        url('#{$fonts-path}mobileskedicons.woff?4sx9mp') format('woff'),
+        url('#{$fonts-path}mobileskedicons.svg?4sx9mp#mobileskedicons') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+
+.sk {
+    /* use !important to prevent issues with browser extensions that change fonts */
+    font-family: 'mobileskedicons' !important;
+    speak: none;
+    font-style: normal;
+    font-weight: normal;
+    font-variant: normal;
+    text-transform: none;
+    line-height: 1;
+
+    /* Better Font Rendering =========== */
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+.sk-arrow-circle-o-left:before {
+    content: "\e900";
+}
+.sk-arrow-down:before {
+    content: "\e901";
+}
+.sk-asset:before {
+    content: "\e902";
+}
+.sk-calendar:before {
+    content: "\e903";
+}
+.sk-calendar-check:before {
+    content: "\e904";
+}
+.sk-calendar-remove:before {
+    content: "\e905";
+}
+.sk-camera:before {
+    content: "\e906";
+}
+.sk-check:before {
+    content: "\e907";
+}
+.sk-chevron-down:before {
+    content: "\e908";
+}
+.sk-chevron-left:before {
+    content: "\e909";
+}
+.sk-chevron-right:before {
+    content: "\e90a";
+}
+.sk-chevron-up:before {
+    content: "\e90b";
+}
+.sk-clip:before {
+    content: "\e90c";
+}
+.sk-close:before {
+    content: "\e90d";
+}
+.sk-close-circle:before {
+    content: "\e90e";
+}
+.sk-close-circle-o:before {
+    content: "\e90f";
+}
+.sk-cog:before {
+    content: "\e910";
+}
+.sk-comments:before {
+    content: "\e911";
+}
+.sk-compass:before {
+    content: "\e912";
+}
+.sk-drawer:before {
+    content: "\e913";
+}
+.sk-edit:before {
+    content: "\e914";
+}
+.sk-envelope:before {
+    content: "\e915";
+}
+.sk-files:before {
+    content: "\e916";
+}
+.sk-gpslocation:before {
+    content: "\e917";
+}
+.sk-help:before {
+    content: "\e918";
+}
+.sk-home:before {
+    content: "\e919";
+}
+.sk-image:before {
+    content: "\e91a";
+}
+.sk-images:before {
+    content: "\e91b";
+}
+.sk-info:before {
+    content: "\e91c";
+}
+.sk-link:before {
+    content: "\e91d";
+}
+.sk-location:before {
+    content: "\e91e";
+}
+.sk-lock:before {
+    content: "\e91f";
+}
+.sk-microphone:before {
+    content: "\e920";
+}
+.sk-minus:before {
+    content: "\e921";
+}
+.sk-mobile:before {
+    content: "\e922";
+}
+.sk-notes:before {
+    content: "\e923";
+}
+.sk-pause:before {
+    content: "\e924";
+}
+.sk-phone:before {
+    content: "\e925";
+}
+.sk-play:before {
+    content: "\e926";
+}
+.sk-plus:before {
+    content: "\e927";
+}
+.sk-power:before {
+    content: "\e928";
+}
+.sk-product:before {
+    content: "\e929";
+}
+.sk-profile:before {
+    content: "\e92a";
+}
+.sk-prohibited:before {
+    content: "\e92b";
+}
+.sk-qrcode:before {
+    content: "\e92c";
+}
+.sk-refresh:before {
+    content: "\e92d";
+}
+.sk-remove:before {
+    content: "\e92e";
+}
+.sk-repeat:before {
+    content: "\e92f";
+}
+.sk-route:before {
+    content: "\e930";
+}
+.sk-salesforce .path1:before {
+    content: "\e931";
+    color: rgb(0, 0, 0);
+}
+.sk-salesforce .path2:before {
+    content: "\e932";
+    margin-left: -1em;
+    color: rgb(255, 255, 255);
+}
+.sk-search:before {
+    content: "\e933";
+}
+.sk-sig:before {
+    content: "\e934";
+}
+.sk-skedulo-logo-s:before {
+    content: "\e935";
+}
+.sk-skedulo-logo-square:before {
+    content: "\e936";
+}
+.sk-smile:before {
+    content: "\e937";
+}
+.sk-spinner:before {
+    content: "\e938";
+}
+.sk-stopwatch:before {
+    content: "\e939";
+}
+.sk-target:before {
+    content: "\e93a";
+}
+.sk-thumb-up:before {
+    content: "\e93b";
+}
+.sk-time:before {
+    content: "\e93c";
+}
+.sk-truck:before {
+    content: "\e93d";
+}
+.sk-unlocked:before {
+    content: "\e93e";
+}
+.sk-upload:before {
+    content: "\e93f";
+}
+.sk-user:before {
+    content: "\e940";
+}
+.sk-video-camera:before {
+    content: "\e941";
+}
+.sk-warning:before {
+    content: "\e942";
+}
+.sk-smile2:before {
+    content: "\e876";
+}

@@ -1,0 +1,17 @@
+export const colorDark = '#DFDEDE';
+export const colorLightGrey = '#EEECEC';
+export const colorGrey = '#B3b3B3';
+export const colorGrey2 = '#7F7F7F';
+export const colorGrey3 = '#FAFAFA';
+export const colorGrey4 = '#F5F7F9';
+export const colorWhite = '#FFFFFF';
+export const colorRed = '#E63A56';
+export const colorRed2 = '#E63A56';
+export const colorBlue = '#347EDF';
+export const colorBlue2 = '#2393F2';
+export const colorBlue3 = '#0980E4';
+export const colorNavyBlue = '#2F476B';
+export const colorText = '#2F476B';
+export const colorYellow = '#F5A623';
+export const colorOrange = '#F5A723';
+export const colorWhite2 = '#eceae5';

@@ -1,0 +1,26 @@
+.hybrid-app {
+  overflow: hidden;
+  body {
+    @include fullscreen;
+    overflow: hidden;
+  }
+  header {
+    position: relative;
+  }
+  section {
+    position: absolute;
+    top: $page-header-height;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    padding-top: 0;
+    @include scroll-vertical();
+  }
+  .native-ios,
+  .ios {
+    section {
+      padding-top: 0;
+      top: $page-header-height + $ios-top-padding;
+    }
+  }
+}

@@ -1,0 +1,160 @@
+a {
+  color: $link-color;
+}
+
+.content-padded{
+  padding: $content-padding;
+  width: 100%;
+  @include clearfix();
+}
+
+// No results found on ng:repears
+.no-results {
+  text-align: center !important;
+  color: #cecece;
+  font-size: 17.5px;
+  padding: 10px 0;
+  min-height: inherit;
+}
+
+// Input groups
+.input-group-icon {
+  position: absolute;
+  top: 0;
+  text-align: center;
+  width: 40px;
+  i {
+    line-height: 40px;
+    font-size: 30px;
+  }
+}
+
+.input-group {
+  display: block;
+  position: relative;
+  width: 100%;
+  padding: 0;
+  @include clearfix();
+  &.addon-icon-left {
+    padding-left: 40px;
+    .input-group-icon {
+      left: 0
+    }
+  }
+  &.addon-icon-right {
+    padding-right: 40px;
+    .input-group-icon {
+      right: 0
+    }
+  }
+}
+
+// Toast-notification
+// Add class "open" in <div class="toast-notification"> to show me, remove class after few sec to hide
+.toast-notification {
+  @include box-sizing;
+  @include border-radius(6px);
+  position: fixed;
+  bottom: 40px;
+  left: 50%;
+  padding: 15px;
+  color: #fff;
+  background: #000;
+  width: 300px;
+  margin-left: -150px;
+  z-index: 20000;
+  -webkit-transition: opacity 0.3s ease-in-out;
+  -moz-transition: opacity 0.3s ease-in-out;
+  -o-transition: opacity 0.3s ease-in-out;
+  transition: opacity 0.3s ease-in-out;
+  box-shadow: 0px 0px 8px 0px rgba(0, 0, 0, 0.3);
+  .close-item {
+    background: #000;
+    padding: 8px;
+    @include circle(32px);
+    position: absolute;
+    right: -10px;
+    top: -10px;
+    box-shadow: 0px 0px 4px 0px #fff;
+  }
+}
+
+.plus-block-btn {
+  position: absolute;
+  width: 70px;
+  height: 50px;
+  top: $content-padding;
+  right: $content-padding;
+  button {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    width: 100%;
+    height: 50px;
+    display: block;
+    z-index: 2;
+    padding: 0;
+  }
+}
+
+// Search
+.searchbox {
+  @include border-radius(3px);
+
+  display: inline-block;
+  position: relative;
+  width: 100%;
+  background: #fff;
+  padding: 0;
+  margin: 0;
+
+  .add-on {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 1;
+    height: $input-height;
+    background: transparent;
+    width: $input-height;
+    line-height: $input-height - 2;
+    padding: 0;
+    text-align: center;
+
+    &:focus {
+      outline: none;
+      -moz-outline: 0 none;
+    }
+
+    i {
+      font-size: 16px;
+      color: $form_element_border_color;
+      position: relative;
+      top: 1px;
+    }
+  }
+
+  input {
+    padding-left: $input-height;
+  }
+}
+
+// Custom Forms
+.iframe-body {
+  .content-padded {
+    background: #fff;
+  }
+}
+
+// Hidde loading spinner when form loads
+.modal-loading-box {
+  display: none;
+}
+
+// Use this class to show hide elements on mobile an tablet
+.show-on-web {
+  display: none;
+}
+
+.show-on-tablet {
+  display: none;
+}

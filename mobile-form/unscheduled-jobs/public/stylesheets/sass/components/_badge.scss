@@ -1,0 +1,26 @@
+
+//Badges
+// --------------------------------------------------
+.badge {
+    z-index: $z-index-badge;
+    display: inline-block;
+    padding: 3px 8px;
+    min-width: 10px;
+    border-radius: $badge-border-radius;
+    vertical-align: baseline;
+    text-align: center;
+    white-space: nowrap;
+    font-weight: $badge-font-weight;
+    font-size: $badge-font-size;
+    line-height: $badge-line-height;
+
+    &:empty {
+        display: none;
+    }
+}
+
+// Quick fix for labels/badges in buttons
+.button .badge {
+    position: relative;
+    top: -1px;
+}

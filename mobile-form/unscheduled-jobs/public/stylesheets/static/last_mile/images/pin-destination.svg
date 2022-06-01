@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns:xlink="http://www.w3.org/1999/xlink" width="48px" height="53px" viewBox="0 0 48 53" version="1.1"
+     xmlns="http://www.w3.org/2000/svg">
+    <!-- Generator: Sketch 51.1 (57501) - http://www.bohemiancoding.com/sketch -->
+    <title>Group 7</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <path d="M24,13 C19.0242857,13 15,17.356 15,22 C15,28.3 24,37 24,37 C24,37 33,28.3 33,22 C33,17.356 28.9757143,13 24,13 Z M24,25 C22.344,25 21,23.656 21,22 C21,20.344 22.344,19 24,19 C25.656,19 27,20.344 27,22 C27,23.656 25.656,25 24,25 Z"
+              id="path-1"></path>
+    </defs>
+    <g id="🔹-Last-mile" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Appointment-can't-be-rescheduled" transform="translate(-296.000000, -512.000000)">
+            <g id="Group-7" transform="translate(296.000000, 512.000000)">
+                <path d="M19.5316274,47.5847901 C8.41207406,45.4910018 0,35.7278735 0,24 C0,10.745166 10.745166,0 24,0 C37.254834,0 48,10.745166 48,24 C48,35.7278735 39.5879259,45.4910018 28.4683726,47.5847901 L24,52.5 L19.5316274,47.5847901 Z"
+                      id="Combined-Shape" fill="#002748"></path>
+                <mask id="mask-2" fill="white">
+                    <use xlink:href="#path-1"></use>
+                </mask>
+                <use id="Shape" fill="#FFFFFF" fill-rule="nonzero" xlink:href="#path-1"></use>
+            </g>
+        </g>
+    </g>
+</svg>

@@ -1,0 +1,49 @@
+.sked-autocomplete{
+  position: relative;
+}
+.sked-autocomplete-list{
+  list-style-type: none;
+  display: block;
+  background-color: white;
+  margin: 5px 0 $content-padding 0;
+  padding: 0;
+  width: 100%;
+  .sked-autocomplete-listitem{
+    margin: 0;
+    padding: 10px;
+    border-width: 0 1px 1px 1px;
+    border-style: solid;
+    border-color: $form_element_border_color;
+    cursor: pointer;
+    position: relative;
+    z-index: 1;
+    &:first-child{
+      border-width: 1px;
+    }
+    &:focus{
+      @include box-shadow(0px 0px 5px 0px $main_color);
+      border-color: $main_color;
+    }
+  }
+  button{
+    background: #fff;
+    border: none;
+    // outline: none;
+    text-align: left;
+    margin: 0;
+    padding: 16px 10px;
+    width: 100%;
+    color: $button-color-default;
+    // cursor: pointer;
+    &:focus{
+      // outline: none;
+      background: $button-color-blue;
+      color: #fff;
+    }
+    &:not(:focus) {
+      background: #fff;
+      // outline: none;
+      color: $button-color-default;
+    }
+  }
+}
