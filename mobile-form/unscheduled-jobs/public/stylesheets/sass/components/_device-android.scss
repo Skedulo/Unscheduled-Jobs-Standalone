@@ -1,0 +1,36 @@
+$android-page-header-height: 55px;
+$android-page-header-font-size: 20px;
+$android-page-header-button-margin-top: math.div(($android-page-header-height - $page-header-button-height), 2);
+// Android
+.android {
+  .item-radio {
+    -webkit-animation: androidCheckedbugfix infinite 1s;
+  }
+}
+
+// Xamarin Custom Forms
+.android,
+.native-android {
+  header {
+    height: $android-page-header-height;
+    background: $blue-android;
+    line-height: $android-page-header-height;
+    .title {
+      left: $android-page-header-height;
+      right: $android-page-header-height;
+      font-size: $android-page-header-font-size;
+      //line-height: $android-page-header-height;
+      font-weight: 700;
+      span {
+        // line-height: $page-header-height;
+        font-weight: normal;
+      }
+    }
+    .btn {
+      //margin-top:$android-page-header-button-margin-top;
+    }
+  }
+  section {
+    padding-top: $android-page-header-height;
+  }
+}

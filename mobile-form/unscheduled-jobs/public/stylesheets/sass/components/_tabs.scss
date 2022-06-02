@@ -1,0 +1,128 @@
+/**
+ * Tabs
+ * --------------------------------------------------
+ * A navigation bar with any number of tab items supported.
+ */
+
+.tabs {
+	@include display-flex();
+	@include flex-direction(horizontal);
+	@include justify-content(center);
+	@include translate3d(0,0,0);
+
+	@include tab-style($tabs-default-bg, $tabs-default-border, $tabs-default-text);
+	@include tab-badge-style($badge-default-bg, $badge-default-text);
+
+	position: absolute;
+	bottom: 0;
+
+	z-index: $z-index-tabs;
+
+	width: 100%;
+	height: $tabs-height;
+
+	border-style: solid;
+	border-top-width: 1px;
+
+	background-size: 0;
+	line-height: $tabs-height;
+
+	@media (min--moz-device-pixel-ratio: 1.5),
+				 (-webkit-min-device-pixel-ratio: 1.5),
+				 (min-device-pixel-ratio: 1.5),
+				 (min-resolution: 144dpi),
+				 (min-resolution: 1.5dppx) {
+		padding-top: 2px;
+		border-top: none !important;
+		border-bottom: none;
+		background-position: top;
+		background-size: 100% 1px;
+		background-repeat: no-repeat;
+	}
+}
+
+.tab-item {
+	@include flex(1);
+	display: block;
+	overflow: hidden;
+
+	max-width: $tab-item-max-width;
+	height: 100%;
+
+	color: inherit;
+	text-align: center;
+	text-decoration: none;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+
+	font-weight: 400;
+	font-size: $tabs-text-font-size;
+	font-family: $font-family-base;
+
+	&:hover {
+		cursor: pointer;
+	}
+	&.tab-hidden{
+		display:none;
+	}
+	.icon {
+		display: block;
+		margin: 5px auto;
+		height: $tabs-icon-size;
+		font-size: $tabs-icon-size;
+	}
+	&.has-badge {
+		position: relative;
+	}
+	.badge {
+		position: absolute;
+		top: 4%;
+		right: 33%; // fallback
+		right: calc(50% - 26px);
+		padding: $tabs-badge-padding;
+		height: auto;
+		font-size: $tabs-badge-font-size;
+		line-height: $tabs-badge-font-size + 4;
+		border:2px solid $tabs-default-bg;
+	}
+	&.active {
+		background-color:$tab-item-active-bg;
+		.badge{
+			border-color:$tab-item-active-bg; 
+		}
+	}
+}
+
+.tab-title{
+	line-height: 10px;
+	font-size: 10px;
+	display: block;
+}
+
+// Toggle tabs
+.content-tabs{
+	@include display-flex();
+	@include flex-direction(horizontal);
+	@include justify-content(center);
+	@include translate3d(0,0,0);
+	background-color:#fff;
+	margin:0;
+	padding: 0;
+	border-bottom:1px solid $form_element_border_color;
+	.tab-item {
+		padding:14px 0;
+		color: $base-color;
+		&.active{
+			color: $main_color;
+			background-color:transparent;
+		}
+		>span{
+			display: block;
+			padding: 0 14px;
+			border-right: 1px solid $form_element_border_color;
+		}
+		&:last-child>span{
+			border: none !important;
+		}
+	}
+}

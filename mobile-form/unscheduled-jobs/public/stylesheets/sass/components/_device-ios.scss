@@ -1,0 +1,31 @@
+// iOS Padding at the top
+.ios,
+.native-ios {
+    header {
+        height: $page-header-height;
+        // padding-top: $ios-top-padding;
+        .title {
+            // top: $ios-top-padding;
+        }
+    }
+    section {
+        padding-top: $page-header-height;
+        &.noHeader {
+            top: 0;
+        }
+    }
+}
+
+// Xamarin Custom Forms
+.ios,
+.native-ios {
+    header {
+        background: $blue-ios;
+        color: white
+    }
+}
+.native-ios {
+    header {
+        padding: 0 5px 0 0;
+    }
+}

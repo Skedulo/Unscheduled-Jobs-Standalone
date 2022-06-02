@@ -1,0 +1,219 @@
+
+.react-datepicker-wrapper {
+  width: 100%;
+
+  .form-control {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    padding-right: 40px;
+    background: #fff url(../static/forms/images/icon-calendar-blue.svg) no-repeat right 20px center;
+    height: 48px;
+  }
+}
+
+.timepicker {
+  .react-datepicker-wrapper {
+    .form-control {
+      -webkit-appearance: none;
+      -moz-appearance: none;
+      appearance: none;
+      padding-right: 40px;
+      background: #fff url(../static/forms/images/icon-clock.svg) no-repeat right 20px center;
+      height: 48px;
+    }
+  }
+}
+
+.react-datepicker-popper {
+  z-index: 10;
+}
+
+.sked-ui-calendar {
+  .react-datepicker__navigation {
+    text-indent: unset;
+  }
+}
+
+.sked-ui-calendar .react-datepicker {
+  cursor: default;
+  background-color: #FFFFFF;
+  border-width: 1px;
+  border-color: #DBE0E7;
+  color: #8D95A5;
+  border-radius: 3px;
+  box-shadow: 0 4px 8px 0 rgba(28, 46, 72,0.10), 0 2px 4px 0 rgba(28, 46, 72,0.08);
+  position: relative;
+  min-width: 258px;
+
+  &.react-datepicker--time-only {
+    min-width: auto;
+  }
+}
+
+.sked-ui-calendar .react-datepicker__header {
+  text-align: center;
+  color: #223049;
+  background: #FFFFFF;
+}
+
+.sked-ui-calendar .react-datepicker__navigation {
+  cursor: pointer;
+  position: absolute;
+  border-style: none;
+  top: 7px;
+}
+
+.sked-ui-calendar .react-datepicker__navigation--next, .sked-ui-calendar .react-datepicker__navigation--previous {
+  border-radius: 2px;
+  width: 2rem;
+  height: 2rem;
+  color: #8D95A5;
+  margin-top: 0.5rem;
+  overflow: hidden;
+}
+
+.sked-ui-calendar .react-datepicker__navigation--next:before, .sked-ui-calendar .react-datepicker__navigation--previous:before {
+  border-color: #223049;
+  border-radius: 2px;
+  align-content: center;
+}
+
+.sked-ui-calendar .react-datepicker__navigation--next:hover, .sked-ui-calendar .react-datepicker__navigation--previous:hover {
+  background-color: #ECEEF3;
+}
+
+.sked-ui-calendar .react-datepicker__navigation--next:focus, .sked-ui-calendar .react-datepicker__navigation--previous:focus {
+  outline: 0;
+}
+
+.sked-ui-calendar .react-datepicker__navigation--previous::before {
+  content: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='6.55' height='10.5px' viewBox='0 0 6.55 11' fill='%23485875'%3E %3Ctitle%3EAsset 42%3C/title%3E %3Cg id='Layer_2'%3E %3Cg id='Layer_1-2'%3E %3Cpath d='M2.53,5.5,6.24,1.79A1,1,0,0,0,4.76.31L.31,4.76a1,1,0,0,0,0,1.48l4.45,4.45A1,1,0,0,0,6.24,9.21Z' fill='%23485875'/%3E %3C/g%3E %3C/g%3E %3C/svg%3E");
+}
+
+.sked-ui-calendar .react-datepicker__navigation--next {
+  right: 1rem;
+}
+
+.sked-ui-calendar .react-datepicker__navigation--next:before {
+  content: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='6.55' height='10.5px' viewBox='0 0 6.55 11' fill='%23485875'%3E %3Ctitle%3EAsset 43%3C/title%3E %3Cg id='Layer_2'%3E %3Cg id='Layer_1-2'%3E %3Cpath d='M4,5.5.31,9.21a1,1,0,0,0,1.48,1.48L6.24,6.24a1,1,0,0,0,0-1.48L1.79.31A1,1,0,0,0,.31,1.79Z' fill='%23485875'/%3E %3C/g%3E %3C/g%3E %3C/svg%3E");
+}
+
+.sked-ui-calendar .react-datepicker__current-month {
+  font-size: 1rem;
+  border-radius: 2px;
+  line-height: 2;
+  font-weight: 500;
+  padding-bottom: 0.5rem;
+}
+
+.sked-ui-calendar .react-datepicker__day-name, .sked-ui-calendar .react-datepicker__day {
+  width: 2rem;
+  height: 2rem;
+  text-align: center;
+  font-size: .875rem;
+  color: #223049;
+  font-weight: 400;
+  display: inline-block;
+  padding-top: 0.4rem;
+}
+
+.sked-ui-calendar .react-datepicker__day-name {
+  color: #697282;
+  font-size: .812rem;
+}
+
+.sked-ui-calendar .react-datepicker__day {
+  border-color: transparent;
+  border-width: 1px;
+}
+
+.sked-ui-calendar .react-datepicker__day:hover {
+  background-color: #ECEEF3;
+  cursor: pointer;
+  border-radius: 2px;
+}
+
+.sked-ui-calendar .react-datepicker__day--outside-month {
+  color: #8D95A5;
+}
+
+.sked-ui-calendar .react-datepicker__day--today {
+  border-width: 1px;
+  border-radius: 2px;
+}
+
+.sked-ui-calendar .react-datepicker__day--selected, .sked-ui-calendar .react-datepicker__day--highlighted {
+  border-width: 1px;
+  border-radius: 2px;
+  background-color: #008CFF;
+  color: #FFFFFF;
+  border-radius: 2px;
+  border-color: #008CFF;
+}
+
+.sked-ui-calendar .react-datepicker__day--selected:hover, .sked-ui-calendar .react-datepicker__day--highlighted:hover {
+  background-color: #008CFF;
+  color: #FFFFFF;
+  border-radius: 2px;
+  border-color: #008CFF;
+}
+
+.sked-ui-calendar .react-datepicker__day--week-hovered {
+  border-color: #ECEEF3;
+  background-color: #ECEEF3;
+}
+
+.sked-ui-calendar .react-datepicker__day--week-hovered:first-child {
+  border-top-left-radius: 2px;
+  border-bottom-left-radius: 2px;
+}
+
+.sked-ui-calendar .react-datepicker__day--week-hovered:last-child {
+  border-top-right-radius: 2px;
+  border-bottom-right-radius: 2px;
+}
+
+.sked-ui-calendar .react-datepicker__day--week-selected, .sked-ui-calendar .react-datepicker__day--week-selected:hover {
+  border-width: 1px;
+  border-color: #008CFF;
+  color: #FFFFFF;
+  background-color: #008CFF;
+  border-radius: 0;
+}
+
+.sked-ui-calendar .react-datepicker__day--week-selected:first-child, .sked-ui-calendar .react-datepicker__day--week-selected:first-child:hover, .sked-ui-calendar .react-datepicker__day--week-selected:hover:first-child, .sked-ui-calendar .react-datepicker__day--week-selected:hover:first-child:hover {
+  border-color: #008CFF;
+  border-top-left-radius: 2px;
+  border-bottom-left-radius: 2px;
+}
+
+.sked-ui-calendar .react-datepicker__day--week-selected:last-child, .sked-ui-calendar .react-datepicker__day--week-selected:last-child:hover, .sked-ui-calendar .react-datepicker__day--week-selected:hover:last-child, .sked-ui-calendar .react-datepicker__day--week-selected:hover:last-child:hover {
+  border-color: #008CFF;
+  border-top-right-radius: 2px;
+  border-bottom-right-radius: 2px;
+}
+
+.sked-ui-calendar .react-datepicker__day--today {
+  border-color: #008CFF;
+}
+
+.sked-ui-calendar .react-datepicker__month {
+  cursor: pointer;
+  padding-top: 0.25rem;
+}
+
+.sked-ui-calendar .react-datepicker__tether-element-attached-top .react-datepicker__triangle:before, .sked-ui-calendar .react-datepicker__tether-element-attached-bottom .react-datepicker__triangle:before {
+  height: 0;
+  width: 1px;
+}
+
+/* purgecss end ignore */
+
+.sked-inlinebanner-icon-margin-right {
+  margin-right: .625rem;
+}
+
+.sked-calendar-controls > div {
+  display: inline-flex;
+}

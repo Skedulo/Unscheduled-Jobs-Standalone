@@ -1,0 +1,299 @@
+//
+// Buttons
+// --------------------------------------------------
+.btn-group {
+  position: relative;
+  display: inline-block;
+  *display: inline;
+  *zoom: 1;
+  font-size: 0;
+  vertical-align: middle;
+  white-space: nowrap;
+  *margin-left: .3em;
+}
+
+.btn-group:first-child {
+  *margin-left: 0;
+}
+
+.btn-group+.btn-group {
+  margin-left: 5px;
+}
+
+.btn-group>.btn {
+  position: relative;
+  -webkit-border-radius: 0;
+  -moz-border-radius: 0;
+  border-radius: 0;
+}
+
+.btn-group>.btn+.btn {
+  margin-left: -1px;
+}
+
+.btn-group>.btn,
+.btn-group>.dropdown-menu,
+.btn-group>.popover {
+  font-size: $button-font-size;
+}
+
+.btn-group>.btn-small {
+  font-size: $button-small-font-size;
+}
+
+.btn-group>.btn-large {
+  font-size: $button-large-font-size;
+}
+
+.btn-group>.btn:first-child {
+  margin-left: 0;
+  @include border-radius(3px 0 0 3px);
+}
+
+.btn-group>.btn:last-child,
+.btn-group>.dropdown-toggle {
+  @include border-radius(0 3px 3px 0);
+}
+
+.btn-group>.btn.large:first-child {
+  margin-left: 0;
+}
+
+.btn-group .dropdown-toggle:active,
+.btn-group.open .dropdown-toggle {
+  outline: 0;
+}
+
+.btn-group>.btn+.dropdown-toggle {
+  padding-left: 8px;
+  padding-right: 8px;
+  -webkit-box-shadow: inset 1px 0 0 rgba(255, 255, 255, .125), inset 0 1px 0 rgba(255, 255, 255, .2), 0 1px 2px rgba(0, 0, 0, .05);
+  -moz-box-shadow: inset 1px 0 0 rgba(255, 255, 255, .125), inset 0 1px 0 rgba(255, 255, 255, .2), 0 1px 2px rgba(0, 0, 0, .05);
+  box-shadow: inset 1px 0 0 rgba(255, 255, 255, .125), inset 0 1px 0 rgba(255, 255, 255, .2), 0 1px 2px rgba(0, 0, 0, .05);
+  *padding-top: 5px;
+  *padding-bottom: 5px;
+}
+
+.btn-group>.btn-small+.dropdown-toggle {
+  *padding-top: 5px;
+  *padding-bottom: 4px;
+}
+
+.btn-group>.btn-large+.dropdown-toggle {
+  padding-left: 12px;
+  padding-right: 12px;
+  *padding-top: 7px;
+  *padding-bottom: 7px;
+}
+
+.btn {
+  //@include button-color-style($button-default-bg, $button-default-text);
+  //@include border-radius($button-border-radius);
+  position: relative;
+  display: inline-block;
+  margin: 0;
+  padding: 0 $button-padding;
+  min-width: ($button-padding * 3) + $button-font-size;
+  min-height: $button-height;
+  border-width: $button-border-width;
+  border-style: solid;
+  vertical-align: top;
+  text-align: center;
+  text-overflow: ellipsis;
+  font-size: $button-font-size;
+  font-weight: 300;
+  line-height: $button-height - $button-border-width + 1px;
+  &:active,
+  &.active {
+    z-index: 5;
+  }
+  &:after {
+    // used to create a larger button "hit" area
+    position: absolute;
+    top: -6px;
+    right: -6px;
+    bottom: -6px;
+    left: -6px;
+    content: ' ';
+  }
+  .icon,
+  i {
+    pointer-events: none;
+    position: relative;
+    top: 1px;
+  }
+  .icon:before,
+  &.icon:before,
+  &.icon-left:before,
+  &.icon-right:before {
+    display: inline-block;
+    padding: 0 0 $button-border-width 0;
+    vertical-align: inherit;
+    font-size: $button-icon-size;
+    line-height: $button-height - $button-border-width;
+    pointer-events: none;
+  }
+  &.icon-left:before {
+    float: left;
+    padding-right: .2em;
+    padding-left: 0;
+  }
+  &.icon-right:before {
+    float: right;
+    padding-right: 0;
+    padding-left: .2em;
+  }
+  &.btn-block {
+    margin-top: $button-block-margin;
+    margin-bottom: $button-block-margin;
+  }
+}
+
+.btn-large {
+  padding: 0 $button-large-padding;
+  min-width: ($button-large-padding * 3) + $button-large-font-size;
+  min-height: $button-large-height + 5;
+  font-size: $button-large-font-size;
+  line-height: $button-large-height - $button-border-width;
+  .icon:before,
+  &.icon:before,
+  &.icon-left:before,
+  &.icon-right:before {
+    padding-bottom: ($button-border-width * 2);
+    font-size: $button-large-icon-size;
+    line-height: $button-large-height - ($button-border-width * 2) - 1;
+  }
+}
+
+.btn-small {
+  padding: 2px $button-small-padding 1px;
+  min-width: $button-small-height;
+  min-height: $button-small-height + 2;
+  font-size: $button-small-font-size;
+  line-height: $button-small-height - $button-border-width - 1;
+  .icon:before,
+  &.icon:before,
+  &.icon-left:before,
+  &.icon-right:before {
+    font-size: $button-small-icon-size;
+    line-height: $button-small-icon-size + 3;
+    margin-top: 3px;
+  }
+}
+
+.btn-block {
+  display: block;
+  width: 100%;
+  padding-left: 0;
+  padding-right: 0;
+}
+
+.btn-block+.btn-block {
+  margin-top: 10px;
+}
+
+.btn.transparent {
+  border: 1px solid transparent !important;
+  background: none !important;
+  &:focus {
+    @include box-shadow(0px 0px 5px 0px #000000);
+  }
+}
+
+.btn-clear {
+  @include button-clear($button-default-border);
+  @include transition(opacity .1s);
+  padding: 0 $button-clear-padding;
+  max-height: $button-height;
+  border-color: transparent;
+  background: none;
+  box-shadow: none;
+  &:active,
+  &.active,
+  &.activated {
+    opacity: 0.3;
+  }
+}
+
+///////////////////////////////////////////////////////
+// Custom button groups
+///////////////////////////////////////////////////////
+.btn-group-2,
+.btn-group-3,
+.btn-group-4,
+.btn-group-5,
+.btn-group-6 {
+  width: 100%;
+  margin: 0 !important;
+  display: flex;
+  .btn {
+    padding-left: 0px;
+    padding-right: 0px;
+    &.active {
+      background: $main_color;
+      border-color: $main_color;
+      color: #fff;
+      &:hover,
+      &:focus {
+        background: lighten($main_color, 10%);
+      }
+    }
+  }
+}
+
+.btn-group-2 .btn {
+  width: 50%;
+}
+
+.btn-group-3 .btn {
+  width: 33.38%;
+}
+
+.btn-group-4 .btn {
+  width: 25.05%;
+}
+
+.btn-group-5 .btn {
+  width: 20.07%;
+}
+
+.btn-group-6 .btn {
+  width: 16.74%;
+}
+
+// Color buttons
+.btn-blue {
+  @include button-color-style( $button-color-blue, #fff);
+}
+
+.btn-blue-light {
+  @include button-color-style( $button-color-blue-light, #fff);
+}
+
+.btn-green {
+  @include button-color-style( $button-color-green, #fff);
+}
+
+.btn-lightgrey {
+  @include button-color-style( $button-color-grey-light, #fff);
+}
+
+.btn-grey {
+  @include button-color-style( $button-color-grey, #fff);
+}
+
+.btn-darkgrey {
+  @include button-color-style( $button-color-grey-dark, #fff);
+}
+
+.btn-red {
+  @include button-color-style( $button-color-red, #fff);
+}
+
+.btn-orange {
+  @include button-color-style( $button-color-orange, #fff);
+}
+
+.btn-amethyst {
+  @include button-color-style( $button-color-ametist, #fff);
+}

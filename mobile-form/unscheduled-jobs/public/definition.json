@@ -1,0 +1,16 @@
+{
+  "forms": [
+    {
+      "name": "Unscheduled Jobs",
+      "root": "unscheduled_jobs/"
+    }
+  ],
+  "jobTypes": [],
+  "deploy": {
+    "context": "resource"
+  },
+  "meta": {
+    "hasCache": true,
+    "cacheLifespanInHours": 24
+  }
+}

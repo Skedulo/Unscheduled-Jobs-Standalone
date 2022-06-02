@@ -1,0 +1,86 @@
+pre.prettyprint {
+    padding: $content-padding $content-padding $content-padding 7px;
+    margin: $content-padding 0;
+    background-color: #272822;
+    border: 1px solid #161614;
+    -webkit-box-shadow: inset 40px 0 0 #3e3d32, inset 41px 0 0 #464741;
+    -moz-box-shadow: inset 40px 0 0 #3e3d32, inset 41px 0 0 #464741;
+    box-shadow: inset 40px 0 0 #3e3d32, inset 41px 0 0 #464741;
+}
+ol.linenums {
+    margin: 0 0 0 33px;
+    li {
+        padding: 0 0 0 $content-padding;
+        min-height: 0;
+        font-size:12px;
+        color: $color_green;
+        line-height: 18px;
+        list-style-type:decimal!important;
+        -webkit-user-select: text !important;
+        -khtml-user-select: text !important;
+        -moz-user-select: text !important;
+        -ms-user-select: text !important;
+        user-select: text !important;
+    }
+} 
+
+.buttonsPreview{
+    .btn{
+        margin:0 10px 10px 0 !important;
+    }
+}
+
+.glyph{
+    font-size:40px;
+    text-align: center;
+    width: 85px;
+    height: 110px;
+    float: left;
+    display: block;
+    padding: 5px;
+    margin: 5px;
+    border: 1px solid #ccc;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    border-radius: 4px;
+    .mls{
+        display: block;
+        font-size: 12px;
+        -webkit-user-select: text !important;
+        -khtml-user-select: text !important;
+        -moz-user-select: text !important;
+        -ms-user-select: text !important;
+        user-select: text !important;
+    }
+    fieldset,
+    .hidden-true,
+    .fs0{display: none;}
+    .sk{
+        color: #000;
+    }
+}
+
+.hexcolor{
+    &.hex-grey:before{content:"#{$color_grey}"}
+    &.hex-darkgrey:before{content:"#{$color_grey_dark}"}
+    &.hex-lightgrey:before{content:"#{$color_grey_light}"}
+    &.hex-blue:before{content:"#{$color_blue}"}
+    &.hex-green:before{content:"#{$color_green}"}
+    &.hex-lightblue:before{content:"#{$color-blue-light}"}
+    &.hex-magenta:before{content:"#{$color_magenta}"}
+    &.hex-orange:before{content:"#{$color_orange}"}
+    &.hex-orchid:before{content:"#{$color_orchid}"}
+    &.hex-purple:before{content:"#{$color_purple}"}
+    &.hex-red:before{content:"#{$color_red}"}
+    &.hex-yellow:before{content:"#{$color_yellow}"}
+}
+
+.ui-index{
+    list-style: none;
+    margin: 0;
+    a{
+        padding:10px 0;
+        display: block;
+        border-top:1px solid $form_element_border_color;
+    }
+}

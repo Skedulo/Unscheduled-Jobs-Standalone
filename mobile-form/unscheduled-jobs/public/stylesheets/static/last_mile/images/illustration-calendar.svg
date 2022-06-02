@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="76" height="76" viewBox="0 0 76 76">
+    <g fill="none" fill-rule="evenodd">
+        <path fill="#F4F5F7" d="M-150-305h375v812h-375z"/>
+        <g>
+            <rect width="69.8" height="61.8" x="1.1" y="9.1" stroke="#A4ADBA" stroke-width="2.2" rx="4"/>
+            <circle cx="61" cy="61" r="13.9" fill="#F4F5F7" stroke="#A4ADBA" stroke-width="2.2"/>
+            <rect width="5.8" height="15.8" x="12.1" y="1.1" fill="#F4F5F7" stroke="#A4ADBA" stroke-width="2.2"
+                  rx="2.9"/>
+            <rect width="5.8" height="15.8" x="54.1" y="1.1" fill="#F4F5F7" stroke="#A4ADBA" stroke-width="2.2"
+                  rx="2.9"/>
+            <rect width="5.8" height="15.8" x="26.1" y="1.1" fill="#F4F5F7" stroke="#A4ADBA" stroke-width="2.2"
+                  rx="2.9"/>
+            <rect width="5.8" height="15.8" x="40.1" y="1.1" fill="#F4F5F7" stroke="#A4ADBA" stroke-width="2.2"
+                  rx="2.9"/>
+            <path stroke="#A4ADBA" stroke-linejoin="round" stroke-width="2.4" d="M1 25h70"/>
+            <rect width="9.8" height="9.8" x="10.1" y="34.1" stroke="#A4ADBA" stroke-width="2.2" rx="3"/>
+            <rect width="9.8" height="9.8" x="10.1" y="52.1" stroke="#37D08B" stroke-width="2.2" rx="3"/>
+            <rect width="9.8" height="9.8" x="28.1" y="34.1" stroke="#FED173" stroke-width="2.2" rx="3"/>
+            <rect width="9.8" height="9.8" x="28.1" y="52.1" stroke="#A4ADBA" stroke-width="2.2" rx="3"/>
+            <path stroke="#37D08B" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2"
+                  d="M55 62l4 4 9-9"/>
+            <path stroke="#A4ADBA" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2"
+                  d="M47 36h16M47 42h6M58 42h5"/>
+        </g>
+    </g>
+</svg>

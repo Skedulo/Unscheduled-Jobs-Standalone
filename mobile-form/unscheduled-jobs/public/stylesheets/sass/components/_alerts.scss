@@ -1,0 +1,31 @@
+//
+// Alerts
+// --------------------------------------------------
+.alert{
+    padding:$content-padding;
+    margin:0 0 $content-padding 0;
+    background-color:#fcf8e3;
+    border:1px solid #fbeed5;
+    color:#c09853;
+    .close{
+        position:relative;
+        top:-2px;
+        right:-21px;
+        line-height:20px;
+    }
+}
+.alert-success{
+    background-color:lighten($color_green, 60%);
+    border-color:$color_green;
+    color:darken($color_green, 10%);
+}
+.alert-danger{
+    background-color:lighten($color_red, 38%);
+    border-color:$color_red;
+    color:darken($color_red, 10%);
+}
+.alert-info{
+    background-color:lighten($color_blue, 38%);
+    border-color:$color_blue;
+    color:darken($color_blue, 10%);
+}
