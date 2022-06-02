@@ -64,7 +64,6 @@ export default ({ onGobackFn }: IProps) => {
   const number = 7;
   const information = buildInformation();
   const [title] = useState("My Jobs");
-  const [description] = useState(storeProps.job.Name);
   const [headerClickCount, setHeaderClickCount] = useState(0);
   const [timeout, setTimeoutNumber] = useState<any>(-1);
 
@@ -92,13 +91,13 @@ export default ({ onGobackFn }: IProps) => {
 
       <div className="title">
         <h1 onClick={() => onHeaderClickHandler(headerClickCount)}><span>{title}</span></h1>
-        {description && <h2 className="header-description">{description}</h2>}
+    
       </div>
 
-      {storeProps.view === constant.VIEW_HOME &&
+      {/* {storeProps.view === constant.VIEW_HOME &&
         <button className="btn transparent fr" onClick={() => dispatch(saveDataToSf({}))}>
           <span className=" color-white">Save</span>
-        </button>}
+        </button>} */}
 
       {headerClickCount === number && (
         <PopUp show={headerClickCount === number} title="Form Information"

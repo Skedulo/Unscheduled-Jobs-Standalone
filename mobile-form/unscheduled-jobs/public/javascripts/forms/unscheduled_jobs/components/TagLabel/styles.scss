@@ -1,0 +1,17 @@
+.tag-label {
+  font-weight: 600;
+  font-size: 12px;
+  line-height: 14px;
+  text-transform: uppercase;
+  border-radius: 3px;
+  padding: 4px 6px;
+  display: flex;
+  flex-grow: 0;
+}
+.job-status {
+  background: #e5e7ee;
+}
+.urgency {
+  border: 1px solid #fcd2b0;
+  color: #f78f39;
+}
