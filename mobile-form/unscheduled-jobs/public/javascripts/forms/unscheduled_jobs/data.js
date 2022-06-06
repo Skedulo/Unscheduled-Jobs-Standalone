@@ -37,9 +37,8 @@ function wrapper(httpLibs, utils) {
 
     const { jobs } = await graphiQl
       .query(queryJob, {
-        filterJob: `Start == null`,
-        orderBy: "CreatedDate DESC",
-        first: 30,
+        filterJob: `Start == null AND JobStatus != 'Cancelled' AND Locked == false`,
+        orderBy: "CreatedDate DESC"
       })
       .catch((e) => console.log("Fetch job error: ", e));
 
@@ -95,14 +94,14 @@ function wrapper(httpLibs, utils) {
 
     const filteredJob = jobs.filter(function (element) {
       return element.JobAllocations.some( function (subElement) {
-          return subElement.ResourceId === resourceId && subElement.Status !== "Deleted" && subElement.Status !== "Declined" 
+          return subElement.ResourceId === resourceId && subElement.Status !== "Deleted" && subElement.Status !== "Declined"
       });
   });
     return buildDataStruct({
       resourceIds,
       authData,
       resources,
-      jobs: filteredJob,
+      jobs: filteredJob.slice(0, 30),
     });
   }
 

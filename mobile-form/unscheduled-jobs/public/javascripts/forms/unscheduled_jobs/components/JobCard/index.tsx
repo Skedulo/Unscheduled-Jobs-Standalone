@@ -17,6 +17,7 @@ const JobCard: React.FC<Props> = ({ job }) => {
     Urgency,
     JobTimeConstraints,
     JobStatus,
+    Timezone,
   } = job;
 
   return (
@@ -31,21 +32,24 @@ const JobCard: React.FC<Props> = ({ job }) => {
         <div className="normal-text">{Contact.FullName}</div>
       )}
       {Address && <div className="normal-text">{Address}</div>}
-      {JobTimeConstraints[0]?.EndBefore && (
-        <div className="normal-text">
-          End before {formatDate(JobTimeConstraints[0].EndBefore)}
-        </div>
-      )}
-      {JobTimeConstraints[0]?.StartAfter && (
-        <div className="normal-text">
-          Start after {formatDate(JobTimeConstraints[0].StartAfter)}
-        </div>
-      )}
       {JobTimeConstraints[0]?.StartBefore && (
         <div className="normal-text">
-          Start before {formatDate(JobTimeConstraints[0].StartBefore)}
+          Start before {formatDate(JobTimeConstraints[0].StartBefore, Timezone)}
         </div>
       )}
+
+      {JobTimeConstraints[0]?.StartAfter && (
+        <div className="normal-text">
+          Start after {formatDate(JobTimeConstraints[0].StartAfter, Timezone)}
+        </div>
+      )}
+      
+      {JobTimeConstraints[0]?.EndBefore && (
+        <div className="normal-text">
+          End before {formatDate(JobTimeConstraints[0].EndBefore, Timezone)}
+        </div>
+      )}
+
       <div className="tag-label-wrapper">
         {JobStatus && (
           <TagLabel label={JobStatus} className="job-status"></TagLabel>
