@@ -1,0 +1,13 @@
+.empty-list {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  .empty-msg {
+    font-size: 14px;
+    line-height: 16px;
+    font-weight: 400;
+    color: #5e687a;
+  }
+}

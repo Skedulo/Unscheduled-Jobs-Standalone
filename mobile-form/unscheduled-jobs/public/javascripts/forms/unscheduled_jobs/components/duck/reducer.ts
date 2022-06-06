@@ -7,15 +7,17 @@ export default function reducer(state: AppState = {
   common: {},
   saveFn: () => { },
   view: constant.VIEW_HOME,
-  showLoading: false
+  showLoading: false,
+  jobs: []
 }, action: AppAction): AppState {
   switch (action.type) {
     case constant.ACTION_INIT_DATA: {
       const { main, common, saveFn, widgets, deviceCache, liveDataService } = action.params;
-
+      const jobs = main.jobs;
       return {
         ...state, main, common, saveFn,
-        timestamp: Date.now()
+        timestamp: Date.now(),
+        jobs
       };
     }
     case constant.ACTION_SHOW_LOADDING: {
