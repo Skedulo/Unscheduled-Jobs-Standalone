@@ -1,36 +1,22 @@
+
+@import "../../../../../stylesheets/sass/components/variables";
+
 .job-card {
-  padding: 16px;
   background: #ffffff;
-  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.12);
-  border-radius: 3px;
-  margin-bottom: 10px;
+  box-shadow: $card-shadow;
+  border-radius: $item-radius;
+  margin-bottom: $space_12;
+}
 
-  .description {
-    font-size: 18px;
-    line-height: 20px;
-    font-weight: 700;
-    color: #223049;
-  }
-  .normal-text {
-    font-size: 16px;
-    line-height: 20px;
-    font-weight: 400;
-    color: #5e687a;
-  }
+.btn-text {
+  @include text-link;
+   width: fit-content;
+ }
 
-  .duration {
-    font-weight: 500;
-  }
-  .btn-text {
-    font-size: 16px;
-    line-height: 20px;
-    color: #0461cb;
-    font-weight: 500;
-    width: fit-content;
-  }
-  .tag-label-wrapper {
-    display: flex;
-    gap: 8px;
-    margin-top: 12px;
-  }
+.divider {
+  border: $item-divider;
+}
+
+.card-footer {
+  padding: $space_12 $space_16;
 }

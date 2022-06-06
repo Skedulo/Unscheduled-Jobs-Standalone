@@ -8,11 +8,13 @@ export default function reducer(state: AppState = {
   saveFn: () => { },
   view: constant.VIEW_HOME,
   showLoading: false,
-  jobs: []
+  jobs: [],
+  title: constant.TITLE_MY_JOBS,
+  selectedItem: {}
 }, action: AppAction): AppState {
   switch (action.type) {
     case constant.ACTION_INIT_DATA: {
-      const { main, common, saveFn, widgets, deviceCache, liveDataService } = action.params;
+      const { main, common, saveFn, widgets, deviceCache, liveDataService, title } = action.params;
       const jobs = main.jobs;
       return {
         ...state, main, common, saveFn,
@@ -33,11 +35,18 @@ export default function reducer(state: AppState = {
         view: params.view
       };
     }
+    case constant.ACTION_SET_TITLE: {
+      const { params } = action;
+      return {
+        ...state,
+        title: params.title
+      };
+    }
     case constant.ACTION_SET_SELECTED_ITEM: {
       const { params } = action;
       return {
         ...state,
-        selectedItem: { ...params.item }
+        selectedItem: { ...params.selectedItem }
       };
     }
     case constant.ACTION_SAVE_DATA_TO_SALESFORCE: {

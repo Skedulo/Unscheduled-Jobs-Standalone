@@ -41,7 +41,8 @@ export interface AppState {
   widgets?: any,
   deviceCache?: any
   liveDataService?: any
-  jobs: Job[]
+  jobs: Job[],
+  title: string
 }
 
 export interface AppAction {

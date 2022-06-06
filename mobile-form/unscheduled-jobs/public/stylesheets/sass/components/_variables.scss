@@ -1,3 +1,4 @@
+@use 'sass:math';
 // Fixed colors
 $color_grey_dark:                   #787878;
 $color_grey_light:                  rgba(238, 239, 242);
@@ -15,7 +16,8 @@ $color_magenta:                     #944292;
 $color_orchid:                      #bc8ebe;
 $color_amethyst:                    #8562a7;
 $color_navy:                        #223049;
-
+$color_navy_600:                    #5E687A;
+$color_navy_75:                     #E5E7EE;
 $color-disabled:                    #ddd;
 
 // Statuses colors to reflect whatever is in 
@@ -200,6 +202,9 @@ $item-default-text:                 $base-color !default;
 $item-default-active-bg:            #D9D9D9 !default;
 $item-default-active-border:        $form_element_border_color !default;
 $item-arrow-size:                   16px;
+$item-radius:                       3px !default;
+
+$item-divider:                      1px solid #E5E7EE !default;
 
 // Z-Indexes
 // -------------------------------
@@ -210,3 +215,45 @@ $z-index-badge:                     1 !default;
 $z-index-item:                      2 !default;
 $z-index-tabs:                      99 !default;
 $z-index-loading:                   9999 !default;
+
+// Space
+// -------------------------------
+$space_4:            4px !default;
+$space_8:               8px !default;
+$space_12:              12px !default;
+$space_16:            16px !default;
+
+// Shadow
+// -------------------------------
+$card-shadow: 0px 2px 4px rgba(0, 0, 0, 0.12);
+
+@mixin normal-text {
+    font-size: 16px;
+    line-height: 20px;
+}
+
+@mixin title {
+    font-size: 18px;
+    line-height: 24px;
+    color: $page-header-color;
+    font-weight: 600;
+    font-family: $font-family-base;
+}
+
+@mixin bold-text {
+    @include normal-text;
+    color: $color_navy;
+    font-weight: 600;
+    font-family: $font-family-base;
+}
+
+@mixin normal-text-gray {
+    @include normal-text;
+    color: $color_navy_600;
+}
+
+@mixin text-link {
+    @include normal-text;
+    color: $color_sked_blue;
+    font-weight: 500;
+}

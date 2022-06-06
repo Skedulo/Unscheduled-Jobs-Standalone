@@ -3,6 +3,7 @@ import * as React from 'react';
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { constant, saveDataToSf, setView } from "./duck/action";
+import "./header.scss";
 
 const { PopUp } = controls;
 
@@ -10,9 +11,6 @@ interface IProps {
   onGobackFn: Function,
   onSaveFn?: Function,
   showConfirm?: Function
-  job: {
-    Name: string
-  }
 }
 
 export default ({ onGobackFn }: IProps) => {
@@ -20,7 +18,8 @@ export default ({ onGobackFn }: IProps) => {
   const storeProps = useSelector(({ reducer }: any) => {
     return {
       view: reducer.view as string,
-      job: reducer.main.job
+      job: reducer.main.job,
+      title: reducer.title as string
     };
   });
 
@@ -63,7 +62,6 @@ export default ({ onGobackFn }: IProps) => {
 
   const number = 7;
   const information = buildInformation();
-  const [title] = useState("My Jobs");
   const [headerClickCount, setHeaderClickCount] = useState(0);
   const [timeout, setTimeoutNumber] = useState<any>(-1);
 
@@ -83,21 +81,35 @@ export default ({ onGobackFn }: IProps) => {
     }, 2000));
   }, [timeout, headerClickCount]);
 
+
+const [title, setTitle] = useState("");
+  const displayTitle = () => {
+    if(storeProps.title === constant.TITLE_MY_JOBS) {
+      setTitle('Unscheduled work');
+      } else if(storeProps.title === constant.TITLE_SCHEDULE_JOB) {
+        setTitle('Schedule work')
+      }
+  }
+
+  useEffect(() => {
+    displayTitle();
+  }, [storeProps.title])
+  console.log('storeProps.titles :>> ', storeProps.title);
+
   return (
     <header className="bar-title">
       <button className="btn transparent fl" onClick={() => onGoBackHandler()}>
         <i className="sk sk-chevron-left color-white " />
       </button>
 
-      <div className="title">
-        <h1 onClick={() => onHeaderClickHandler(headerClickCount)}><span>{title}</span></h1>
-    
+      <div className="title text-title">
+        <h1 onClick={() => onHeaderClickHandler(headerClickCount)}><span className="text-title">{title}</span></h1>
       </div>
 
-      {/* {storeProps.view === constant.VIEW_HOME &&
+      {storeProps.view === constant.VIEW_SCHEDULE_JOB &&
         <button className="btn transparent fr" onClick={() => dispatch(saveDataToSf({}))}>
           <span className=" color-white">Save</span>
-        </button>} */}
+        </button>}
 
       {headerClickCount === number && (
         <PopUp show={headerClickCount === number} title="Form Information"
