@@ -2,8 +2,8 @@ import { controls } from "@skedulo/custom-form-controls";
 import * as React from 'react';
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { constant, saveDataToSf, setView } from "./duck/action";
-import "./header.scss";
+import { constant, saveDataToSf, setView } from "../duck/action";
+import "./styles.scss";
 
 const { PopUp } = controls;
 
@@ -13,7 +13,7 @@ interface IProps {
   showConfirm?: Function
 }
 
-export default ({ onGobackFn }: IProps) => {
+const Header: React.FC<IProps> =  ({ onGobackFn }: IProps) => {
   const dispatch = useDispatch();
   const storeProps = useSelector(({ reducer }: any) => {
     return {
@@ -94,7 +94,6 @@ const [title, setTitle] = useState("");
   useEffect(() => {
     displayTitle();
   }, [storeProps.title])
-  console.log('storeProps.titles :>> ', storeProps.title);
 
   return (
     <header className="bar-title">
@@ -108,7 +107,7 @@ const [title, setTitle] = useState("");
 
       {storeProps.view === constant.VIEW_SCHEDULE_JOB &&
         <button className="btn transparent fr" onClick={() => dispatch(saveDataToSf({}))}>
-          <span className=" color-white">Save</span>
+          <span className="btn-save">Save</span>
         </button>}
 
       {headerClickCount === number && (
@@ -123,9 +122,11 @@ const [title, setTitle] = useState("");
 };
 
 const buildInformation = () => {
-  const infoData: any = require('../../../../build-info/latest.json');
+  const infoData: any = require('../../../../../build-info/latest.json');
   let information = `<div class="text-left">`;
   information += Object.keys(infoData).reduce((result, key) => ([...result, `<strong>${key}</strong>`, `${infoData[key]}`]), []).join(`<br />`);
   information += `</div>`;
   return information;
 };
+
+export default Header;

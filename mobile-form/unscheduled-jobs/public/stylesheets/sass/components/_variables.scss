@@ -18,6 +18,8 @@ $color_amethyst:                    #8562a7;
 $color_navy:                        #223049;
 $color_navy_600:                    #5E687A;
 $color_navy_75:                     #E5E7EE;
+$color_navy_50:                     #EEEFF2;
+$color_navy_800:                    #3F4B61;
 $color-disabled:                    #ddd;
 
 // Statuses colors to reflect whatever is in 
@@ -203,6 +205,7 @@ $item-default-active-bg:            #D9D9D9 !default;
 $item-default-active-border:        $form_element_border_color !default;
 $item-arrow-size:                   16px;
 $item-radius:                       3px !default;
+$btn-radius:                        8px !default;
 
 $item-divider:                      1px solid #E5E7EE !default;
 
@@ -222,6 +225,7 @@ $space_4:            4px !default;
 $space_8:               8px !default;
 $space_12:              12px !default;
 $space_16:            16px !default;
+$space_20:              20px !default;
 
 // Shadow
 // -------------------------------
@@ -256,4 +260,20 @@ $card-shadow: 0px 2px 4px rgba(0, 0, 0, 0.12);
     @include normal-text;
     color: $color_sked_blue;
     font-weight: 500;
+}
+
+@mixin small-text {
+    font-family: $font-family-base;
+    font-size: 14px;
+    line-height: 16px;
+    color: $color_navy_600;
+    font-weight: 600;
+}
+
+@mixin text-note {
+    font-family: $font-family-base;
+    font-size: 12px;
+    line-height: 14px;
+    color: $color_navy_800;
+    font-weight: 400;
 }
