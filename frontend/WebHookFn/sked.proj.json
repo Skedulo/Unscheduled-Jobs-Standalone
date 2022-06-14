@@ -1,0 +1,8 @@
+{
+  "type": "function",
+  "runtime": "nodejs12.x",
+  "name": "WebHookFn",
+  "description": "sample for webhook",
+  "dependencies": [
+  ]
+}

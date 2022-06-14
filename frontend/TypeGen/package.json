@@ -1,0 +1,27 @@
+{
+  "name": "TypeGen",
+  "version": "1.0.0",
+  "license": "UNLICENSED",
+  "private": true,
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "bootstrap": "yarn install --frozen-lockfile --audit --ignore-scripts",
+    "dev": "yarn generate-all && tsc --watch --preserveWatchOutput",
+    "compile": "yarn generate-all && tsc",
+    "coverage": "node scripts/test.js --env=jsdom --coverage",
+    "generate-types": "node tools/generate-graphql-types",
+    "generate-ast": "node tools/generate-graphql-ast",
+    "generate-all": "yarn generate-types && yarn generate-ast"
+  },
+  "devDependencies": {
+    "@skedulo/sdk-dev-utilities": "^0.0.4",
+    "@types/lodash": "^4.14.181",
+    "@types/node": "8",
+    "nodemon": "^2.0.2",
+    "typescript": "^4.6.2"
+  },
+  "dependencies": {
+    "@skedulo/sdk-utilities": "^0.2.28"
+  }
+}

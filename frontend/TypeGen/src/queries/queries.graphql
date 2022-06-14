@@ -1,0 +1,127 @@
+query fetchJobsWithJobProducts($filter: EQLQueryFilterJobs!) {
+  jobs(filter: $filter) {
+    edges {
+      node {
+        UID
+        Name
+        Start
+        End
+        Type
+        JobStatus
+        Duration
+        RegionId
+        Description
+        Contact {
+          UID
+          FullName
+          AccountId
+        }
+        Account {
+          UID
+          Name
+          Contacts {
+            UID
+            FullName
+          }
+        }
+
+        JobProducts {
+          UID
+          Name
+          Qty
+        }
+
+        JobAllocations {
+          UID
+          Name
+          Status
+          Start
+          End
+
+          Resource {
+            UID
+            Name
+            IsActive
+            User {
+              Name
+              Email
+              UserTypes
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+query fetchRegion {
+  regions {
+    edges {
+      node {
+        UID
+      }
+    }
+  }
+}
+
+query fetchProducts(
+  $orderBy: EQLOrderByClauseProducts
+  $filter: EQLQueryFilterProducts
+  $offset: NonNegativeInt
+) {
+  page: products(orderBy: $orderBy, filter: $filter, offset: $offset) {
+    totalCount
+    edges {
+      node {
+        UID
+        Name
+        Description
+        ProductCode
+      }
+    }
+  }
+}
+
+query fetchEduMeSettings {
+  eduMeSettings {
+    edges {
+      node {
+        UID
+        ApiKey
+      }
+    }
+  }
+}
+
+query fetchResources($filter: EQLQueryFilterResources) {
+  resources(filter: $filter) {
+    edges {
+      node {
+        UID
+        Name
+        Email
+        MobilePhone
+
+        User {
+          UID
+          ExternalUserId
+          FirstName
+          LastName
+        }
+      }
+    }
+  }
+}
+
+query fetchErrorLogs {
+  errorLogs {
+    edges {
+      node {
+        UID
+        Log
+        Name
+        Payload
+      }
+    }
+  }
+}
