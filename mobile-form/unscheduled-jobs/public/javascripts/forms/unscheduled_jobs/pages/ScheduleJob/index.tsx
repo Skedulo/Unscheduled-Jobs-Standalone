@@ -4,19 +4,8 @@ import CardCommon from "../../components/CardCommon";
 //@ts-ignore
 import RightIcon from "../../images/right.png";
 import "./styles.scss";
-import {
-  controls,
-  helper,
-  constant as ct,
-} from "@skedulo/custom-form-controls";
-import { Textbox } from "@skedulo/custom-form-controls/dist/controls";
 import moment from "moment-timezone";
 import { setEnableSave, setSelectedItem } from "../../components/duck/action";
-import { ToastContainer, toast } from 'react-toastify';
-  import 'react-toastify/dist/ReactToastify.css';
-import { getTimeValue, setTimeValue, setTimeValueIsoString } from "@skedulo/custom-form-controls/dist/helper";
-import formContext from "../../formContext";
-import { formatDate } from "../../dateUtils";
 
 const ScheduleJob = () => {
   const dispatch = useDispatch();
@@ -64,6 +53,7 @@ const ScheduleJob = () => {
     const isValidStartBefore =
       !StartBefore ||
       (StartBefore && moment(today).isSameOrBefore(startLocal) && moment(startLocal).isBefore(StartBefore));
+
     if(date == '' || time == '') {
       dispatch(setEnableSave({isEnable: false}))
     } else if (moment(startLocal).isBefore(today)) {

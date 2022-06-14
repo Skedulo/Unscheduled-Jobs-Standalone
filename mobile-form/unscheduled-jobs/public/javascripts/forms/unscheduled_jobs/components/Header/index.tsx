@@ -43,11 +43,7 @@ const Header: React.FC<IProps> = ({ onGobackFn }: IProps) => {
     main: { resourceIds },
     common,
   } = context;
-  const { token } = common.authData.skeduloAccess;
-  console.log("🚀 ~ file: index.tsx ~ line 47 ~ token", token);
-  const config = {
-    headers: { Authorization: `Bearer ${token}` },
-  };
+
   const [isShowPopup, setIsShowPopup] = useState(false);
 
   const storeProps = useSelector(({ reducer }: any) => {
@@ -159,10 +155,20 @@ const Header: React.FC<IProps> = ({ onGobackFn }: IProps) => {
       .catch((e: any) => console.log("e", e));
   };
 
+  const token = common.authData.skeduloAccess.token ? common.authData.skeduloAccess.token : 'eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6Ik5Ua3pNa0l4TkVJMVJrRkZNRUl5T0VFeE0wWkRSall5TkVKQ056VkRNRUZFTVRBM00wVkVNZyJ9.eyJodHRwczovL2FwaS5za2VkdWxvLmNvbS91c2VyX2lkIjoiYXV0aDB8MDAwMTVlM2QtMTA1My00OTdiLTkwYjAtNTVjOTc1NzBjMGZhIiwiaHR0cHM6Ly9hcGkuc2tlZHVsby5jb20vdmVuZG9yIjoic2tlZHVsbyIsImh0dHBzOi8vYXBpLnNrZWR1bG8uY29tL3VzZXJuYW1lIjoiZXhwZXJ0c2VydmljZXMrdGVzdDAxQHNrZWR1bG8uY29tIiwiaHR0cHM6Ly9hcGkuc2tlZHVsby5jb20vb3JnYW5pemF0aW9uX2lkIjoic2tfNmY5NzVlMzkyNmNmNGQ4NzlhNGJhNWMwNDIwMjU5NjQiLCJodHRwczovL2FwaS5za2VkdWxvLmNvbS9uYW1lIjoiZXhwZXJ0c2VydmljZXMrdGVzdDAxQHNrZWR1bG8uY29tIiwiaHR0cHM6Ly9hcGkuc2tlZHVsby5jb20vcmVzb3VyY2VfaWQiOiIwMDA1NjkxNy1mNmMzLTQ5NjEtODdjZi1iZDY5Y2YzYjc4ZWEiLCJodHRwczovL2FwaS5za2VkdWxvLmNvbS9yb2xlcyI6WyJyZXNvdXJjZSJdLCJodHRwczovL2FwaS5za2VkdWxvLmNvbS92ZW4iOnsidXNlcl9pZCI6IjAwMDE1ZTNkLTEwNTMtNDk3Yi05MGIwLTU1Yzk3NTcwYzBmYSJ9LCJpc3MiOiJodHRwczovL3NrZWR1bG8tcHJvZC1hdTEuYXUuYXV0aDAuY29tLyIsInN1YiI6ImF1dGgwfDAwMDE1ZTNkLTEwNTMtNDk3Yi05MGIwLTU1Yzk3NTcwYzBmYSIsImF1ZCI6WyJodHRwczovL2FwaS5hdS5za2VkdWxvLmNvbSIsImh0dHBzOi8vc2tlZHVsby1wcm9kLWF1MS5hdS5hdXRoMC5jb20vdXNlcmluZm8iXSwiaWF0IjoxNjU1MTcyNjc1LCJleHAiOjE2NTUyMTU4NzUsImF6cCI6ImU2eHN2MVpVcnZldVAwVENPdlRyQWllaWJ6WGZxV2N3Iiwic2NvcGUiOiJvcGVuaWQifQ.j4YpQiSJ-ls1x2XErW7T_HiuP0YfrLV7VIh691A9MqeEf0IE17eKwNQK1A2LYUJ3n4fjlTLq2HKqSYj6S_U2FH-4XWqSBFcQ9N33ENnbQGyghijD_5lFojhM-n15nd36iJCxLuccYc99UPvGaEwrFGI3FGeyEpTOo4_xkYq2pBdiwCBVPdpWRK6slBeRhBbWhgvzFZ60tT4l9MF78DaqOKHa2_j0lqENVMchHaMbN5uhNQY7l5U0HORm7frCqfAa7ckZJUqyBbTP8-vIgih0GVguw1Tmkcau-oSeV8IZDqZqqmg4j10z97RLhF6udYc-oIYMGSl86k0ojupvBn-l5g';
+  console.log("🚀 ~ file: index.tsx ~ line 159 ~ .then ~ token", token);
+  const config = {
+    headers: {
+      Authorization: `Bearer ${token}`,
+      ['Content-Type']: `application/json`
+    }
+  
+  };
+  
   const onSaveJob = async () => {
     const resourceId = resourceIds[0] as TimeRanges;
     const res = await axios.post(
-      "https://api.au.skedulo.com/availability/resources",
+      "https://api.au.skedulo.com/pkgr/function/Unscheduled/WebHookFn/get-resource-available",
       {
         start: start,
         end: end,
@@ -172,9 +178,11 @@ const Header: React.FC<IProps> = ({ onGobackFn }: IProps) => {
       },
       config
     );
+    console.log('res :>> ', res);
 
     if (res.status === 200) {
-      const result = res.data.result;
+      const result = res.data.url.result;
+      console.log("🚀 ~ file: index.tsx ~ line 185 ~ onSaveJob ~ result", result)
       const resourceInfo = Object.values(result) as any;
       const resourceAvalability = resourceInfo[0].available;
 
@@ -302,7 +310,7 @@ const Header: React.FC<IProps> = ({ onGobackFn }: IProps) => {
       {storeProps.view === constant.VIEW_HOME && (
         <ToastContainer
         position="bottom-center"
-        autoClose={500000}
+        autoClose={5000}
         hideProgressBar={true}
         newestOnTop={false}
         closeOnClick
