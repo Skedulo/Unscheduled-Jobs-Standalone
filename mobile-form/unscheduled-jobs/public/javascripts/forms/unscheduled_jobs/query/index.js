@@ -52,6 +52,9 @@ export const queryResourceInfor = `
           PrimaryRegionId
           GeoLatitude
           GeoLongitude  
+          PrimaryRegion {
+            Name
+          }
           ResourceTags {
             TagId
             Tag {
@@ -292,3 +295,11 @@ export const deleteResourceJobOffer = `
       deleteResourceJobOffers(UID: $id)
     }
   }`
+
+export const updateJobsMutation = `
+  mutation updateJobs($input: UpdateJobs!) {
+    schema {
+      updateJobs(input: $input)
+    }
+  }
+`

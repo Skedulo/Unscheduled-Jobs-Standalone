@@ -10,7 +10,8 @@ export const constant = {
   ACTION_SAVE_DATA_TO_SALESFORCE: 'ACTION_SAVE_DATA_TO_SALESFORCE',
   ACTION_SET_SELECTED_ITEM: 'SET_SELECTED_ITEM',
   ACTION_SHOW_LOADDING: 'ACTION_SHOW_LOADDING',
-  ACTION_SET_TITLE: 'ACTION_SET_TITLE'
+  ACTION_SET_TITLE: 'ACTION_SET_TITLE',
+  ACTION_SET_ENABLE_SAVE: 'ACTION_SET_ENABLE_SAVE'
 
 }
 
@@ -21,3 +22,4 @@ export const setTitle = createSimpleAction(constant.ACTION_SET_TITLE);
 export const setSelectedItem = createSimpleAction(constant.ACTION_SET_SELECTED_ITEM);
 export const saveDataToSf = createSimpleAction(constant.ACTION_SAVE_DATA_TO_SALESFORCE);
 export const showLoading = createSimpleAction(constant.ACTION_SHOW_LOADDING);
+export const setEnableSave = createSimpleAction(constant.ACTION_SET_ENABLE_SAVE);

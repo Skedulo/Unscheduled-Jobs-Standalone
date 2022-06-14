@@ -1,24 +1,91 @@
-import React from 'react';
-import { useSelector } from 'react-redux';
-import { Job } from '../../components/duck/type';
-import EmptyJob from '../../components/EmptyJob';
-import JobCard from '../../components/JobCard';
-import './styles.scss';
+import { Loading } from "@skedulo/custom-form-controls/dist/controls";
+import React, { useEffect, useState } from "react";
+import { Job } from "../../components/duck/type";
+import EmptyJob from "../../components/EmptyJob";
+import JobCard from "../../components/JobCard";
+import formContext from "../../formContext";
+import { queryJob } from "../../query";
+import "./styles.scss";
 
-const MyJobs = () => {
-    const {
-        jobs
-      } = useSelector(({ reducer }: any) => {
-        return {
-            jobs: reducer.jobs
-        }
-      })
-  return (
-    <div className="my-jobs">
-        {jobs.length > 0 ? jobs.map((job: Job) =>  <JobCard job={job} key={job.UID}></JobCard>): <EmptyJob/>}
-    </div>
-  
-  )
+//view console in mobile
+declare global {
+  interface Window {
+    jobs: any;
+    widgetss: any;
+    authData: any;
+    errorGetJob: any;
+  }
 }
 
-export default MyJobs
+const MyJobs = () => {
+  const context = React.useContext(formContext);
+  const {
+    widgets,
+    main: { resourceIds },
+    common: {
+      authData
+    }
+  } = context;
+  const [listJobs, setListJobs] = useState<Job[]>([]);
+  const [showLoading, setShowLoading] = useState<boolean>(false);
+  let count = 0;
+
+  useEffect(() => {
+    const getJobs = () => {
+      window.widgetss=widgets;
+      window.authData = authData;
+      setShowLoading(true);
+       widgets.GraphQL({
+          query: queryJob,
+          variables: {
+            filterJob: `Start == null AND JobStatus != 'Cancelled' AND Locked == false`,
+            orderBy: "CreatedDate DESC",
+          },
+        })
+        .then(({ jobs }: any) => {
+          window.jobs=jobs;
+          const filteredJob = jobs.filter(function (element: Job) {
+            return element.JobAllocations.some(function (subElement: {
+              ResourceId: string;
+              UID: string;
+              Status: string;
+              JobId: string;
+            }) {
+              return (
+                subElement.ResourceId === `${resourceIds[0]}` &&
+                subElement.Status !== "Deleted" &&
+                subElement.Status !== "Declined"
+              );
+            });
+          });
+          const filteredJobsLimit = filteredJob.splice(0, 30);
+          if (filteredJobsLimit.length !== 0) {
+            setListJobs(filteredJobsLimit);
+          }
+          setShowLoading(false);
+        }).catch((e: any) => {
+          if(count <= 3) {
+            window.errorGetJob = e;
+            console.log('e :>> ', e);
+            getJobs();
+            count = count + 1;
+          }
+        });
+    }
+    getJobs();
+  }, [widgets.GraphQL, resourceIds, queryJob, setListJobs]);
+  // view console in mobile
+
+  return (
+    <div className="my-jobs">
+      {showLoading && <Loading loading={showLoading} />}
+      {listJobs.length > 0 ? (
+        listJobs.map((job: Job) => <JobCard job={job} key={job.UID}></JobCard>)
+      ) : (
+        <EmptyJob />
+      )}
+    </div>
+  );
+};
+
+export default MyJobs;

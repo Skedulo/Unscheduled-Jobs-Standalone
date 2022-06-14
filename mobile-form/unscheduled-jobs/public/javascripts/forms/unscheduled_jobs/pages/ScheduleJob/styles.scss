@@ -161,51 +161,92 @@
     flex: 0;
   }
 
-  .select-label {
-    @include normal-text-gray;
-    display: flex;
-    justify-content: center;
-    .select-btn {
-      margin-left: 16px;
-    }
-  }
-  .select-wrapper {
+  .show-input {
     position: relative;
-    flex: 1;
+    z-index: 2;
+    opacity: 0;
+  }
+
+  .hide-input{
+    opacity: 1;
+  }  
+
+  .input-wrapper {
+    position: relative;
+    // width: 100%;
+    // flex: 1;
     text-align: right;
-    label {
-      // position: absolute;
-      top: 0;
-      right: 0;
+    .select-label {
+      @include normal-text-gray;
+      display: flex;
+      justify-content: flex-end;
+      width: 100px;
+      .select-btn {
+        margin-left: 16px;
+      }
     }
-    .date-input {
-      position: absolute;
-      top: 0;
-      right: 0;
-      background-color: transparent;
-      width: 100%;
-      height: 100%;
-    }
+
     .hide {
-      opacity: 0;
+      display: none;
     }
     .show {
-      opacity: 1;
+      display: flex;
+      top: 0;
+      right: 0;
+      position: absolute;
     }
+    // .show {
+    //   display: none;
+    // }
+    // .hide {
+    //   display: none;
+    // }
+
+    // .date-input {
+    //   right: 0;
+    //   top: 0;
+    //   position: absolute;
+    // }
+    // label {
+    //   // position: absolute;
+    //   top: 0;
+    //   right: 0;
+    // }
+    // .date-input {
+    //   position: absolute;
+    //   top: 0;
+    //   right: 0;
+    //   background-color: transparent;
+    //   width: 100%;
+    //   height: 100%;
+    // }
+    // .hide {
+    //   opacity: 0;
+    // }
+    // .show {
+    //   opacity: 1;
+    // }
   }
+  .invalid-input {
+    border: 1px solid $color_red;
+    }
+    .error-msg {
+      color: $color_red;
+    }
 }
 
 // input::-webkit-date-and-time-value {
 //     text-align: right;
 //   }
-input[type="date"]::-webkit-inner-spin-button,
-input[type="date"]::-webkit-calendar-picker-indicator {
-    display: none;
-    -webkit-appearance: none;
-}
+// input[type="date"]::-webkit-inner-spin-button,
+// input[type="date"]::-webkit-calendar-picker-indicator {
+//     display: none;
+//     -webkit-appearance: none;
+// }
 
-input[type="time"]::-webkit-inner-spin-button,
-input[type="time"]::-webkit-calendar-picker-indicator {
-    display: none;
-    -webkit-appearance: none;
-}
+// input[type="time"]::-webkit-inner-spin-button,
+// input[type="time"]::-webkit-calendar-picker-indicator {
+//     display: none;
+//     -webkit-appearance: none;
+// }
+

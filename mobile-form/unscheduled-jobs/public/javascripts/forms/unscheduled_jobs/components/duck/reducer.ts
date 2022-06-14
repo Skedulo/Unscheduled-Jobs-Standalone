@@ -10,7 +10,8 @@ export default function reducer(state: AppState = {
   showLoading: false,
   jobs: [],
   title: constant.TITLE_MY_JOBS,
-  selectedItem: {}
+  selectedItem: {},
+  isEnable: false
 }, action: AppAction): AppState {
   switch (action.type) {
     case constant.ACTION_INIT_DATA: {
@@ -47,6 +48,13 @@ export default function reducer(state: AppState = {
       return {
         ...state,
         selectedItem: { ...params.selectedItem }
+      };
+    }
+    case constant.ACTION_SET_ENABLE_SAVE: {
+      const { params } = action;
+      return {
+        ...state,
+        isEnable: params.isEnable
       };
     }
     case constant.ACTION_SAVE_DATA_TO_SALESFORCE: {

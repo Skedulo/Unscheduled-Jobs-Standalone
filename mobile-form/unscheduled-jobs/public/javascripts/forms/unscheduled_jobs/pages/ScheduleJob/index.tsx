@@ -11,51 +11,91 @@ import {
 } from "@skedulo/custom-form-controls";
 import { Textbox } from "@skedulo/custom-form-controls/dist/controls";
 import moment from "moment-timezone";
+import { setEnableSave, setSelectedItem } from "../../components/duck/action";
+import { ToastContainer, toast } from 'react-toastify';
+  import 'react-toastify/dist/ReactToastify.css';
+import { getTimeValue, setTimeValue, setTimeValueIsoString } from "@skedulo/custom-form-controls/dist/helper";
+import formContext from "../../formContext";
+import { formatDate } from "../../dateUtils";
 
 const ScheduleJob = () => {
   const dispatch = useDispatch();
   const storeProps = useSelector(({ reducer }: any) => {
     return {
       selectedItem: reducer.selectedItem,
+      
     };
   });
-  console.log("storeProps :>> ", storeProps);
-  const {
-    SkedControl,
-    Lookup2,
-    PopUp,
-    ButtonGroup,
-    StickyButton,
-    Counter,
-    SkedSignaturePanel,
-    ProgressBar,
-    DateTimeSelect,
-    Loading,
-    PhotoModal,
-  } = controls;
 
   const [date, setDate] = useState("");
   const [time, setTime] = useState("");
-  const [hideDatePlaceholder, setHideDatePlaceholder] = useState(false);
-  const [hideTimePlaceholder, setHideTimePlaceholder] = useState(false);
-
-  const disablePastDate = () => {
-    const today = new Date();
-    const dd = String(today.getDate() + 1).padStart(2, "0");
-    const mm = String(today.getMonth() + 1).padStart(2, "0"); //January is 0!
-    const yyyy = today.getFullYear();
-    return yyyy + "-" + mm + "-" + dd;
-  };
 
   const onDateChange = (val: any) => {
-    console.log('event.target.value :>> ', val);
     setDate(val);
   };
 
   const onTimeChange = (val: any) => {
     setTime(val);
-  }
+  };
 
+  const [isInValid, setIsInvalid] = useState(false);
+  const [errorMsg, setErrorMsg] = useState("");
+
+  useEffect(() => {
+    const { JobTimeConstraints, Duration} = storeProps.selectedItem;
+
+    const StartBefore = JobTimeConstraints[0]?.StartBefore;
+    const EndBefore = JobTimeConstraints[0]?.EndBefore;
+    const StartAfter = JobTimeConstraints[0]?.StartAfter;
+
+    const startLocal = moment(date + time, "YYYY-MM-DD HH:mm").toISOString();
+    const endLocal = moment(date + time, "YYYY-MM-DD HH:mm").add(Duration, 'minutes').toISOString();
+
+    const today = moment().toISOString();
+
+    //selectDate > StartAfter
+    const isValidStartAfter =
+      !StartAfter ||
+      (StartAfter && moment(startLocal).isAfter(StartAfter));
+    //selectDate < EndBefore
+    const isValidEndBefore =
+      !EndBefore || (EndBefore && moment(startLocal).isBefore(EndBefore));
+    //Present <= selectedDate < StartBefore
+    const isValidStartBefore =
+      !StartBefore ||
+      (StartBefore && moment(today).isSameOrBefore(startLocal) && moment(startLocal).isBefore(StartBefore));
+    if(date == '' || time == '') {
+      dispatch(setEnableSave({isEnable: false}))
+    } else if (moment(startLocal).isBefore(today)) {
+      dispatch(setEnableSave({isEnable: false}))
+      setIsInvalid(true);
+      setErrorMsg("Date and time must not be in the past");
+    }
+    else if(date !== "" && time !== "" && (!isValidStartAfter || !isValidEndBefore || !isValidStartBefore)) {
+      dispatch(setEnableSave({isEnable: false}))
+      setIsInvalid(true);
+      setErrorMsg("Date and time must comply with Job Time Constraints");
+    }
+    else {
+      dispatch(setEnableSave({isEnable: true}))
+      setIsInvalid(false);
+      setErrorMsg("");
+      dispatch(
+        setSelectedItem({
+          selectedItem: {
+            ...storeProps.selectedItem,
+            Start: (date && time) ? startLocal : "",
+            End: (date && time) ? endLocal : "",
+          },
+        })
+      );
+    }
+  }, [
+    date,
+    time,
+    storeProps.selectedItem.JobTimeConstraints,
+    storeProps.selectedItem.Duration,
+  ]);
 
   return (
     <>
@@ -67,43 +107,50 @@ const ScheduleJob = () => {
           <div className="title">Add date/time</div>
           <div className="select-item">
             <div className="label-item">Date</div>
-            <div className="select-wrapper">
-              <label
-                className={`input-placeholder ${date !== "" ? "hide" : "show"}`}
-              >
-                Select date
-              </label>
+           
+            <div className="input-wrapper">
+              <div className={`select-label ${date !== "" ? "hide" : "show"}`}>
+                <label htmlFor="" className="placeholder">
+                  Select date
+                </label>
+                <img src={RightIcon} alt="" />
+              </div>
               <input
                 type="date"
                 value={date}
-                min={moment().format("YYYY-MM-DD")}
-                placeholder="Select date"
-                className="date-input"
                 onChange={(event) => onDateChange(event.target.value)}
                 onBlur={(event) => onDateChange(event.target.value)}
-              ></input>
-               <img src={RightIcon} alt="" />
+                className={`date-input ${isInValid ? "invalid-input" : ""} ${
+                  date !== "" ? "hide-input" : "show-input"
+                }`}
+              />
+              <br />
+              {errorMsg !== "" && <div className="error-msg">{errorMsg}</div>}
             </div>
-           
           </div>
           <div className="divider"></div>
 
           <div className="select-item">
             <div className="label-item">Time</div>
-            <div className="select-wrapper">
-            <label
-              className={`input-placeholder ${time !== "" ? "hide" : "show"}`}
-            >
-              Select time
-            </label>
-            <input
-              type="time"
-              placeholder="Select time"
-              className="date-input"
-              onChange={(event) => onTimeChange(event.target.value)}
-              onBlur={(event) => onTimeChange(event.target.value)}
-            ></input>
-          </div>
+         
+            <div className="input-wrapper">
+              <div className={`select-label ${time !== "" ? "hide" : "show"}`}>
+                <label htmlFor="" className="placeholder">
+                  Select time
+                </label>
+                <img src={RightIcon} alt="" />
+              </div>
+              <input
+                type="time"
+                value={time}
+                onChange={(event) => onTimeChange(event.target.value)}
+                onBlur={(event) => onTimeChange(event.target.value)}
+                className={`date-input ${isInValid ? "invalid-input" : ""} ${
+                  time !== "" ? "hide-input" : "show-input"
+                }`}
+              />
+              {errorMsg !== "" && <div className="error-msg">{errorMsg}</div>}
+            </div>
           </div>
         </div>
         <div className="add-date-time footer-btn">
@@ -115,6 +162,7 @@ const ScheduleJob = () => {
           View your agenda to see where this job could be scheduled
         </div>
       </div>
+
     </>
   );
 };
