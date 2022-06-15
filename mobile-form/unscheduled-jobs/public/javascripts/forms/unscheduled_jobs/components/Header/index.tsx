@@ -4,35 +4,22 @@ import * as React from "react";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import formContext from "../../formContext";
-import { constant, saveDataToSf, setView, setTitle } from "../duck/action";
+import { constant, setView, setTitle } from "../duck/action";
 import { Job } from "../duck/type";
 import "./styles.scss";
 import { queryJob, updateJobsMutation } from "../../query/index";
 import moment from "moment-timezone";
 import { isEmpty } from "lodash";
-import {
-  getTimeValue,
-  setTimeValueIsoString,
-} from "@skedulo/custom-form-controls/dist/helper";
 import { toast, ToastContainer } from "react-toastify";
 //@ts-ignore
-import SuccessIcon from '../../images/Union.svg';
+import SuccessIcon from "../../images/Union.svg";
+import "react-toastify/dist/ReactToastify.min.css";
 
 const { PopUp } = controls;
-
 interface IProps {
   onGobackFn: Function;
   onSaveFn?: Function;
   showConfirm?: Function;
-}
-
-interface ResourceInfo {
-  availability: [];
-  available: { start: string; end: string }[];
-  regions: { start: string; end: string }[];
-  shifts: [];
-  unavailability: [];
-  unavailable: [];
 }
 
 const Header: React.FC<IProps> = ({ onGobackFn }: IProps) => {
@@ -40,9 +27,10 @@ const Header: React.FC<IProps> = ({ onGobackFn }: IProps) => {
   const context = React.useContext(formContext);
   const {
     widgets,
-    main: { resourceIds },
+    main: { resourceIds, resources },
     common,
   } = context;
+  const resourceRegion = resources[0].PrimaryRegion.Name;
 
   const [isShowPopup, setIsShowPopup] = useState(false);
 
@@ -62,13 +50,9 @@ const Header: React.FC<IProps> = ({ onGobackFn }: IProps) => {
       return;
     }
     if (storeProps.view === constant.VIEW_HOME) {
-      // window.navGoBack();
-
       onGobackFn();
     } else {
       switch (storeProps.view) {
-        // case constant.VIEW_DETAIL: dispatch(setView({view: constant.VIEW_MUST_READ_INFORMATION})); break;
-
         default:
           dispatch(setView({ view: constant.VIEW_HOME }));
       }
@@ -131,13 +115,12 @@ const Header: React.FC<IProps> = ({ onGobackFn }: IProps) => {
     displayTitle();
   }, [storeProps.title]);
 
-  const saveFn = useSelector(({ reducer }: any) => reducer.saveFn);
-
   const start = storeProps.selectedItem.Start;
   const end = storeProps.selectedItem.End;
 
   const saveJobToDB = async () => {
-    await widgets.GraphQL({
+    await widgets
+      .GraphQL({
         query: updateJobsMutation,
         variables: {
           input: {
@@ -148,23 +131,29 @@ const Header: React.FC<IProps> = ({ onGobackFn }: IProps) => {
         },
       })
       .then((res: any) => {
-        console.log("🚀 ~ file: index.tsx ~ line 191 ~ }}).then ~ res", res);
         onGoBackHandler();
-        toast(<div className="content-msg"> <img src={SuccessIcon} alt="React Logo" />{"This work has been scheduled"}</div>);
+        dispatch(setTitle({ title: constant.TITLE_MY_JOBS }));
+        toast(
+          <div className="content-msg">
+            <img src={SuccessIcon} alt="React Logo" />
+            {"This work has been scheduled"}
+          </div>
+        );
       })
       .catch((e: any) => console.log("e", e));
   };
 
-  const token = common.authData.skeduloAccess.token ? common.authData.skeduloAccess.token : 'eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6Ik5Ua3pNa0l4TkVJMVJrRkZNRUl5T0VFeE0wWkRSall5TkVKQ056VkRNRUZFTVRBM00wVkVNZyJ9.eyJodHRwczovL2FwaS5za2VkdWxvLmNvbS91c2VyX2lkIjoiYXV0aDB8MDAwMTVlM2QtMTA1My00OTdiLTkwYjAtNTVjOTc1NzBjMGZhIiwiaHR0cHM6Ly9hcGkuc2tlZHVsby5jb20vdmVuZG9yIjoic2tlZHVsbyIsImh0dHBzOi8vYXBpLnNrZWR1bG8uY29tL3VzZXJuYW1lIjoiZXhwZXJ0c2VydmljZXMrdGVzdDAxQHNrZWR1bG8uY29tIiwiaHR0cHM6Ly9hcGkuc2tlZHVsby5jb20vb3JnYW5pemF0aW9uX2lkIjoic2tfNmY5NzVlMzkyNmNmNGQ4NzlhNGJhNWMwNDIwMjU5NjQiLCJodHRwczovL2FwaS5za2VkdWxvLmNvbS9uYW1lIjoiZXhwZXJ0c2VydmljZXMrdGVzdDAxQHNrZWR1bG8uY29tIiwiaHR0cHM6Ly9hcGkuc2tlZHVsby5jb20vcmVzb3VyY2VfaWQiOiIwMDA1NjkxNy1mNmMzLTQ5NjEtODdjZi1iZDY5Y2YzYjc4ZWEiLCJodHRwczovL2FwaS5za2VkdWxvLmNvbS9yb2xlcyI6WyJyZXNvdXJjZSJdLCJodHRwczovL2FwaS5za2VkdWxvLmNvbS92ZW4iOnsidXNlcl9pZCI6IjAwMDE1ZTNkLTEwNTMtNDk3Yi05MGIwLTU1Yzk3NTcwYzBmYSJ9LCJpc3MiOiJodHRwczovL3NrZWR1bG8tcHJvZC1hdTEuYXUuYXV0aDAuY29tLyIsInN1YiI6ImF1dGgwfDAwMDE1ZTNkLTEwNTMtNDk3Yi05MGIwLTU1Yzk3NTcwYzBmYSIsImF1ZCI6WyJodHRwczovL2FwaS5hdS5za2VkdWxvLmNvbSIsImh0dHBzOi8vc2tlZHVsby1wcm9kLWF1MS5hdS5hdXRoMC5jb20vdXNlcmluZm8iXSwiaWF0IjoxNjU1MTcyNjc1LCJleHAiOjE2NTUyMTU4NzUsImF6cCI6ImU2eHN2MVpVcnZldVAwVENPdlRyQWllaWJ6WGZxV2N3Iiwic2NvcGUiOiJvcGVuaWQifQ.j4YpQiSJ-ls1x2XErW7T_HiuP0YfrLV7VIh691A9MqeEf0IE17eKwNQK1A2LYUJ3n4fjlTLq2HKqSYj6S_U2FH-4XWqSBFcQ9N33ENnbQGyghijD_5lFojhM-n15nd36iJCxLuccYc99UPvGaEwrFGI3FGeyEpTOo4_xkYq2pBdiwCBVPdpWRK6slBeRhBbWhgvzFZ60tT4l9MF78DaqOKHa2_j0lqENVMchHaMbN5uhNQY7l5U0HORm7frCqfAa7ckZJUqyBbTP8-vIgih0GVguw1Tmkcau-oSeV8IZDqZqqmg4j10z97RLhF6udYc-oIYMGSl86k0ojupvBn-l5g';
-  console.log("🚀 ~ file: index.tsx ~ line 159 ~ .then ~ token", token);
-  const config = {
+  const token = common.authData.skeduloAccess.token
+    ? common.authData.skeduloAccess.token
+    : "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6Ik5Ua3pNa0l4TkVJMVJrRkZNRUl5T0VFeE0wWkRSall5TkVKQ056VkRNRUZFTVRBM00wVkVNZyJ9.eyJodHRwczovL2FwaS5za2VkdWxvLmNvbS91c2VyX2lkIjoiYXV0aDB8MDAwMTVlM2QtMTA1My00OTdiLTkwYjAtNTVjOTc1NzBjMGZhIiwiaHR0cHM6Ly9hcGkuc2tlZHVsby5jb20vdmVuZG9yIjoic2tlZHVsbyIsImh0dHBzOi8vYXBpLnNrZWR1bG8uY29tL3VzZXJuYW1lIjoiZXhwZXJ0c2VydmljZXMrdGVzdDAxQHNrZWR1bG8uY29tIiwiaHR0cHM6Ly9hcGkuc2tlZHVsby5jb20vb3JnYW5pemF0aW9uX2lkIjoic2tfNmY5NzVlMzkyNmNmNGQ4NzlhNGJhNWMwNDIwMjU5NjQiLCJodHRwczovL2FwaS5za2VkdWxvLmNvbS9uYW1lIjoiZXhwZXJ0c2VydmljZXMrdGVzdDAxQHNrZWR1bG8uY29tIiwiaHR0cHM6Ly9hcGkuc2tlZHVsby5jb20vcmVzb3VyY2VfaWQiOiIwMDA1NjkxNy1mNmMzLTQ5NjEtODdjZi1iZDY5Y2YzYjc4ZWEiLCJodHRwczovL2FwaS5za2VkdWxvLmNvbS9yb2xlcyI6WyJyZXNvdXJjZSJdLCJodHRwczovL2FwaS5za2VkdWxvLmNvbS92ZW4iOnsidXNlcl9pZCI6IjAwMDE1ZTNkLTEwNTMtNDk3Yi05MGIwLTU1Yzk3NTcwYzBmYSJ9LCJpc3MiOiJodHRwczovL3NrZWR1bG8tcHJvZC1hdTEuYXUuYXV0aDAuY29tLyIsInN1YiI6ImF1dGgwfDAwMDE1ZTNkLTEwNTMtNDk3Yi05MGIwLTU1Yzk3NTcwYzBmYSIsImF1ZCI6WyJodHRwczovL2FwaS5hdS5za2VkdWxvLmNvbSIsImh0dHBzOi8vc2tlZHVsby1wcm9kLWF1MS5hdS5hdXRoMC5jb20vdXNlcmluZm8iXSwiaWF0IjoxNjU1MjU4NzkxLCJleHAiOjE2NTUzMDE5OTEsImF6cCI6ImU2eHN2MVpVcnZldVAwVENPdlRyQWllaWJ6WGZxV2N3Iiwic2NvcGUiOiJvcGVuaWQifQ.MZ6nFoKrNmZInuOJm6Mh3c9T1f-_taYCMIImufu7Qb0RFAza9auZLGJxRUyuKBlGR3mD54FFi3gmkR0pOkdPdYM_VaAeFF5iBzqQ5cE6BYv9CYgpSE2TruXFEMQTtbZRV49S18DFntl9wKnWw01fvNup3WHUArRjm2N77tkTuxgiw8F8N-Mcr_T0ZsTHsErWxN4bsCW3UF_E40ZBJPlo6oOR9VPgEOhu4j1F3jjXoq31FzsUrkL4wHkwCH3r9QgM3dallzeq_ZDem1alLcm1x31aXTJTnWjvfG_7pAEojq-gSRDsl8QMahmD2sPEQBlFdcI4kf584fExw2WihgJzug";
+  
+    const config = {
     headers: {
       Authorization: `Bearer ${token}`,
-      ['Content-Type']: `application/json`
-    }
-  
+      ["Content-Type"]: `application/json`,
+    },
   };
-  
+
   const onSaveJob = async () => {
     const resourceId = resourceIds[0] as TimeRanges;
     const res = await axios.post(
@@ -178,18 +167,16 @@ const Header: React.FC<IProps> = ({ onGobackFn }: IProps) => {
       },
       config
     );
-    console.log('res :>> ', res);
 
     if (res.status === 200) {
       const result = res.data.url.result;
-      console.log("🚀 ~ file: index.tsx ~ line 185 ~ onSaveJob ~ result", result)
+
       const resourceInfo = Object.values(result) as any;
       const resourceAvalability = resourceInfo[0].available;
 
       let availableSlot = [];
       if (resourceAvalability.length !== []) {
         availableSlot = resourceAvalability.filter((item: any) => {
-          console.log("object :>> ", typeof item.end);
           return (
             moment(`${storeProps.selectedItem.Start}`).isSameOrAfter(
               `${item.start}`
@@ -201,24 +188,21 @@ const Header: React.FC<IProps> = ({ onGobackFn }: IProps) => {
         });
       }
 
-      // const {jobs} = await widgets.GraphQL({query: queryJob, variables: {
-      //   filterJob: `Start >= ${moment(storeProps.selectedItem.Start).toISOString()} AND  End <= ${moment(storeProps.selectedItem.End).toISOString()}`
-      // }});
-      console.log("availableSlot", availableSlot);
       const { jobs } = await widgets.GraphQL({
         query: queryJob,
         variables: {
-          filterJob: `Start >= ${start} AND  End <= ${end}`,
+          filterJob: `End >= ${start} AND Start <= ${end}`,
         },
       });
 
-      const newArr = jobs.filter((item: any) =>
-        item.JobAllocations.every((ja: any) => ja.ResourceId == `${resourceId}`)
+      const newArr = jobs.filter(
+        (item: any) =>
+          item.Region.Name == `${resourceRegion}` &&
+          item.JobAllocations.every(
+            (ja: any) => ja.ResourceId == `${resourceId}`
+          )
       );
-      console.log(
-        "🚀 ~ file: index.tsx ~ line 177 ~ onSaveJob ~ newArr",
-        newArr
-      );
+
       if (!isEmpty(availableSlot) && isEmpty(newArr)) {
         saveJobToDB();
         setIsShowPopup(false);
@@ -226,22 +210,10 @@ const Header: React.FC<IProps> = ({ onGobackFn }: IProps) => {
         setIsShowPopup(true);
       }
     }
-
-    // variables: {
-    //   input: { filterJob: `Start == null AND JobStatus != 'Cancelled' AND Locked == false`}
-    // }
-    // saveFn({
-    //   selectedItem: storeProps.selectedItem,
-    //   resourceIds
-    // }, {
-    //   selectedItem: storeProps.selectedItem,
-    //   resourceIds
-    // })
   };
   const onSave = () => {
     saveJobToDB();
   };
-  console.log("isShowPopup :>> ", isShowPopup);
 
   return (
     <header className="bar-title">
@@ -307,20 +279,21 @@ const Header: React.FC<IProps> = ({ onGobackFn }: IProps) => {
           </div>
         </PopUp>
       )}
+
       {storeProps.view === constant.VIEW_HOME && (
         <ToastContainer
-        position="bottom-center"
-        autoClose={5000}
-        hideProgressBar={true}
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-      />)
-       }
-     
+          position="bottom-center"
+          autoClose={5000}
+          hideProgressBar={true}
+          newestOnTop={false}
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+          closeButton={false}
+        />
+      )}
     </header>
   );
 };
