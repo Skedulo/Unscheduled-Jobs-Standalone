@@ -18,34 +18,6 @@
     .divider {
       border: $item-divider;
     }
-    // .select-item {
-    //     display: flex;
-    //     justify-content: space-between;
-    //     padding: $space_16;
-    //     align-items: baseline;
-    //     .label-item {
-    //         @include normal-text;
-    //         color: $color_navy;
-    //         font-weight: 400;
-    //         flex: 0
-    //     }
-
-    //     .select-label {
-    //        @include normal-text-gray;
-    //         display: flex;
-    //         justify-content: center;
-    //         .select-btn {
-    //             margin-left: 16px;
-    //         }
-    //     }
-    //     .date-input {
-    //         border: 0;
-    //         text-align: right;
-    //         background-color: white;
-    //         color: black;
-    //     }
-
-    // }
   }
   .footer-btn {
     padding: $space_16;
@@ -66,89 +38,6 @@
   }
 }
 
-// input::-webkit-date-and-time-value {
-//     background: url("../../images/right.png") no-repeat;
-//     display: flex;
-//     justify-content: flex-end;
-//     justify-self: end;
-//     }
-
-// input[type="time"]::-webkit-calendar-picker-indicator {
-//   color: rgba(0, 0, 0, 0);
-//   opacity: 1;
-//   display: block;
-//   background: url("../../images/right.png") no-repeat;
-//   width: 20px;
-//   height: 20px;
-//   border-width: thin;
-//   margin-left: 16px;
-// }
-
-// input[type="date"]::-webkit-calendar-picker-indicator {
-//   color: rgba(0, 0, 0, 0);
-//   opacity: 1;
-//   display: block;
-//   background: url("../../images/right.png") no-repeat;
-//   width: 20px;
-//   height: 20px;
-//   border-width: thin;
-//   margin-left: 16px;
-
-//   text-align: right;
-// }
-
-// input:after {
-//     color: #000;
-//     content: attr(placeholder) !important;
-//     font-size: 14px
-//     }
-
-//     input:focus:after {
-//     content: '' !important;
-//     }
-
-// .select-item {
-//     display: flex;
-//     justify-content: space-between;
-//     padding: $space_16;
-//     align-items: baseline;
-//     .label-item {
-//         @include normal-text;
-//         color: $color_navy;
-//         font-weight: 400;
-//         flex: 0
-//     }
-
-//     .select-label {
-//        @include normal-text-gray;
-//         display: flex;
-//         justify-content: center;
-//         .select-btn {
-//             margin-left: 16px;
-//         }
-//     }
-//     .select-wrapper {
-//         position: relative;
-//         label {
-//             position: absolute;
-//             top: 0;
-//             right: 0;
-
-//         }
-//         .date-input {
-//             position: absolute;
-//             top: 0;
-//             right: 0;
-//         }
-//         .hide {
-//             display: none;
-//         }
-//         .show {
-//             display: block;
-//         }
-//     }
-
-// }
 .select-item {
   display: flex;
   justify-content: space-between;
@@ -169,18 +58,24 @@
 
   .hide-input{
     opacity: 1;
+  }
+
+  input[type="time"].hide-input {
+    width: 96px;
   }  
+  
 
   .input-wrapper {
     position: relative;
-    // width: 100%;
-    // flex: 1;
+    flex: 1;
     text-align: right;
     .select-label {
       @include normal-text-gray;
       display: flex;
       justify-content: flex-end;
-      width: 100px;
+      gap: 16px;
+      width: 100%;
+
       .select-btn {
         margin-left: 16px;
       }
@@ -190,42 +85,12 @@
       display: none;
     }
     .show {
+      width: 100%;
       display: flex;
       top: 0;
       right: 0;
       position: absolute;
     }
-    // .show {
-    //   display: none;
-    // }
-    // .hide {
-    //   display: none;
-    // }
-
-    // .date-input {
-    //   right: 0;
-    //   top: 0;
-    //   position: absolute;
-    // }
-    // label {
-    //   // position: absolute;
-    //   top: 0;
-    //   right: 0;
-    // }
-    // .date-input {
-    //   position: absolute;
-    //   top: 0;
-    //   right: 0;
-    //   background-color: transparent;
-    //   width: 100%;
-    //   height: 100%;
-    // }
-    // .hide {
-    //   opacity: 0;
-    // }
-    // .show {
-    //   opacity: 1;
-    // }
   }
   .invalid-input {
     border: 1px solid $color_red;
@@ -235,18 +100,4 @@
     }
 }
 
-// input::-webkit-date-and-time-value {
-//     text-align: right;
-//   }
-// input[type="date"]::-webkit-inner-spin-button,
-// input[type="date"]::-webkit-calendar-picker-indicator {
-//     display: none;
-//     -webkit-appearance: none;
-// }
-
-// input[type="time"]::-webkit-inner-spin-button,
-// input[type="time"]::-webkit-calendar-picker-indicator {
-//     display: none;
-//     -webkit-appearance: none;
-// }
 

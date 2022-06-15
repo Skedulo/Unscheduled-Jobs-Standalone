@@ -54,7 +54,9 @@ const Header: React.FC<IProps> = ({ onGobackFn }: IProps) => {
     } else {
       switch (storeProps.view) {
         default:
-          dispatch(setView({ view: constant.VIEW_HOME }));
+          dispatch(setTitle({title: constant.TITLE_MY_JOBS}));
+          dispatch(setView({view: constant.VIEW_HOME}))
+          break;
       }
     }
   }, [storeProps.view, dispatch, onGobackFn]);
@@ -228,7 +230,7 @@ const Header: React.FC<IProps> = ({ onGobackFn }: IProps) => {
       </div>
 
       {storeProps.view === constant.VIEW_SCHEDULE_JOB && (
-        <button className="btn transparent fr" onClick={onSaveJob}>
+        <button className="btn transparent fr" onClick={storeProps.isEnable ? onSaveJob : (e) => e.preventDefault()}>
           <span
             className={`btn-save ${
               storeProps.isEnable ? "enable-btn" : "disable-btn"
