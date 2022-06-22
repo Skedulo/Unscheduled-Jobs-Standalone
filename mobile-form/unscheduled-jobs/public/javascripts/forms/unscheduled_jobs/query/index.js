@@ -16,6 +16,8 @@ export const queryJob = `
             Name
             UID
           }
+          GeoLatitude
+          GeoLongitude
           RegionId
           Urgency
           Timezone
@@ -100,7 +102,7 @@ export const queryJobAllocations = `
       }
     }
   }
-`
+`;
 
 export const queryAvailabilities = `
   query availabilitiy($filterAvailabilities: EQLQueryFilterAvailabilities) {
@@ -118,7 +120,7 @@ export const queryAvailabilities = `
       }
     }
   }
-`
+`;
 
 export const queryAvailabilitiesTemplate = `
   query availabilityTemplates {
@@ -144,7 +146,7 @@ export const queryAvailabilitiesTemplate = `
       }
     }
   }
-`
+`;
 
 export const createJobOffer = `
 mutation createJobOffer($jobOffer: NewJobOffers!) {
@@ -152,7 +154,7 @@ mutation createJobOffer($jobOffer: NewJobOffers!) {
     insertJobOffers(input: $jobOffer)
   }
 }
-`
+`;
 
 export const updateStatusJobOffer = `
   mutation updateJobOffer($id: ID!) {
@@ -163,7 +165,7 @@ export const updateStatusJobOffer = `
       })
     }
   }
-`
+`;
 
 export const createResourceJobOffer = `
   mutation createResourceJobOffer($resourceId: ID!, $jobOfferId: ID!, $status: ResourceOfferStatus!, $response: OfferResponse) {
@@ -176,7 +178,7 @@ export const createResourceJobOffer = `
       })
     }
   }
-`
+`;
 
 export const createJobAllocation = `
   mutation createJobAllocation($jobId: ID!, $resourceId: ID!) {
@@ -188,7 +190,7 @@ export const createJobAllocation = `
       })
     }
   }
-`
+`;
 
 export const queryJobOffers = `
 query jobOffers($filterJobOffers: EQLQueryFilterJobOffers) {
@@ -207,7 +209,7 @@ query jobOffers($filterJobOffers: EQLQueryFilterJobOffers) {
       }
     }
   }
-}`
+}`;
 
 export const queryJobOffersOfResource = `
 query jobOffers($filterByResourceId: EQLQueryFilterResourceJobOffers) {
@@ -267,7 +269,7 @@ query jobOffers($filterByResourceId: EQLQueryFilterResourceJobOffers) {
       }
     }
   }
-}`
+}`;
 
 export const queryResourceJobOffer = `
   query resourceJobOffer($filterRJO: EQLQueryFilterResourceJobOffers) {
@@ -280,7 +282,7 @@ export const queryResourceJobOffer = `
       }
     }
   }
-`
+`;
 
 export const deleteJobOffer = `
   mutation deleteJobOffer($id: ID!) {
@@ -288,13 +290,13 @@ export const deleteJobOffer = `
       deleteJobOffers(UID: $id)
     }
   }
-`
+`;
 export const deleteResourceJobOffer = `
   mutation deleteResourceJobOffer($id: ID!) {
     schema {
       deleteResourceJobOffers(UID: $id)
     }
-  }`
+  }`;
 
 export const updateJobsMutation = `
   mutation updateJobs($input: UpdateJobs!) {
@@ -302,4 +304,4 @@ export const updateJobsMutation = `
       updateJobs(input: $input)
     }
   }
-`
+`;

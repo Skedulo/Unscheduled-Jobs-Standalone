@@ -8,6 +8,7 @@ import * as pathToRegExp from 'path-to-regexp'
 
 import { FunctionRoute } from '@skedulo/sdk-utilities'
 import * as getResourceAvailable from './getResourceAvailable';
+import * as getGridSchedule from './getGridSchedule';
 
 // tslint:disable-next-line:no-empty-interface
 interface RequestPayload {
@@ -28,38 +29,15 @@ export function getCompiledRoutes() {
 
 function getRoutes(): FunctionRoute[] {
   return [
-    // {
-    //   method: 'get',
-    //   path: '/ping',
-    //   handler: async (__, headers) => {
-
-    //     const apiToken = headers.Authorization.split('Bearer')[1].trim()
-    //     const apiServer = headers['sked-api-server']
-
-    //     return {
-    //       status: 200,
-    //       body: { result: 'pong', apiServer, apiToken }
-    //     }
-    //   }
-    // },
-    // {
-    //   method: 'post',
-    //   path: '/action',
-    //   handler: async (body: RequestPayload, headers) => {
-
-    //     const apiToken = headers.Authorization.split('Bearer')[1].trim()
-    //     const apiServer = headers['sked-api-server']
-
-    //     return {
-    //       status: 200,
-    //       body: { apiToken, apiServer, requestBody: body }
-    //     }
-    //   }
-    // },
     {
       method: 'post',
       path: getResourceAvailable.path,
       handler: getResourceAvailable.handler
-    }
+    },
+    {
+      method: 'post',
+      path: getGridSchedule.path,
+      handler: getGridSchedule.handler
+    },
   ]
 }

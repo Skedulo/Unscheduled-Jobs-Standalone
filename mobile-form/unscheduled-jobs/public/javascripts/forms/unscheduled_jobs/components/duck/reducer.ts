@@ -1,5 +1,5 @@
 import { AppState, AppAction } from './type';
-import { constant } from './action'
+import { constant } from './action';
 
 export default function reducer(state: AppState = {
   timestamp: Date.now(),
@@ -11,7 +11,8 @@ export default function reducer(state: AppState = {
   jobs: [],
   title: constant.TITLE_MY_JOBS,
   selectedItem: {},
-  isEnable: false
+  isEnable: false,
+  isEnableSuggest: false
 }, action: AppAction): AppState {
   switch (action.type) {
     case constant.ACTION_INIT_DATA: {
@@ -55,6 +56,13 @@ export default function reducer(state: AppState = {
       return {
         ...state,
         isEnable: params.isEnable
+      };
+    }
+    case constant.ACTION_SET_ENABLE_SAVE_SLOT: {
+      const { params } = action;
+      return {
+        ...state,
+        isEnableSuggest: params.isEnableSuggest
       };
     }
     case constant.ACTION_SAVE_DATA_TO_SALESFORCE: {

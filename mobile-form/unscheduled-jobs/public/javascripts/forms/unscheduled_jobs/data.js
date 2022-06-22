@@ -28,7 +28,7 @@ function wrapper(httpLibs, utils) {
     // token to query online
     const authData = dataHelper.getSkeduloToken() ? dataHelper.getSkeduloToken() : {skeduloAccess: {
       instance: "http://prod-elasticserver.prod.svc.cluster.local",
-      token: "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6Ik5Ua3pNa0l4TkVJMVJrRkZNRUl5T0VFeE0wWkRSall5TkVKQ056VkRNRUZFTVRBM00wVkVNZyJ9.eyJodHRwczovL2FwaS5za2VkdWxvLmNvbS91c2VyX2lkIjoiYXV0aDB8MDAwMTVlM2QtMTA1My00OTdiLTkwYjAtNTVjOTc1NzBjMGZhIiwiaHR0cHM6Ly9hcGkuc2tlZHVsby5jb20vdmVuZG9yIjoic2tlZHVsbyIsImh0dHBzOi8vYXBpLnNrZWR1bG8uY29tL3VzZXJuYW1lIjoiZXhwZXJ0c2VydmljZXMrdGVzdDAxQHNrZWR1bG8uY29tIiwiaHR0cHM6Ly9hcGkuc2tlZHVsby5jb20vb3JnYW5pemF0aW9uX2lkIjoic2tfNmY5NzVlMzkyNmNmNGQ4NzlhNGJhNWMwNDIwMjU5NjQiLCJodHRwczovL2FwaS5za2VkdWxvLmNvbS9uYW1lIjoiZXhwZXJ0c2VydmljZXMrdGVzdDAxQHNrZWR1bG8uY29tIiwiaHR0cHM6Ly9hcGkuc2tlZHVsby5jb20vcmVzb3VyY2VfaWQiOiIwMDA1NjkxNy1mNmMzLTQ5NjEtODdjZi1iZDY5Y2YzYjc4ZWEiLCJodHRwczovL2FwaS5za2VkdWxvLmNvbS9yb2xlcyI6WyJyZXNvdXJjZSJdLCJodHRwczovL2FwaS5za2VkdWxvLmNvbS92ZW4iOnsidXNlcl9pZCI6IjAwMDE1ZTNkLTEwNTMtNDk3Yi05MGIwLTU1Yzk3NTcwYzBmYSJ9LCJpc3MiOiJodHRwczovL3NrZWR1bG8tcHJvZC1hdTEuYXUuYXV0aDAuY29tLyIsInN1YiI6ImF1dGgwfDAwMDE1ZTNkLTEwNTMtNDk3Yi05MGIwLTU1Yzk3NTcwYzBmYSIsImF1ZCI6WyJodHRwczovL2FwaS5hdS5za2VkdWxvLmNvbSIsImh0dHBzOi8vc2tlZHVsby1wcm9kLWF1MS5hdS5hdXRoMC5jb20vdXNlcmluZm8iXSwiaWF0IjoxNjU1MjU4NzkxLCJleHAiOjE2NTUzMDE5OTEsImF6cCI6ImU2eHN2MVpVcnZldVAwVENPdlRyQWllaWJ6WGZxV2N3Iiwic2NvcGUiOiJvcGVuaWQifQ.MZ6nFoKrNmZInuOJm6Mh3c9T1f-_taYCMIImufu7Qb0RFAza9auZLGJxRUyuKBlGR3mD54FFi3gmkR0pOkdPdYM_VaAeFF5iBzqQ5cE6BYv9CYgpSE2TruXFEMQTtbZRV49S18DFntl9wKnWw01fvNup3WHUArRjm2N77tkTuxgiw8F8N-Mcr_T0ZsTHsErWxN4bsCW3UF_E40ZBJPlo6oOR9VPgEOhu4j1F3jjXoq31FzsUrkL4wHkwCH3r9QgM3dallzeq_ZDem1alLcm1x31aXTJTnWjvfG_7pAEojq-gSRDsl8QMahmD2sPEQBlFdcI4kf584fExw2WihgJzug"
+      token: "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6Ik5Ua3pNa0l4TkVJMVJrRkZNRUl5T0VFeE0wWkRSall5TkVKQ056VkRNRUZFTVRBM00wVkVNZyJ9.eyJodHRwczovL2FwaS5za2VkdWxvLmNvbS91c2VyX2lkIjoiYXV0aDB8MDAwMTVlM2QtMTA1My00OTdiLTkwYjAtNTVjOTc1NzBjMGZhIiwiaHR0cHM6Ly9hcGkuc2tlZHVsby5jb20vdmVuZG9yIjoic2tlZHVsbyIsImh0dHBzOi8vYXBpLnNrZWR1bG8uY29tL3VzZXJuYW1lIjoiZXhwZXJ0c2VydmljZXMrdGVzdDAxQHNrZWR1bG8uY29tIiwiaHR0cHM6Ly9hcGkuc2tlZHVsby5jb20vb3JnYW5pemF0aW9uX2lkIjoic2tfNmY5NzVlMzkyNmNmNGQ4NzlhNGJhNWMwNDIwMjU5NjQiLCJodHRwczovL2FwaS5za2VkdWxvLmNvbS9uYW1lIjoiZXhwZXJ0c2VydmljZXMrdGVzdDAxQHNrZWR1bG8uY29tIiwiaHR0cHM6Ly9hcGkuc2tlZHVsby5jb20vcmVzb3VyY2VfaWQiOiIwMDA1NjkxNy1mNmMzLTQ5NjEtODdjZi1iZDY5Y2YzYjc4ZWEiLCJodHRwczovL2FwaS5za2VkdWxvLmNvbS9yb2xlcyI6WyJyZXNvdXJjZSJdLCJodHRwczovL2FwaS5za2VkdWxvLmNvbS92ZW4iOnsidXNlcl9pZCI6IjAwMDE1ZTNkLTEwNTMtNDk3Yi05MGIwLTU1Yzk3NTcwYzBmYSJ9LCJpc3MiOiJodHRwczovL3NrZWR1bG8tcHJvZC1hdTEuYXUuYXV0aDAuY29tLyIsInN1YiI6ImF1dGgwfDAwMDE1ZTNkLTEwNTMtNDk3Yi05MGIwLTU1Yzk3NTcwYzBmYSIsImF1ZCI6WyJodHRwczovL2FwaS5hdS5za2VkdWxvLmNvbSIsImh0dHBzOi8vc2tlZHVsby1wcm9kLWF1MS5hdS5hdXRoMC5jb20vdXNlcmluZm8iXSwiaWF0IjoxNjU1ODMwMDU4LCJleHAiOjE2NTU4NzMyNTgsImF6cCI6ImU2eHN2MVpVcnZldVAwVENPdlRyQWllaWJ6WGZxV2N3Iiwic2NvcGUiOiJvcGVuaWQifQ.Q_pv_tZpFqM9KLcQjJN2nDpKD127_RbqDWVzt5unojXXazeMbWdk2oB0t01ncNifnBZqIcNwpMyQaorqGA8LGbEofoXnfQ1pIuDnjm75LdxHuOCdYGfhnv2XeYe8vQE2ZbYcyZrvvLQ11JshpHafU4Cu5QrLpeBoVL_dkZ0-kqXAABSn0x6jMFkwrRbc3iCQXNqifMvd9Ybg9ZurO_WyIfJifIY057VaQ5NrofiZYlIO8-KQXbEeJAr8ytNLNKEXaGo4hWgg9OA_R3DUOSZSEaN0xdHw6rEv2nUMauO9fa47zH3o4c-Pw7QtBLVFIfxy6peCvN8ojqLdR1veEjQBkQ"
     }
     };
 
@@ -60,26 +60,6 @@ function wrapper(httpLibs, utils) {
       })
       .catch((e) => console.log("Fetch jobAllocations error: ", e));
 
-    const { availabilities: unavailabilities } = await graphiQl
-      .query(queryAvailabilities, {
-        filterAvailabilities: `ResourceId == '${resourceIds[0]}' AND
-                                IsAvailable == false`,
-      })
-      .catch((e) => console.log("Fetch availabilities error: ", e));
-
-    const { availabilityTemplates } = await graphiQl
-      .query(queryAvailabilitiesTemplate)
-      .catch((e) => console.log("Fetch Availabilities Template error: ", e));
-
-    const availabilityTemplatesResources = availabilityTemplates.filter(
-      (item) => {
-        for (let i = 0; i < item.Resources.length; i++) {
-          if (item.Resources[i].ResourceId === resourceIds[0]) return true;
-        }
-        return false;
-      }
-    );
-
     // create an array contains unavailability values
     const unAvailabilityTimes = [];
 
@@ -89,18 +69,10 @@ function wrapper(httpLibs, utils) {
     jobAllocations.forEach((item) =>
       unAvailabilityTimes.push({ start: item.Start, end: item.End })
     );
-    unavailabilities.forEach((item) =>
-      unAvailabilityTimes.push({ start: item.Start, end: item.Finish })
-    );
-
-    // filter jobs don't overlap any existing Unavailability (Activites, JobAllocations, Unavailabilities)
-    const availabilityTemplateDays = buildAvailableTemplate(
-      availabilityTemplatesResources
-    );
 
     const filteredJob = jobs.filter(function (element) {
       return element.JobAllocations.some( function (subElement) {
-          return subElement.ResourceId === resourceId && subElement.Status !== "Deleted" && subElement.Status !== "Declined"
+          return subElement.ResourceId === resourceId && subElement.Status !== "Deleted" && subElement.Status !== "Declined";
       });
   });
     return buildDataStruct({

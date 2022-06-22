@@ -1,0 +1,23 @@
+@import "../../../../../stylesheets/sass/components/variables";
+
+.suggest-list {
+    background-color: $page-header-color;
+    padding: $space_16;
+    min-height: 100%;
+    .suggest-item {
+        &-title {
+            @include bold-text;
+            padding-bottom: $space_8;
+            border-bottom: $item-divider;
+            margin-top: 28px;
+        }
+        &-time {
+            @include normal-text;
+            border-bottom: $item-divider;
+            padding: $space_16 0px;
+            color: $color_navy_800;
+            display: flex;
+            justify-content: space-between;
+        }
+    }
+}

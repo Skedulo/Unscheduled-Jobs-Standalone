@@ -43,7 +43,8 @@ export interface AppState {
   liveDataService?: any
   title: string,
   jobs: Job[],
-  isEnable: boolean
+  isEnable: boolean,
+  isEnableSuggest: boolean
 }
 
 export interface AppAction {

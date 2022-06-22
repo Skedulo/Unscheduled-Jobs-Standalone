@@ -4,7 +4,7 @@ import * as React from "react";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import formContext from "../../formContext";
-import { constant, setView, setTitle } from "../duck/action";
+import { constant, setView, setTitle, setEnableSave } from "../duck/action";
 import { Job } from "../duck/type";
 import "./styles.scss";
 import { queryJob, updateJobsMutation } from "../../query/index";
@@ -14,6 +14,7 @@ import { toast, ToastContainer } from "react-toastify";
 //@ts-ignore
 import SuccessIcon from "../../images/Union.svg";
 import "react-toastify/dist/ReactToastify.min.css";
+import { constants } from "../../constants";
 
 const { PopUp } = controls;
 interface IProps {
@@ -41,9 +42,11 @@ const Header: React.FC<IProps> = ({ onGobackFn }: IProps) => {
       title: reducer.title as string,
       selectedItem: reducer.selectedItem as Job,
       isEnable: reducer.isEnable as boolean,
+      isEnableSuggest: reducer.isEnableSuggest as boolean,
     };
   });
 
+  console.log('st :>> ', storeProps.selectedItem);
   const onGoBackHandler = React.useCallback(() => {
     if (!storeProps.view) {
       onGobackFn();
@@ -53,9 +56,13 @@ const Header: React.FC<IProps> = ({ onGobackFn }: IProps) => {
       onGobackFn();
     } else {
       switch (storeProps.view) {
+        case constant.VIEW_SUGGESTED_TIMES:
+          dispatch(setTitle({ title: constant.TITLE_SCHEDULE_JOB }));
+          dispatch(setView({ view: constant.VIEW_SCHEDULE_JOB }));
+          break;
         default:
-          dispatch(setTitle({title: constant.TITLE_MY_JOBS}));
-          dispatch(setView({view: constant.VIEW_HOME}))
+          dispatch(setTitle({ title: constant.TITLE_MY_JOBS }));
+          dispatch(setView({ view: constant.VIEW_HOME }));
           break;
       }
     }
@@ -106,10 +113,16 @@ const Header: React.FC<IProps> = ({ onGobackFn }: IProps) => {
 
   const [titleHeader, setTitleHeader] = useState("");
   const displayTitle = () => {
-    if (storeProps.title === constant.TITLE_MY_JOBS) {
-      setTitleHeader("Unscheduled work");
-    } else if (storeProps.title === constant.TITLE_SCHEDULE_JOB) {
-      setTitleHeader("Schedule work");
+    switch (storeProps.title) {
+      case constant.TITLE_SUGGESTED_TIME:
+        setTitleHeader("Suggested times");
+        break;
+      case constant.TITLE_SCHEDULE_JOB:
+        setTitleHeader("Schedule work");
+        break;
+      default:
+        setTitleHeader("Unscheduled work");
+        break;
     }
   };
 
@@ -132,13 +145,13 @@ const Header: React.FC<IProps> = ({ onGobackFn }: IProps) => {
           },
         },
       })
-      .then((res: any) => {
+      .then(() => {
         onGoBackHandler();
         dispatch(setTitle({ title: constant.TITLE_MY_JOBS }));
         toast(
           <div className="content-msg">
             <img src={SuccessIcon} alt="React Logo" />
-            {"This work has been scheduled"}
+            {storeProps.selectedItem.Name} has been scheduled
           </div>
         );
       })
@@ -147,9 +160,9 @@ const Header: React.FC<IProps> = ({ onGobackFn }: IProps) => {
 
   const token = common.authData.skeduloAccess.token
     ? common.authData.skeduloAccess.token
-    : "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6Ik5Ua3pNa0l4TkVJMVJrRkZNRUl5T0VFeE0wWkRSall5TkVKQ056VkRNRUZFTVRBM00wVkVNZyJ9.eyJodHRwczovL2FwaS5za2VkdWxvLmNvbS91c2VyX2lkIjoiYXV0aDB8MDAwMTVlM2QtMTA1My00OTdiLTkwYjAtNTVjOTc1NzBjMGZhIiwiaHR0cHM6Ly9hcGkuc2tlZHVsby5jb20vdmVuZG9yIjoic2tlZHVsbyIsImh0dHBzOi8vYXBpLnNrZWR1bG8uY29tL3VzZXJuYW1lIjoiZXhwZXJ0c2VydmljZXMrdGVzdDAxQHNrZWR1bG8uY29tIiwiaHR0cHM6Ly9hcGkuc2tlZHVsby5jb20vb3JnYW5pemF0aW9uX2lkIjoic2tfNmY5NzVlMzkyNmNmNGQ4NzlhNGJhNWMwNDIwMjU5NjQiLCJodHRwczovL2FwaS5za2VkdWxvLmNvbS9uYW1lIjoiZXhwZXJ0c2VydmljZXMrdGVzdDAxQHNrZWR1bG8uY29tIiwiaHR0cHM6Ly9hcGkuc2tlZHVsby5jb20vcmVzb3VyY2VfaWQiOiIwMDA1NjkxNy1mNmMzLTQ5NjEtODdjZi1iZDY5Y2YzYjc4ZWEiLCJodHRwczovL2FwaS5za2VkdWxvLmNvbS9yb2xlcyI6WyJyZXNvdXJjZSJdLCJodHRwczovL2FwaS5za2VkdWxvLmNvbS92ZW4iOnsidXNlcl9pZCI6IjAwMDE1ZTNkLTEwNTMtNDk3Yi05MGIwLTU1Yzk3NTcwYzBmYSJ9LCJpc3MiOiJodHRwczovL3NrZWR1bG8tcHJvZC1hdTEuYXUuYXV0aDAuY29tLyIsInN1YiI6ImF1dGgwfDAwMDE1ZTNkLTEwNTMtNDk3Yi05MGIwLTU1Yzk3NTcwYzBmYSIsImF1ZCI6WyJodHRwczovL2FwaS5hdS5za2VkdWxvLmNvbSIsImh0dHBzOi8vc2tlZHVsby1wcm9kLWF1MS5hdS5hdXRoMC5jb20vdXNlcmluZm8iXSwiaWF0IjoxNjU1MjU4NzkxLCJleHAiOjE2NTUzMDE5OTEsImF6cCI6ImU2eHN2MVpVcnZldVAwVENPdlRyQWllaWJ6WGZxV2N3Iiwic2NvcGUiOiJvcGVuaWQifQ.MZ6nFoKrNmZInuOJm6Mh3c9T1f-_taYCMIImufu7Qb0RFAza9auZLGJxRUyuKBlGR3mD54FFi3gmkR0pOkdPdYM_VaAeFF5iBzqQ5cE6BYv9CYgpSE2TruXFEMQTtbZRV49S18DFntl9wKnWw01fvNup3WHUArRjm2N77tkTuxgiw8F8N-Mcr_T0ZsTHsErWxN4bsCW3UF_E40ZBJPlo6oOR9VPgEOhu4j1F3jjXoq31FzsUrkL4wHkwCH3r9QgM3dallzeq_ZDem1alLcm1x31aXTJTnWjvfG_7pAEojq-gSRDsl8QMahmD2sPEQBlFdcI4kf584fExw2WihgJzug";
-  
-    const config = {
+    : constants.sessionToken;
+
+  const config = {
     headers: {
       Authorization: `Bearer ${token}`,
       ["Content-Type"]: `application/json`,
@@ -159,7 +172,7 @@ const Header: React.FC<IProps> = ({ onGobackFn }: IProps) => {
   const onSaveJob = async () => {
     const resourceId = resourceIds[0] as TimeRanges;
     const res = await axios.post(
-      "https://api.au.skedulo.com/pkgr/function/Unscheduled/WebHookFn/get-resource-available",
+      constants.API_GET_AVAILABLE_RESOURCE,
       {
         start: start,
         end: end,
@@ -170,7 +183,7 @@ const Header: React.FC<IProps> = ({ onGobackFn }: IProps) => {
       config
     );
 
-    if (res.status === 200) {
+    if (res.status === constants.SUCCESS_CODE) {
       const result = res.data.url.result;
 
       const resourceInfo = Object.values(result) as any;
@@ -217,6 +230,14 @@ const Header: React.FC<IProps> = ({ onGobackFn }: IProps) => {
     saveJobToDB();
   };
 
+  const onSaveSlot = () => {
+    onGoBackHandler();
+    dispatch(setTitle({ title: constant.TITLE_SCHEDULE_JOB }));
+    // dispatch(setEnableSave({isEnable: true}));
+  };
+  console.log('storeProps.isEnable :>> ', storeProps.isEnable);
+
+
   return (
     <header className="bar-title">
       <button className="btn transparent fl" onClick={() => onGoBackHandler()}>
@@ -230,10 +251,27 @@ const Header: React.FC<IProps> = ({ onGobackFn }: IProps) => {
       </div>
 
       {storeProps.view === constant.VIEW_SCHEDULE_JOB && (
-        <button className="btn transparent fr" onClick={storeProps.isEnable ? onSaveJob : (e) => e.preventDefault()}>
+        <button
+          className="btn transparent fr"
+          onClick={storeProps.isEnable ? onSaveJob : (e) => e.preventDefault()}
+        >
           <span
             className={`btn-save ${
               storeProps.isEnable ? "enable-btn" : "disable-btn"
+            }`}
+          >
+            Save
+          </span>
+        </button>
+      )}
+      {storeProps.view === constant.VIEW_SUGGESTED_TIMES && (
+        <button
+          className="btn transparent fr"
+          onClick={storeProps.isEnableSuggest ? onSaveSlot : (e) => e.preventDefault()}
+        >
+          <span
+            className={`btn-save ${
+              storeProps.isEnableSuggest ? "enable-btn" : "disable-btn"
             }`}
           >
             Save

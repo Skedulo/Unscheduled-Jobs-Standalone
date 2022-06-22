@@ -28,7 +28,6 @@ const MyJobs = () => {
   } = context;
   const [listJobs, setListJobs] = useState<Job[]>([]);
   const [showLoading, setShowLoading] = useState<boolean>(false);
-  let count = 0;
 
   useEffect(() => {
     const getJobs = () => {
@@ -64,16 +63,12 @@ const MyJobs = () => {
           }
           setShowLoading(false);
         }).catch((e: any) => {
-          if(count <= 3) {
-            window.errorGetJob = e;
-            console.log('e :>> ', e);
+          window.errorGetJob = e;
             getJobs();
-            count = count + 1;
-          }
         });
-    }
+    };
     getJobs();
-  }, [widgets.GraphQL, resourceIds, queryJob, setListJobs]);
+  }, [widgets.GraphQL, resourceIds, setListJobs, widgets, authData]);
   // view console in mobile
 
   return (

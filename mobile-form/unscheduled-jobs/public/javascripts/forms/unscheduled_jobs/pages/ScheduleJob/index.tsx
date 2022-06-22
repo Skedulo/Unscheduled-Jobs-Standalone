@@ -5,14 +5,14 @@ import CardCommon from "../../components/CardCommon";
 import RightIcon from "../../images/right.png";
 import "./styles.scss";
 import moment from "moment-timezone";
-import { setEnableSave, setSelectedItem } from "../../components/duck/action";
+import { setEnableSave, setSelectedItem, setTitle, constant, setView } from "../../components/duck/action";
+
 
 const ScheduleJob = () => {
   const dispatch = useDispatch();
   const storeProps = useSelector(({ reducer }: any) => {
     return {
       selectedItem: reducer.selectedItem,
-      
     };
   });
 
@@ -55,27 +55,27 @@ const ScheduleJob = () => {
       (StartBefore && moment(today).isSameOrBefore(startLocal) && moment(startLocal).isBefore(StartBefore));
 
     if(date == '' || time == '') {
-      dispatch(setEnableSave({isEnable: false}))
+      dispatch(setEnableSave({isEnable: false}));
     } else if (moment(startLocal).isBefore(today)) {
-      dispatch(setEnableSave({isEnable: false}))
+      dispatch(setEnableSave({isEnable: false}));
       setIsInvalid(true);
       setErrorMsg("Date and time must not be in the past");
     }
     else if(date !== "" && time !== "" && (!isValidStartAfter || !isValidEndBefore || !isValidStartBefore)) {
-      dispatch(setEnableSave({isEnable: false}))
+      dispatch(setEnableSave({isEnable: false}));
       setIsInvalid(true);
       setErrorMsg("Date and time must comply with Job Time Constraints");
     }
     else {
-      dispatch(setEnableSave({isEnable: true}))
+      dispatch(setEnableSave({isEnable: true}));
       setIsInvalid(false);
       setErrorMsg("");
       dispatch(
         setSelectedItem({
           selectedItem: {
             ...storeProps.selectedItem,
-            Start: (date && time) ? startLocal : "",
-            End: (date && time) ? endLocal : "",
+            Start: (date && time) ? startLocal : null,
+            End: (date && time) ? endLocal : null,
           },
         })
       );
@@ -87,6 +87,23 @@ const ScheduleJob = () => {
     storeProps.selectedItem.Duration,
   ]);
 
+  const onSeeSuggestedTime = () => {
+    dispatch(setTitle({
+      title: constant.TITLE_SUGGESTED_TIME
+    }));
+    dispatch(setView({
+      view: constant.VIEW_SUGGESTED_TIMES
+    }));
+  };
+
+  useEffect(() => {
+    if(storeProps.selectedItem.Start) {
+      setDate(moment(storeProps.selectedItem.Start).format("YYYY-MM-DD"));
+      setTime(moment(storeProps.selectedItem.Start).format("HH:mm"));
+    }
+   
+  }, [storeProps.selectedItem.Start]);
+  
   return (
     <>
       <div className="schedule-job">
@@ -145,7 +162,7 @@ const ScheduleJob = () => {
         </div>
         <div className="add-date-time footer-btn">
           <button className="suggest-btn" type="submit">
-            <div>See suggested times</div>
+            <div onClick={onSeeSuggestedTime}>See suggested times</div>
           </button>
         </div>
         <div className="page-note">
