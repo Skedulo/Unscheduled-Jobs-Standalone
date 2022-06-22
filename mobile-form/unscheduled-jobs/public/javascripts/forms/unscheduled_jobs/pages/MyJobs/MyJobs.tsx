@@ -69,7 +69,6 @@ const MyJobs = () => {
     };
     getJobs();
   }, [widgets.GraphQL, resourceIds, setListJobs, widgets, authData]);
-  // view console in mobile
 
   return (
     <div className="my-jobs">
