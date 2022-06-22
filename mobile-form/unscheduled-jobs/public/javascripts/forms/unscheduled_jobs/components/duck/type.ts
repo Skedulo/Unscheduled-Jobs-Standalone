@@ -44,7 +44,8 @@ export interface AppState {
   title: string,
   jobs: Job[],
   isEnable: boolean,
-  isEnableSuggest: boolean
+  isEnableSuggest: boolean,
+  slotSelected: any
 }
 
 export interface AppAction {

@@ -12,7 +12,8 @@ export default function reducer(state: AppState = {
   title: constant.TITLE_MY_JOBS,
   selectedItem: {},
   isEnable: false,
-  isEnableSuggest: false
+  isEnableSuggest: false,
+  slotSelected: {}
 }, action: AppAction): AppState {
   switch (action.type) {
     case constant.ACTION_INIT_DATA: {
@@ -63,6 +64,13 @@ export default function reducer(state: AppState = {
       return {
         ...state,
         isEnableSuggest: params.isEnableSuggest
+      };
+    }
+    case constant.ACTION_SET_SELECTED_SLOT: {
+      const { params } = action;
+      return {
+        ...state,
+        slotSelected: params.slotSelected
       };
     }
     case constant.ACTION_SAVE_DATA_TO_SALESFORCE: {

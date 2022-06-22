@@ -14,7 +14,8 @@ export const constant = {
   ACTION_SHOW_LOADDING: 'ACTION_SHOW_LOADDING',
   ACTION_SET_TITLE: 'ACTION_SET_TITLE',
   ACTION_SET_ENABLE_SAVE: 'ACTION_SET_ENABLE_SAVE',
-  ACTION_SET_ENABLE_SAVE_SLOT: 'ACTION_SET_ENABLE_SAVE_SLOT'
+  ACTION_SET_ENABLE_SAVE_SLOT: 'ACTION_SET_ENABLE_SAVE_SLOT',
+  ACTION_SET_SELECTED_SLOT: 'ACTION_SET_SELECTED_SLOT'
 
 };
 
@@ -27,3 +28,4 @@ export const saveDataToSf = createSimpleAction(constant.ACTION_SAVE_DATA_TO_SALE
 export const showLoading = createSimpleAction(constant.ACTION_SHOW_LOADDING);
 export const setEnableSave = createSimpleAction(constant.ACTION_SET_ENABLE_SAVE);
 export const setEnableSaveSlot = createSimpleAction(constant.ACTION_SET_ENABLE_SAVE_SLOT);
+export const setSlotSelected = createSimpleAction(constant.ACTION_SET_SELECTED_SLOT);

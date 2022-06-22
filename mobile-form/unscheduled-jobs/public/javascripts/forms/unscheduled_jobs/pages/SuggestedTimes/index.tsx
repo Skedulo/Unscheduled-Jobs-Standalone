@@ -7,7 +7,7 @@ import formContext from "../../formContext";
 import "./styles.scss";
 //@ts-ignore
 import CheckIcon from "../../images/Shape.png";
-import {  setEnableSaveSlot, setSelectedItem } from "../../components/duck/action";
+import {  setEnableSaveSlot, setSelectedItem, setSlotSelected } from "../../components/duck/action";
 import { isEmpty } from "lodash";
 
 interface GridInfo {
@@ -28,6 +28,7 @@ const SuggestedTimes = () => {
   const storeProps = useSelector(({ reducer }: any) => {
     return {
       selectedItem: reducer.selectedItem,
+      slotSelected: reducer.slotSelected
     };
   });
   const dispatch = useDispatch();
@@ -53,7 +54,9 @@ const SuggestedTimes = () => {
   const [gridSchedule, setGridSchedule] = useState({
     grid: [] as any,
   });
-  const [startTime, setStartTime] = useState(scheduleStart);
+  const [startTime, setStartTime] = useState(scheduleStart); 
+  const [count, setCount] = useState(0);
+
 
   const {JobTimeConstraints} = storeProps.selectedItem;
   const StartBefore = JobTimeConstraints[0]?.StartBefore;
@@ -117,7 +120,6 @@ return !StartAfter ||
     
     getGridSchedule();
   }, [resourceIds, storeProps.selectedItem.Duration, storeProps.selectedItem.GeoLatitude, storeProps.selectedItem.GeoLongitude, startTime, config]);
-  
   useEffect(()=> {
     console.log("gridSchedule.grid.length", gridSchedule.grid.length);
     if(gridSchedule.grid.length < 30){
@@ -136,7 +138,7 @@ return !StartAfter ||
   });
 
   function groupBy(objectArray: SlotInfo[], property: string) {
-    return objectArray.reduce(function (acc: SlotInfo, obj: SlotInfo) {
+    return objectArray.slice(0, 30).reduce(function (acc: SlotInfo, obj: SlotInfo) {
       let key = obj[property];
       if (!acc[key]) {
         acc[key] = [];
@@ -147,11 +149,7 @@ return !StartAfter ||
   }
   const newDateTimeArr = groupBy(dateTimeArr, "date");
 
-  const [selectedSlot, setSelectedSlot] = useState({
-    start: "",
-    end: "",
-    date: "",
-  });
+  const [selectedSlot, setSelectedSlot] = useState(storeProps.slotSelected ? storeProps.slotSelected : {start: "", end: "", date: ""});
 
   const selectSlot = (start: string, end: string, date: string, startOrigin: string, endOrigin: string) => {
   // console.log("🚀 ~ file: index.tsx ~ line 125 ~ selectSlot ~ start", start);
@@ -166,13 +164,26 @@ return !StartAfter ||
         },
       })
     );
+    dispatch(
+      setSlotSelected({
+        slotSelected: {
+          ...storeProps.slotSelected,
+          start: start,
+          end: end,
+          date: date
+        },
+      })
+    );
   };
 
   useEffect(() => {
-    if (selectedSlot.start) {
+    if (storeProps.slotSelected.start) {
       dispatch(setEnableSaveSlot({ isEnableSuggest: true }));
+    } else {
+      dispatch(setEnableSaveSlot({ isEnableSuggest: false }));
     }
-  }, [dispatch, selectedSlot.start]);
+  }, [dispatch, selectedSlot.start, storeProps.slotSelected.start]);
+  console.log('storeProps.slotSelected.start :>> ', storeProps.slotSelected.start);
 
   return (
     <>

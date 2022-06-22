@@ -4,7 +4,7 @@ import * as React from "react";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import formContext from "../../formContext";
-import { constant, setView, setTitle, setEnableSave } from "../duck/action";
+import { constant, setView, setTitle, setSlotSelected, setSelectedItem } from "../duck/action";
 import { Job } from "../duck/type";
 import "./styles.scss";
 import { queryJob, updateJobsMutation } from "../../query/index";
@@ -43,6 +43,7 @@ const Header: React.FC<IProps> = ({ onGobackFn }: IProps) => {
       selectedItem: reducer.selectedItem as Job,
       isEnable: reducer.isEnable as boolean,
       isEnableSuggest: reducer.isEnableSuggest as boolean,
+      slotSelected: reducer.slotSelected as any
     };
   });
 
@@ -57,8 +58,8 @@ const Header: React.FC<IProps> = ({ onGobackFn }: IProps) => {
     } else {
       switch (storeProps.view) {
         case constant.VIEW_SUGGESTED_TIMES:
-          dispatch(setTitle({ title: constant.TITLE_SCHEDULE_JOB }));
-          dispatch(setView({ view: constant.VIEW_SCHEDULE_JOB }));
+          dispatch(setTitle({ title: constant.TITLE_MY_JOBS }));
+          dispatch(setView({ view: constant.VIEW_HOME }));
           break;
         default:
           dispatch(setTitle({ title: constant.TITLE_MY_JOBS }));
@@ -66,7 +67,31 @@ const Header: React.FC<IProps> = ({ onGobackFn }: IProps) => {
           break;
       }
     }
-  }, [storeProps.view, dispatch, onGobackFn]);
+  }, [storeProps, onGobackFn, dispatch]);
+
+  const onSuggestedTimeBack = React.useCallback(() => {
+    dispatch(setTitle({ title: constant.TITLE_SCHEDULE_JOB }));
+          dispatch(setView({ view: constant.VIEW_SCHEDULE_JOB }));
+          dispatch(
+            setSlotSelected({
+              slotSelected: {
+                ...storeProps.slotSelected,
+                start: '',
+                end: '',
+                date: ''
+              },
+            })
+          );
+          dispatch(
+            setSelectedItem({
+              selectedItem: {
+                ...storeProps.selectedItem,
+                Start: null,
+                End: null
+              },
+            })
+          );
+  }, [storeProps, dispatch]);
 
   useEffect(() => {
     // register back button for andoid device
@@ -230,17 +255,17 @@ const Header: React.FC<IProps> = ({ onGobackFn }: IProps) => {
     saveJobToDB();
   };
 
-  const onSaveSlot = () => {
-    onGoBackHandler();
-    dispatch(setTitle({ title: constant.TITLE_SCHEDULE_JOB }));
-    // dispatch(setEnableSave({isEnable: true}));
-  };
-  console.log('storeProps.isEnable :>> ', storeProps.isEnable);
+  // const onSaveSlot = () => {
+  //   onGoBackHandler();
+  //   dispatch(setTitle({ title: constant.TITLE_SCHEDULE_JOB }));
+  //   // dispatch(setEnableSave({isEnable: true}));
+  // };
+  // console.log('storeProps.isEnable :>> ', storeProps.isEnable);
 
 
   return (
     <header className="bar-title">
-      <button className="btn transparent fl" onClick={() => onGoBackHandler()}>
+      <button className="btn transparent fl" onClick={storeProps.title === constant.TITLE_SUGGESTED_TIME ? onSuggestedTimeBack : onGoBackHandler}>
         <i className="sk sk-chevron-left color-white " />
       </button>
 
@@ -267,7 +292,7 @@ const Header: React.FC<IProps> = ({ onGobackFn }: IProps) => {
       {storeProps.view === constant.VIEW_SUGGESTED_TIMES && (
         <button
           className="btn transparent fr"
-          onClick={storeProps.isEnableSuggest ? onSaveSlot : (e) => e.preventDefault()}
+          onClick={storeProps.isEnableSuggest ? onSaveJob : (e) => e.preventDefault()}
         >
           <span
             className={`btn-save ${
