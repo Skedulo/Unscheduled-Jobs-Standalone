@@ -7,7 +7,6 @@ import "./styles.scss";
 import moment from "moment-timezone";
 import { setEnableSave, setSelectedItem, setTitle, constant, setView } from "../../components/duck/action";
 
-
 const ScheduleJob = () => {
   const dispatch = useDispatch();
   const storeProps = useSelector(({ reducer }: any) => {
@@ -94,6 +93,7 @@ const ScheduleJob = () => {
     dispatch(setView({
       view: constant.VIEW_SUGGESTED_TIMES
     }));
+   
   };
 
   useEffect(() => {
@@ -103,6 +103,8 @@ const ScheduleJob = () => {
     }
    
   }, [storeProps.selectedItem.Start]);
+
+  const isEnableSuggestBtn = (!date && !time) || (date && time);
   
   return (
     <>
@@ -161,8 +163,8 @@ const ScheduleJob = () => {
           </div>
         </div>
         <div className="add-date-time footer-btn">
-          <button className="suggest-btn" type="submit">
-            <div onClick={onSeeSuggestedTime}>See suggested times</div>
+          <button className={`suggest-btn ${isEnableSuggestBtn ? 'suggest-btn-enable' : 'suggest-btn-disabled' }`} type="submit" onClick={isEnableSuggestBtn ? onSeeSuggestedTime : (e)=> e.preventDefault()}>
+            See suggested times
           </button>
         </div>
         <div className="page-note">

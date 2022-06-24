@@ -1,6 +1,6 @@
 import axios from "axios";
 import moment from "moment";
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useMemo, useState, useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { constants } from "../../constants";
 import formContext from "../../formContext";
@@ -8,7 +8,8 @@ import "./styles.scss";
 //@ts-ignore
 import CheckIcon from "../../images/Shape.png";
 import {  setEnableSaveSlot, setSelectedItem, setSlotSelected } from "../../components/duck/action";
-import { isEmpty } from "lodash";
+import { isEmpty, isEqual } from "lodash";
+import { Loading } from "@skedulo/custom-form-controls/dist/controls";
 
 interface GridInfo {
   availableResources: string[];
@@ -23,7 +24,51 @@ interface SlotInfo {
   endOrigin: string
 }
 
+const useGetAvailableResource = (token: string, resourceId: string, startDate: string, endDate: string) => {
+  const config = useMemo(() => ({
+    headers: {
+      Authorization: `Bearer ${token}`,
+      ["Content-Type"]: `application/json`,
+    }}),[token]
+  );
+  
+  const [available, setAvailable] = useState<{start: string, end: string}[]>([]);
+  
+  const getAvailableResource = useCallback(async (startDate: string, endDate: string) => {
+    try {
+      const res = await axios.post(
+        constants.API_GET_AVAILABLE_RESOURCE,
+        {
+          start: startDate,
+          end: endDate,
+          resourceIds: [resourceId],
+          availability: true,
+          unavailability: true,
+        },
+        config
+      );
+      if (res.status === constants.SUCCESS_CODE) {
+        const result = res.data.url?.result;
+        const resourceInfo = Object.values(result) as any;
+        if (resourceInfo[0].available.length !== 0) {
+          setAvailable(resourceInfo[0].available);
+        } 
+        
+      }
+    } catch (error) {
+      console.log('error', error);
+    }
+  }, [config, resourceId]);
+  
+  useEffect(() => {
+    getAvailableResource(startDate, endDate);
+  },[getAvailableResource, startDate, endDate]);
+
+  return { available, refetch: getAvailableResource };
+};
+
 const SuggestedTimes = () => {
+  const [showLoading, setShowLoading] = useState(true);
   const context = React.useContext(formContext);
   const storeProps = useSelector(({ reducer }: any) => {
     return {
@@ -47,46 +92,51 @@ const SuggestedTimes = () => {
     }}),[token]
   );
 
-  const today =  moment().toISOString();
+  const selectedItemStart = storeProps.selectedItem.Start as string;
+  const currentDateStart = useMemo(()=>  selectedItemStart ? selectedItemStart : moment().startOf('day').toISOString(), [selectedItemStart]) ;
+  const currentDateEnd = useMemo(()=>  selectedItemStart ? moment(selectedItemStart).add(2, 'months').endOf('day').toISOString() : moment().add(2, 'months').endOf('day').toISOString(), [selectedItemStart]);
 
-  const scheduleStart = storeProps.selectedItem.Start ? storeProps.selectedItem.Start : moment().toISOString();
+  const { available, refetch } = useGetAvailableResource(token, resourceIds[0], currentDateStart, currentDateEnd); 
 
-  const [gridSchedule, setGridSchedule] = useState({
-    grid: [] as any,
-  });
-  const [startTime, setStartTime] = useState(scheduleStart); 
+  const today = useMemo(() => moment().toISOString(), []);
+  const todayFormated = moment().format("dddd, MMMM DD");
+
+  const [gridSchedule, setGridSchedule] = useState([] as any);
   const [count, setCount] = useState(0);
 
 
-  const {JobTimeConstraints} = storeProps.selectedItem;
+  const { JobTimeConstraints } = storeProps.selectedItem;
   const StartBefore = JobTimeConstraints[0]?.StartBefore;
   const EndBefore = JobTimeConstraints[0]?.EndBefore;
   const StartAfter = JobTimeConstraints[0]?.StartAfter;
 
     //selectDate > StartAfter
-    const isValidStartAfter = (scheduleStart: string) => {
-return !StartAfter ||
-(StartAfter && moment(scheduleStart).isAfter(StartAfter));
-    };
-    
-  //selectDate < EndBefore
-  const isValidEndBefore = (scheduleStart: string) => {
-    return  !EndBefore || (EndBefore && moment(scheduleStart).isBefore(EndBefore));
-  };
+    const isValidStartAfter = useCallback((scheduleStart: string) => {
+      return !StartAfter ||
+      (StartAfter && moment(scheduleStart).isAfter(StartAfter));
+    }, [StartAfter]);
 
-  const isValidStartBefore = (scheduleStart: string) => {
-    return !StartBefore ||
+    const isValidEndBefore = useCallback((scheduleStart: string) => {
+      return  !EndBefore || (EndBefore && moment(scheduleStart).isBefore(EndBefore));
+    }, [EndBefore]);
+
+    const isValidStartBefore = useCallback((scheduleStart: string) => {
+      return !StartBefore ||
     (StartBefore && moment(today).isSameOrBefore(scheduleStart) && moment(scheduleStart).isBefore(StartBefore));
-  };
+    }, [StartBefore, today]);
 
+    const isNotInPast = useCallback((scheduleStart: string) => {
+      return moment(today).isBefore(scheduleStart);
+    }, [today]);
+  
   useEffect(() => {
-    async function getGridSchedule () {
+    async function getGridSchedule() {
       try {
         const res = await axios.post(
           constants.API_GET_GRID_SCHEDULE,
           {
-            scheduleStart: startTime,
-            scheduleEnd: moment(startTime).add(7, "days").toISOString(),
+            scheduleStart: available[count]?.start || '',
+            scheduleEnd: available[count]?.end || '', 
             resourceIds: [resourceIds[0]],
             job: {
               location: {
@@ -104,30 +154,29 @@ return !StartAfter ||
           }
           );
           const matchJCTResult = validResult.filter((item: any) => {
-            return  isValidStartAfter(item.start) && isValidStartBefore(item.start) && isValidEndBefore(item.start);
+            return isValidStartAfter(item.start) && isValidStartBefore(item.start) && isValidEndBefore(item.start) && isNotInPast(item.start);
           });
-          setGridSchedule((prevState) => {
-            const newGrid = [...prevState.grid, ...matchJCTResult];
-            return ({
-              grid: newGrid,
-            });
+          
+          setGridSchedule((prev: any) => {
+            if([...prev, ...matchJCTResult].length < 30){
+              setCount(prev => prev + 1);
+            }
+            setShowLoading(false);
+            return [...prev, ...matchJCTResult];
           });
+
         }
       } catch (error) {
         console.log("error :>> ", error);
       }
     }
     
-    getGridSchedule();
-  }, [resourceIds, storeProps.selectedItem.Duration, storeProps.selectedItem.GeoLatitude, storeProps.selectedItem.GeoLongitude, startTime, config]);
-  useEffect(()=> {
-    console.log("gridSchedule.grid.length", gridSchedule.grid.length);
-    if(gridSchedule.grid.length < 30){
-      setStartTime((prevStartTime: string) => moment(prevStartTime).add(7, "days").toISOString());
-    }
-  }, [gridSchedule.grid.length]);
+    if (available.length !== 0 && available[count]) {
+      getGridSchedule();
+    } 
+  }, [available, config, count, isNotInPast, isValidEndBefore, isValidStartAfter, isValidStartBefore, resourceIds, storeProps.selectedItem.GeoLatitude, storeProps.selectedItem.GeoLongitude, storeProps.selectedItem.Duration]);
 
-  const dateTimeArr = gridSchedule.grid.map((item: GridInfo) => {
+  const dateTimeArr = gridSchedule.map((item: GridInfo) => {
     return {
       start: moment(item.start).format("HH:mma"),
       end: moment(item.end).format("HH:mma"),
@@ -152,9 +201,7 @@ return !StartAfter ||
   const [selectedSlot, setSelectedSlot] = useState(storeProps.slotSelected ? storeProps.slotSelected : {start: "", end: "", date: ""});
 
   const selectSlot = (start: string, end: string, date: string, startOrigin: string, endOrigin: string) => {
-  // console.log("🚀 ~ file: index.tsx ~ line 125 ~ selectSlot ~ start", start);
     setSelectedSlot({ start: start, end: end, date: date });
-    // console.log('start :>> ', moment(date + start, "YYYY-MM-DD HH:mm").toISOString());
     dispatch(
       setSelectedItem({
         selectedItem: {
@@ -177,24 +224,24 @@ return !StartAfter ||
   };
 
   useEffect(() => {
-    if (storeProps.slotSelected.start) {
+    if (storeProps.slotSelected?.start) {
       dispatch(setEnableSaveSlot({ isEnableSuggest: true }));
     } else {
       dispatch(setEnableSaveSlot({ isEnableSuggest: false }));
     }
-  }, [dispatch, selectedSlot.start, storeProps.slotSelected.start]);
-  console.log('storeProps.slotSelected.start :>> ', storeProps.slotSelected.start);
+  }, [dispatch, selectedSlot.start, storeProps.slotSelected?.start]);
+
 
   return (
     <>
-    {isEmpty(newDateTimeArr) ? <div className="empty-list">
+    {showLoading ? <Loading loading={showLoading} /> : (isEmpty(newDateTimeArr) ? <div className="empty-list">
         <div className='empty-msg'>There is no availability matching the Job requirements</div>
 
         </div> : <div className="suggest-list">{React.Children.toArray(Object.entries(newDateTimeArr).map(
         ([key, value]: [string, SlotInfo[]]) => {
           return (
             <div className="suggest-item">
-              <div className="suggest-item-title">{key}</div>
+              <div className="suggest-item-title">{isEqual(todayFormated, key) ? "Today" : key}</div>
               {React.Children.toArray(value.map((item: SlotInfo) => (
                 <div
                   className="suggest-item-time"
@@ -213,7 +260,8 @@ return !StartAfter ||
             </div>
           );
         }
-      ))} </div>}
+      ))} </div>)}
+   
     </>   
   );
 };

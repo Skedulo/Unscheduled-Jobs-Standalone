@@ -47,7 +47,6 @@ const Header: React.FC<IProps> = ({ onGobackFn }: IProps) => {
     };
   });
 
-  console.log('st :>> ', storeProps.selectedItem);
   const onGoBackHandler = React.useCallback(() => {
     if (!storeProps.view) {
       onGobackFn();
@@ -254,13 +253,6 @@ const Header: React.FC<IProps> = ({ onGobackFn }: IProps) => {
   const onSave = () => {
     saveJobToDB();
   };
-
-  // const onSaveSlot = () => {
-  //   onGoBackHandler();
-  //   dispatch(setTitle({ title: constant.TITLE_SCHEDULE_JOB }));
-  //   // dispatch(setEnableSave({isEnable: true}));
-  // };
-  // console.log('storeProps.isEnable :>> ', storeProps.isEnable);
 
 
   return (

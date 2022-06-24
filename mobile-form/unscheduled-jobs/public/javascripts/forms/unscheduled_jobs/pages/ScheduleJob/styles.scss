@@ -28,6 +28,9 @@
       @include bold-text;
       border-radius: $btn-radius;
       -webkit-appearance: none;
+      &-disabled {
+        opacity: 0.4;
+      }
     }
   }
   .page-note {
