@@ -193,10 +193,11 @@ const Header: React.FC<IProps> = ({ onGobackFn }: IProps) => {
     },
   };
 
+  const API_GET_AVAILABLE_RESOURCE = `${constants.API_ROOT}/${constants.API_GET_AVAILABLE_RESOURCE}`;
   const onSaveJob = async () => {
     const resourceId = resourceIds[0] as TimeRanges;
     const res = await axios.post(
-      constants.API_GET_AVAILABLE_RESOURCE,
+      API_GET_AVAILABLE_RESOURCE,
       {
         start: start,
         end: end,
@@ -234,13 +235,11 @@ const Header: React.FC<IProps> = ({ onGobackFn }: IProps) => {
         },
       });
 
-      const newArr = jobs.filter(
-        (item: any) =>
-          item.Region.Name == `${resourceRegion}` &&
-          item.JobAllocations.every(
-            (ja: any) => ja.ResourceId == `${resourceId}`
-          )
-      );
+    const newArr = jobs.filter(function (element: Job) {
+      return element.JobAllocations.some( function (subElement: any) {
+          return subElement.ResourceId === resourceId && element.Region.Name == resourceRegion;
+      });
+  });
 
       if (!isEmpty(availableSlot) && isEmpty(newArr)) {
         saveJobToDB();
@@ -271,6 +270,7 @@ const Header: React.FC<IProps> = ({ onGobackFn }: IProps) => {
         <button
           className="btn transparent fr"
           onClick={storeProps.isEnable ? onSaveJob : (e) => e.preventDefault()}
+          
         >
           <span
             className={`btn-save ${
