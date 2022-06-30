@@ -1,7 +1,9 @@
+@import "stylesheets/sass/components/_variables";
+
 .tag-label {
   font-weight: 600;
-  font-size: 12px;
-  line-height: 14px;
+  font-size: $space_12;
+  line-height: $space_14;
   text-transform: uppercase;
   border-radius: 3px;
   padding: 4px 6px;
@@ -9,7 +11,7 @@
   flex-grow: 0;
 }
 .job-status {
-  background: #e5e7ee;
+  background: $color_navy_75;
 }
 .urgency {
   border: 1px solid #fcd2b0;

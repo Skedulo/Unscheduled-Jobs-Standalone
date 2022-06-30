@@ -1,20 +1,21 @@
 import { controls } from "@skedulo/custom-form-controls";
 import axios from "axios";
-import * as React from "react";
+import React, { useCallback } from "react";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import formContext from "../../formContext";
-import { constant, setView, setTitle, setSlotSelected, setSelectedItem } from "../duck/action";
-import { Job } from "../duck/type";
-import "./styles.scss";
-import { queryJob, updateJobsMutation } from "../../query/index";
 import moment from "moment-timezone";
 import { isEmpty } from "lodash";
 import { toast, ToastContainer } from "react-toastify";
+
+import formContext from "../../formContext";
+import { constant, setView, setTitle, setSlotSelected, setSelectedItem } from "../duck/action";
+import { Job } from "../duck/type";
+import { queryJob, updateJobsMutation } from "../../query/index";
+import { constants } from "../../constants";
 //@ts-ignore
 import SuccessIcon from "../../images/Union.svg";
 import "react-toastify/dist/ReactToastify.min.css";
-import { constants } from "../../constants";
+import "./styles.scss";
 
 const { PopUp } = controls;
 interface IProps {
@@ -136,7 +137,7 @@ const Header: React.FC<IProps> = ({ onGobackFn }: IProps) => {
   );
 
   const [titleHeader, setTitleHeader] = useState("");
-  const displayTitle = () => {
+  const displayTitle = useCallback(() => {
     switch (storeProps.title) {
       case constant.TITLE_SUGGESTED_TIME:
         setTitleHeader("Suggested times");
@@ -148,11 +149,11 @@ const Header: React.FC<IProps> = ({ onGobackFn }: IProps) => {
         setTitleHeader("Unscheduled work");
         break;
     }
-  };
+  }, [storeProps.title]) ;
 
   useEffect(() => {
     displayTitle();
-  }, [storeProps.title]);
+  }, [displayTitle]);
 
   const start = storeProps.selectedItem.Start;
   const end = storeProps.selectedItem.End;

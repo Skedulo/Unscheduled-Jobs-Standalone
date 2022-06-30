@@ -17,9 +17,7 @@
         pointer-events: none;
         touch-action: none;
     }
-
 }
-
 .text-popup {
     @include normal-text-gray;
 }
@@ -27,7 +25,7 @@
 .content-msg {
     display: flex;
     gap: 16px;
-    font-size: 14px;
+    font-size: $font-size-h4;
     line-height: 16px;
     font-weight: 500;
 }
@@ -58,8 +56,8 @@
     
     /** Classes for the displayed toast **/
     .Toastify__toast {
-        background-color: #03AA55;
-        color: #fff;
+        background-color: $color_green;
+        color: $button-default-bg;
     }
     .Toastify__toast--rtl {
     }
@@ -71,7 +69,7 @@
     /** Used to position the icon **/
     .Toastify__toast-icon {
         svg {
-            fill: #03AA55
+            fill: $color_green;
         }
        
     }
@@ -80,7 +78,7 @@
     .Toastify__toast-theme--dark {
     }
     .Toastify__toast-theme--light {
-        background: #03AA55;
+        background: $color_green;
         color: #fff;
         min-height: unset;
         padding: 16px;
@@ -92,7 +90,7 @@
     .Toastify__toast-theme--colored.Toastify__toast--info {
     }
     .Toastify__toast-theme--colored.Toastify__toast--success {
-        background-color: #03AA55;
+        background-color: $color_green;
     }
     .Toastify__toast-theme--colored.Toastify__toast--warning {
     }

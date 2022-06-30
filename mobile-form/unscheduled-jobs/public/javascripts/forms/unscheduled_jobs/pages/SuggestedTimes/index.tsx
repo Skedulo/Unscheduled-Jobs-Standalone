@@ -74,7 +74,7 @@ const useGetAvailableResource = (
         console.log("error", error);
       }
     },
-    [config, resourceId]
+    [API_GET_AVAILABLE_RESOURCE, config, resourceId]
   );
 
   useEffect(() => {
@@ -85,15 +85,14 @@ const useGetAvailableResource = (
 };
 
 const SuggestedTimes = () => {
-  const [showLoading, setShowLoading] = useState(true);
   const context = React.useContext(formContext);
+  const dispatch = useDispatch();
   const storeProps = useSelector(({ reducer }: any) => {
     return {
       selectedItem: reducer.selectedItem,
       slotSelected: reducer.slotSelected,
     };
   });
-  const dispatch = useDispatch();
   const {
     common,
     main: { resourceIds },
@@ -105,7 +104,6 @@ const SuggestedTimes = () => {
         : constants.sessionToken,
     [common.authData.skeduloAccess.token]
   );
-
   const config = useMemo(
     () => ({
       headers: {
@@ -115,6 +113,7 @@ const SuggestedTimes = () => {
     }),
     [token]
   );
+  const [showLoading, setShowLoading] = useState(true);
 
   const selectedItemStart = storeProps.selectedItem.Start as string;
   const currentDateStart = useMemo(
@@ -132,7 +131,7 @@ const SuggestedTimes = () => {
     [selectedItemStart]
   );
 
-  const { available, refetch } = useGetAvailableResource(
+  const { available } = useGetAvailableResource(
     token,
     resourceIds[0],
     currentDateStart,
@@ -246,20 +245,7 @@ const SuggestedTimes = () => {
     if (available.length !== 0 && available[count]) {
       getGridSchedule();
     }
-  }, [
-    available,
-    config,
-    count,
-    isNotInPast,
-    isValidEndBefore,
-    isValidStartAfter,
-    isValidStartBefore,
-    resourceIds,
-    storeProps.selectedItem.GeoLatitude,
-    storeProps.selectedItem.GeoLongitude,
-    storeProps.selectedItem.Duration,
-    getAvailableCountStart
-  ]);
+  }, [available, config, count, isNotInPast, isValidEndBefore, isValidStartAfter, isValidStartBefore, resourceIds, storeProps.selectedItem.GeoLatitude, storeProps.selectedItem.GeoLongitude, storeProps.selectedItem.Duration, getAvailableCountStart, API_GET_GRID_SCHEDULE]);
 
 
   const dateTimeArr = gridSchedule.map((item: GridInfo) => {

@@ -6,6 +6,7 @@ import RightIcon from "../../images/right.png";
 import "./styles.scss";
 import moment from "moment-timezone";
 import { setEnableSave, setSelectedItem, setTitle, constant, setView } from "../../components/duck/action";
+import { constants } from "../../constants";
 
 const ScheduleJob = () => {
   const dispatch = useDispatch();
@@ -17,27 +18,25 @@ const ScheduleJob = () => {
 
   const [date, setDate] = useState("");
   const [time, setTime] = useState("");
-
-  const onDateChange = (val: any) => {
-    setDate(val);
-  };
-
-  const onTimeChange = (val: any) => {
-    setTime(val);
-  };
-
   const [isInValid, setIsInvalid] = useState(false);
   const [errorMsg, setErrorMsg] = useState("");
 
+  const onDateChange = (val: string) => {
+    setDate(val);
+  };
+
+  const onTimeChange = (val: string) => {
+    setTime(val);
+  };
+
   useEffect(() => {
     const { JobTimeConstraints, Duration} = storeProps.selectedItem;
-
     const StartBefore = JobTimeConstraints[0]?.StartBefore;
     const EndBefore = JobTimeConstraints[0]?.EndBefore;
     const StartAfter = JobTimeConstraints[0]?.StartAfter;
 
-    const startLocal = moment(date + time, "YYYY-MM-DD HH:mm").toISOString();
-    const endLocal = moment(date + time, "YYYY-MM-DD HH:mm").add(Duration, 'minutes').toISOString();
+    const startLocal = moment(date + time, constants.DATE_TIME_FORMAT).toISOString();
+    const endLocal = moment(date + time, constants.DATE_TIME_FORMAT).add(Duration, 'minutes').toISOString();
 
     const today = moment().toISOString();
 
@@ -93,13 +92,12 @@ const ScheduleJob = () => {
     dispatch(setView({
       view: constant.VIEW_SUGGESTED_TIMES
     }));
-   
   };
 
   useEffect(() => {
     if(storeProps.selectedItem.Start) {
-      setDate(moment(storeProps.selectedItem.Start).format("YYYY-MM-DD"));
-      setTime(moment(storeProps.selectedItem.Start).format("HH:mm"));
+      setDate(moment(storeProps.selectedItem.Start).format(constants.DATE_FORMAT));
+      setTime(moment(storeProps.selectedItem.Start).format(constants.TIME_FORMAT));
     }
    
   }, [storeProps.selectedItem.Start]);
@@ -116,7 +114,6 @@ const ScheduleJob = () => {
           <div className="title">Add date/time</div>
           <div className="select-item">
             <div className="label-item">Date</div>
-           
             <div className="input-wrapper">
               <div className={`select-label ${date !== "" ? "hide" : "show"}`}>
                 <label htmlFor="" className="placeholder">
@@ -163,7 +160,7 @@ const ScheduleJob = () => {
           </div>
         </div>
         <div className="add-date-time footer-btn">
-          <button className={`suggest-btn ${isEnableSuggestBtn ? 'suggest-btn-enable' : 'suggest-btn-disabled' }`} type="submit" onClick={isEnableSuggestBtn ? onSeeSuggestedTime : (e)=> e.preventDefault()}>
+          <button className={`suggest-btn ${isEnableSuggestBtn ? 'suggest-btn-enable' : 'suggest-btn-disabled' }`} type="submit" disabled={!isEnableSuggestBtn}>
             See suggested times
           </button>
         </div>

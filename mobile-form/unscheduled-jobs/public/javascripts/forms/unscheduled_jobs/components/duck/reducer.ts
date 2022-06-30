@@ -17,7 +17,7 @@ export default function reducer(state: AppState = {
 }, action: AppAction): AppState {
   switch (action.type) {
     case constant.ACTION_INIT_DATA: {
-      const { main, common, saveFn, widgets, deviceCache, liveDataService, title } = action.params;
+      const { main, common, saveFn } = action.params;
       const jobs = main.jobs;
       return {
         ...state, main, common, saveFn,
@@ -72,21 +72,6 @@ export default function reducer(state: AppState = {
         ...state,
         slotSelected: params.slotSelected
       };
-    }
-    case constant.ACTION_SAVE_DATA_TO_SALESFORCE: {
-
-      // const changeSet = state.supportNotes.changeSet();
-      state.saveFn({
-        jobId: state.main.jobId,
-      }, {
-        // jobId: state.main.jobId,
-        // job: state.main.job,
-        // contact: state.main.contact,
-        // supportNotes: state.supportNotes.listAll(),
-        // attachment: state.main.attachment
-      }, false, true);
-
-      return { ...state };
     }
   }
 

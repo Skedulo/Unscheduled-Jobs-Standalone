@@ -1,6 +1,7 @@
 import { getTimeValue } from "@skedulo/custom-form-controls/dist/helper";
 import React from "react";
 import { useDispatch } from "react-redux";
+
 import CardCommon from "../CardCommon";
 import { constant, setSelectedItem, setTitle, setView } from "../duck/action";
 import { Job } from "../duck/type";

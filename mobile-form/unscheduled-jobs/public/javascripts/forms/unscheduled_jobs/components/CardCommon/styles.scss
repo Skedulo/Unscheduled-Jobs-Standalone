@@ -11,12 +11,12 @@
   }
   .normal-text {
     @include normal-text-gray;
-    font-weight: 400;
+    font-weight: $weight-400;
   }
 
   .duration {
     @include normal-text-gray;
-    font-weight: 500;
+    font-weight: $weight-500;
   }
   .tag-label-wrapper {
     display: flex;

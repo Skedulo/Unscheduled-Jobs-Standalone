@@ -31,8 +31,6 @@ const MyJobs = () => {
 
   useEffect(() => {
     const getJobs = () => {
-      window.widgetss=widgets;
-      window.authData = authData;
       setShowLoading(true);
        widgets.GraphQL({
           query: queryJob,
@@ -42,7 +40,6 @@ const MyJobs = () => {
           },
         })
         .then(({ jobs }: any) => {
-          window.jobs=jobs;
           const filteredJob = jobs.filter(function (element: Job) {
             return element.JobAllocations.some(function (subElement: {
               ResourceId: string;

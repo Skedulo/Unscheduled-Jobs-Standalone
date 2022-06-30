@@ -2,7 +2,7 @@
 @import "../../../../../stylesheets/sass/components/variables";
 
 .job-card {
-  background: #ffffff;
+  background: $page-header-color;
   box-shadow: $card-shadow;
   border-radius: $item-radius;
   margin-bottom: $space_12;

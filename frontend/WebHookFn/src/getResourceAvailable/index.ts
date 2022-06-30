@@ -21,15 +21,7 @@ export const handler = async (body: { [K: string]: any }, headers: any) => {
     })
     .catch(async (error) => {
       const errorDetails = error?.response?.data
-
       return errorDetails
     })
 
-}
-
-interface RequestData {
-  moduleID: string
-  groupID: string
-  externalUserID: string
-  apiKey: string
 }
