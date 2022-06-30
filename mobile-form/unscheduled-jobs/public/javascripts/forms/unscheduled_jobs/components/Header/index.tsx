@@ -270,7 +270,8 @@ const Header: React.FC<IProps> = ({ onGobackFn }: IProps) => {
       {storeProps.view === constant.VIEW_SCHEDULE_JOB && (
         <button
           className="btn transparent fr"
-          onClick={storeProps.isEnable ? onSaveJob : (e) => e.preventDefault()}
+          disabled={!storeProps.isEnable}
+          onClick={onSaveJob}
           
         >
           <span
@@ -285,7 +286,8 @@ const Header: React.FC<IProps> = ({ onGobackFn }: IProps) => {
       {storeProps.view === constant.VIEW_SUGGESTED_TIMES && (
         <button
           className="btn transparent fr"
-          onClick={storeProps.isEnableSuggest ? onSaveJob : (e) => e.preventDefault()}
+          disabled={!storeProps.isEnableSuggest}
+          onClick={onSaveJob}
         >
           <span
             className={`btn-save ${

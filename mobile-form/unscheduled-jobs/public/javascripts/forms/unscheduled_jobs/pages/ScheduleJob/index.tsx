@@ -54,12 +54,13 @@ const ScheduleJob = () => {
 
     if(date == '' || time == '') {
       dispatch(setEnableSave({isEnable: false}));
-    } else if (moment(startLocal).isBefore(today)) {
+    } else if
+     (moment(startLocal).isBefore(today)) {
       dispatch(setEnableSave({isEnable: false}));
       setIsInvalid(true);
       setErrorMsg("Date and time must not be in the past");
     }
-    else if(date !== "" && time !== "" && (!isValidStartAfter || !isValidEndBefore || !isValidStartBefore)) {
+    else if((date !== '' && time !== '') && !isValidStartAfter || !isValidEndBefore || !isValidStartBefore) {
       dispatch(setEnableSave({isEnable: false}));
       setIsInvalid(true);
       setErrorMsg("Date and time must comply with Job Time Constraints");
@@ -83,6 +84,8 @@ const ScheduleJob = () => {
     time,
     storeProps.selectedItem.JobTimeConstraints,
     storeProps.selectedItem.Duration,
+    dispatch,
+    storeProps.selectedItem
   ]);
 
   const onSeeSuggestedTime = () => {

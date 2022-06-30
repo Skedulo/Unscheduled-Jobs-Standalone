@@ -29,26 +29,15 @@ interface SlotInfo {
 }
 
 const useGetAvailableResource = (
-  token: string,
+  config: any,
   resourceId: string,
   startDate: string,
   endDate: string
 ) => {
-  const config = useMemo(
-    () => ({
-      headers: {
-        Authorization: `Bearer ${token}`,
-        ["Content-Type"]: `application/json`,
-      },
-    }),
-    [token]
-  );
   const API_GET_AVAILABLE_RESOURCE = `${constants.API_ROOT}/${constants.API_GET_AVAILABLE_RESOURCE}`;
-
   const [available, setAvailable] = useState<{ start: string; end: string }[]>(
     []
   );
-
   const getAvailableResource = useCallback(
     async (startDate: string, endDate: string) => {
       try {
@@ -132,7 +121,7 @@ const SuggestedTimes = () => {
   );
 
   const { available } = useGetAvailableResource(
-    token,
+    config,
     resourceIds[0],
     currentDateStart,
     currentDateEnd
@@ -364,7 +353,7 @@ const SuggestedTimes = () => {
                 );
               }
             )
-          )}{" "}
+          )}
         </div>
       )}
     </>
