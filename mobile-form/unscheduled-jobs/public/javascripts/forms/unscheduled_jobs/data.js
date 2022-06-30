@@ -1,16 +1,9 @@
 import { helper } from "@skedulo/custom-form-controls";
 const { DataHelper } = helper;
 import _ from "lodash";
-import { buildAvailableTemplate } from "./helper/availableTemplateHelper";
+import { updateJobsMutation } from "../unscheduled_jobs/query/index";
 
-import {
-  queryActivities,
-  queryJob,
-  queryJobAllocations,
-  queryResourceInfor,
-  queryAvailabilities,
-  queryAvailabilitiesTemplate,
-} from "./query";
+import { queryResourceInfor } from "./query";
 
 if (!global || !global._babelPolyfill) {
   require("babel-polyfill");
@@ -20,14 +13,20 @@ export default wrapper;
 
 function wrapper(httpLibs, utils) {
   const dataHelper = new DataHelper(httpLibs, utils);
+
   const graphiQl = dataHelper.getGraphiQlInstance();
 
   async function fetch(resourceIds) {
     // token to query online
-    const authData = dataHelper.getSkeduloToken();
-
-    // query
-    const { resourceId } = await dataHelper.getUsermetadata();
+    const authData = dataHelper.getSkeduloToken()
+      ? dataHelper.getSkeduloToken()
+      : {
+          skeduloAccess: {
+            instance: "http://prod-elasticserver.prod.svc.cluster.local",
+            token:
+              "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6Ik5Ua3pNa0l4TkVJMVJrRkZNRUl5T0VFeE0wWkRSall5TkVKQ056VkRNRUZFTVRBM00wVkVNZyJ9.eyJodHRwczovL2FwaS5za2VkdWxvLmNvbS91c2VyX2lkIjoiYXV0aDB8MDAwMTRmZjgtNjQ4Mi00ZDZiLWE1NTUtZjU5NTkwZTc5MTk2IiwiaHR0cHM6Ly9hcGkuc2tlZHVsby5jb20vdmVuZG9yIjoic2tlZHVsbyIsImh0dHBzOi8vYXBpLnNrZWR1bG8uY29tL3VzZXJuYW1lIjoiZXhwZXJ0c2VydmljZXMrdGVzdDAyQHNrZWR1bG8uY29tIiwiaHR0cHM6Ly9hcGkuc2tlZHVsby5jb20vb3JnYW5pemF0aW9uX2lkIjoic2tfNmY5NzVlMzkyNmNmNGQ4NzlhNGJhNWMwNDIwMjU5NjQiLCJodHRwczovL2FwaS5za2VkdWxvLmNvbS9uYW1lIjoiZXhwZXJ0c2VydmljZXMrdGVzdDAyQHNrZWR1bG8uY29tIiwiaHR0cHM6Ly9hcGkuc2tlZHVsby5jb20vcmVzb3VyY2VfaWQiOiIwMDA1ZjllNy0yZjRkLTQxODItYmI5Mi1iOGJjZjdkM2ZkZGMiLCJodHRwczovL2FwaS5za2VkdWxvLmNvbS9yb2xlcyI6WyJyZXNvdXJjZSJdLCJodHRwczovL2FwaS5za2VkdWxvLmNvbS92ZW4iOnsidXNlcl9pZCI6IjAwMDE0ZmY4LTY0ODItNGQ2Yi1hNTU1LWY1OTU5MGU3OTE5NiJ9LCJpc3MiOiJodHRwczovL3NrZWR1bG8tcHJvZC1hdTEuYXUuYXV0aDAuY29tLyIsInN1YiI6ImF1dGgwfDAwMDE0ZmY4LTY0ODItNGQ2Yi1hNTU1LWY1OTU5MGU3OTE5NiIsImF1ZCI6WyJodHRwczovL2FwaS5hdS5za2VkdWxvLmNvbSIsImh0dHBzOi8vc2tlZHVsby1wcm9kLWF1MS5hdS5hdXRoMC5jb20vdXNlcmluZm8iXSwiaWF0IjoxNjU2NTYwOTE0LCJleHAiOjE2NTY2MDQxMTQsImF6cCI6ImU2eHN2MVpVcnZldVAwVENPdlRyQWllaWJ6WGZxV2N3Iiwic2NvcGUiOiJvcGVuaWQifQ.OT3OW2Oaf3lVSCOsSpnSu8LiVchaLnG8k_keM_Tw9BOQWD2CnpUn71OBEiNo1eeZJ3Fer0YdNttvs6Izik7GUMt7w-nJsJQkdAJu1xr-bc0HEq5lLneEHBYtIF2xiQ07Y_Ys_OSTVO22FuuG5dnNj26Xt5Ty1QM9AM0J0jufmme8lyQ-w-q8cfG-F9dONYZdRjH4RuMvELomWpvmsxOxwOX6i2uRQlr_POlODh7Gmyg94TetSr1F7xE1AvsGYVujicw4rV7aUvT-x9eM4AxkHrvLQpPUlvzPLlxSDj5ksHpJhqu9suFI5jrAV1sv3_bRxKhrAMgX-ZAuwFVPTPeBuQ",
+          },
+        };
 
     const { resources } = await graphiQl
       .query(queryResourceInfor, {
@@ -35,95 +34,25 @@ function wrapper(httpLibs, utils) {
       })
       .catch((e) => console.log("Fetch resources error: ", e));
 
-    const { jobs } = await graphiQl
-      .query(queryJob, {
-        filterJob: `Start == null AND JobStatus != 'Cancelled' AND Locked == false`,
-        orderBy: "CreatedDate DESC"
-      })
-      .catch((e) => console.log("Fetch job error: ", e));
-
-    const { activities } = await graphiQl
-      .query(queryActivities, {
-        filterActivities: `ResourceId == '${resourceIds[0]}'`,
-      })
-      .catch((e) => console.log("Fetch activities error: ", e));
-
-    const { jobAllocations } = await graphiQl
-      .query(queryJobAllocations, {
-        filterJA: `ResourceId == '${resourceIds[0]}'`,
-      })
-      .catch((e) => console.log("Fetch jobAllocations error: ", e));
-
-    const { availabilities: unavailabilities } = await graphiQl
-      .query(queryAvailabilities, {
-        filterAvailabilities: `ResourceId == '${resourceIds[0]}' AND
-                                IsAvailable == false`,
-      })
-      .catch((e) => console.log("Fetch availabilities error: ", e));
-
-    const { availabilityTemplates } = await graphiQl
-      .query(queryAvailabilitiesTemplate)
-      .catch((e) => console.log("Fetch Availabilities Template error: ", e));
-
-    const availabilityTemplatesResources = availabilityTemplates.filter(
-      (item) => {
-        for (let i = 0; i < item.Resources.length; i++) {
-          if (item.Resources[i].ResourceId === resourceIds[0]) return true;
-        }
-        return false;
-      }
-    );
-
-    // create an array contains unavailability values
-    const unAvailabilityTimes = [];
-
-    activities.forEach((item) =>
-      unAvailabilityTimes.push({ start: item.Start, end: item.End })
-    );
-    jobAllocations.forEach((item) =>
-      unAvailabilityTimes.push({ start: item.Start, end: item.End })
-    );
-    unavailabilities.forEach((item) =>
-      unAvailabilityTimes.push({ start: item.Start, end: item.Finish })
-    );
-
-    // filter jobs don't overlap any existing Unavailability (Activites, JobAllocations, Unavailabilities)
-    const availabilityTemplateDays = buildAvailableTemplate(
-      availabilityTemplatesResources
-    );
-
-    const filteredJob = jobs.filter(function (element) {
-      return element.JobAllocations.some( function (subElement) {
-          return subElement.ResourceId === resourceId && subElement.Status !== "Deleted" && subElement.Status !== "Declined"
-      });
-  });
     return buildDataStruct({
       resourceIds,
       authData,
       resources,
-      jobs: filteredJob.slice(0, 30),
     });
   }
 
-  function buildDataStruct({
-    resourceIds,
-    authData,
-    resources,
-    jobs,
-  }) {
+  function buildDataStruct({ resourceIds, authData, resources }) {
     const retObj = resourceIds
       .map((resourceId) => {
         const obj = {
           resourceIds,
           resources,
           authData,
-          jobs,
         };
 
         return { [resourceId]: obj };
       })
       .reduce((acc, e) => _.assign(acc, e), {});
-
     return {
       main: retObj,
       common: {
@@ -144,9 +73,11 @@ function wrapper(httpLibs, utils) {
     const cleaned = _.compact(saveArray);
 
     // const jobIds = _.uniq(_.flatten(cleaned.map(items => Object.keys(items))));
-    const job = _.compact(
+    const selectedItem = _.compact(
       _.flatten(
-        _.flatten(cleaned.map((items) => _.values(items))).map((i) => i.job)
+        _.flatten(cleaned.map((items) => _.values(items))).map(
+          (i) => i.selectedItem
+        )
       )
     );
     const resourceIds = _.compact(
@@ -157,10 +88,17 @@ function wrapper(httpLibs, utils) {
       )
     );
 
-    return saveItems(job, resourceIds);
+    return saveItems(selectedItem, resourceIds);
   }
 
-  async function saveItems(job, resourceIds) {
+  async function saveItems(selectedItem, resourceIds) {
+    await graphiQl.executeQuery(updateJobsMutation, {
+      input: {
+        UID: selectedItem[0].UID,
+        Start: selectedItem[0].Start,
+        End: selectedItem[0].End,
+      },
+    });
 
     return fetch(resourceIds).then((result) => _.pick(result, "main"));
   }

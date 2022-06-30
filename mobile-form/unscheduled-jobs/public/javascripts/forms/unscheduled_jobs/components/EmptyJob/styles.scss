@@ -1,3 +1,5 @@
+@import "stylesheets//sass/components/variables";
+
 .empty-list {
   display: flex;
   flex-direction: column;
@@ -5,9 +7,9 @@
   align-items: center;
   height: 100%;
   .empty-msg {
-    font-size: 14px;
-    line-height: 16px;
-    font-weight: 400;
-    color: #5e687a;
+    font-size: $font-size-h4;
+    line-height: $font-size-h3;
+    font-weight: $weight-400;
+    color: $color_navy_600;
   }
 }

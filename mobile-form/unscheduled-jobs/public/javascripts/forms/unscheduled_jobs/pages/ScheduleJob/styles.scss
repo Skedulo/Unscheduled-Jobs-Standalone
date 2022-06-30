@@ -1,0 +1,105 @@
+@import "stylesheets/sass/components/variables";
+
+.schedule-job {
+  .add-date-time {
+    background: $button-default-bg;
+    box-shadow: $card-shadow;
+    margin-bottom: $space_8;
+
+    .common-card {
+      padding: $space_16;
+    }
+    .title {
+      @include small-text;
+      padding-left: $space_16;
+      padding-top: $space_16;
+    }
+    .divider {
+      border: $item-divider;
+    }
+  }
+  .footer-btn {
+    padding: $space_16;
+    .suggest-btn {
+      width: 100%;
+      background-color: $color_navy_50;
+      padding: $space_12 0px;
+      @include bold-text;
+      border-radius: $btn-radius;
+      -webkit-appearance: none;
+      &-disabled {
+        opacity: 0.4;
+      }
+    }
+  }
+  .page-note {
+    width: 100%;
+    @include text-note;
+    text-align: center;
+    -webkit-appearance: none;
+  }
+}
+
+.select-item {
+  display: flex;
+  justify-content: space-between;
+  padding: $space_16;
+  align-items: baseline;
+  .label-item {
+    @include normal-text;
+    color: $color_navy;
+    font-weight: 400;
+    flex: 0;
+  }
+
+  .show-input {
+    position: relative;
+    z-index: 2;
+    opacity: 0;
+  }
+
+  .hide-input{
+    opacity: 1;
+  }
+
+  input[type="time"].hide-input {
+    width: 96px;
+  }  
+  
+
+  .input-wrapper {
+    position: relative;
+    flex: 1;
+    text-align: right;
+    .select-label {
+      @include normal-text-gray;
+      display: flex;
+      justify-content: flex-end;
+      gap: 16px;
+      width: 100%;
+
+      .select-btn {
+        margin-left: 16px;
+      }
+    }
+
+    .hide {
+      display: none;
+    }
+    .show {
+      width: 100%;
+      display: flex;
+      top: 0;
+      right: 0;
+      position: absolute;
+    }
+  }
+  .invalid-input {
+    border: 1px solid $color_red;
+    }
+    .error-msg {
+      color: $color_red;
+    }
+}
+
+

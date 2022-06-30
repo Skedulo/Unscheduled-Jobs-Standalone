@@ -13,7 +13,7 @@ $android-page-header-button-margin-top: math.div(($android-page-header-height - 
 .native-android {
   header {
     height: $android-page-header-height;
-    background: $blue-android;
+    background: $color_sked_blue;
     line-height: $android-page-header-height;
     .title {
       left: $android-page-header-height;

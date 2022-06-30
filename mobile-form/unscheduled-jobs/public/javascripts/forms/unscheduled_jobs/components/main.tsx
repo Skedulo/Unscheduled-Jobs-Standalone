@@ -1,5 +1,5 @@
 import * as React from 'react';
-import Header from './header';
+import Header from './Header';
 import Routers from './router';
 import { controls } from '@skedulo/custom-form-controls';
 import { connect } from 'react-redux';

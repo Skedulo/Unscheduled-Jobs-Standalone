@@ -1,0 +1,25 @@
+@import "stylesheets/sass/components/variables";
+
+.common-card {
+  display: flex;
+  flex-direction: column;
+  gap: $space_4;
+  padding: $space_16 $space_16 $space_8;
+
+  .description {
+    @include bold-text;
+  }
+  .normal-text {
+    @include normal-text-gray;
+    font-weight: $weight-400;
+  }
+
+  .duration {
+    @include normal-text-gray;
+    font-weight: $weight-500;
+  }
+  .tag-label-wrapper {
+    display: flex;
+    gap: $space_4;
+  }
+}

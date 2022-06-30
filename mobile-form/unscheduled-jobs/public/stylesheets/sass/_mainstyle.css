@@ -457,6 +457,20 @@ p {
     font-size: 13px;
 }
 
+
+.form-group-container__col {
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -ms-flex-direction: column;
+    flex-direction: column;
+    -webkit-box-flex: 1;
+    -ms-flex: 1 0 0px;
+    flex: 1 0 0;
+    flex: 1;
+    width: 100%;
+}
+
 @media (min-width: 768px) {
     .form-group-container {
         display: -webkit-box;
@@ -465,10 +479,12 @@ p {
     }
 
     .form-group-container__col {
+        display: flex;
         -webkit-box-orient: vertical;
         -webkit-box-direction: normal;
         -ms-flex-direction: column;
         flex-direction: column;
+        text-align: right;
         -webkit-box-flex: 1;
         -ms-flex: 1 0 0px;
         flex: 1 0 0;
@@ -483,17 +499,20 @@ p {
     display: block;
     width: 100%;
     border-radius: 4px;
-    color: #002748;
+    color: #5E687A;
     font-size: 15px;
     line-height: 20px;
     padding: 13px 16px;
-    border: 1px solid rgba(164, 173, 186, 0.24);
+    border: 0;
     -webkit-appearance: none;
     -moz-appearance: none;
     appearance: none;
     -webkit-transition: border-color 0.2s;
     transition: border-color 0.2s;
+    font-weight: 400;
+    text-align: right;
 }
+
 
 .form-control::-webkit-input-placeholder {
     color: #a4adba;

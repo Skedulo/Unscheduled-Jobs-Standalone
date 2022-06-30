@@ -41,7 +41,11 @@ export interface AppState {
   widgets?: any,
   deviceCache?: any
   liveDataService?: any
-  jobs: Job[]
+  title: string,
+  jobs: Job[],
+  isEnable: boolean,
+  isEnableSuggest: boolean,
+  slotSelected: any
 }
 
 export interface AppAction {
@@ -139,7 +143,7 @@ export interface Job {
   JobAllocations: {
     ResourceId: string
     UID: string
-  }
+  }[]
   JobTimeConstraints: {
     StartAfter: string
     StartBefore: string

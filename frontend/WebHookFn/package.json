@@ -1,0 +1,26 @@
+{
+  "license": "UNLICENSED",
+  "private": true,
+  "main": "dist/handler",
+  "scripts": {
+    "bootstrap": "yarn install --frozen-lockfile --audit --ignore-scripts",
+    "dev": "webpack --watch --mode=development",
+    "compile": "webpack --mode=production"
+  },
+  "devDependencies": {
+    "@types/node": "8",
+    "ts-loader": "^6.2.1",
+    "typescript": "^3.8.2",
+    "webpack": "^4.42.0",
+    "webpack-cli": "^3.3.11"
+  },
+  "dependencies": {
+    "@skedulo/sdk-utilities": "^0.2.14",
+    "@types/lodash": "^4.14.181",
+    "@types/path-to-regexp": "^1.7.0",
+    "TypeGen": "link:../TypeGen",
+    "axios": "^0.26.1",
+    "lodash": "^4.17.21",
+    "path-to-regexp": "^3.0.0"
+  }
+}

@@ -1,63 +1,33 @@
+import { getTimeValue } from "@skedulo/custom-form-controls/dist/helper";
 import React from "react";
-import { formatDate, toHoursAndMinutes } from "../../utills";
-import { Job } from "../duck/type";
-import TagLabel from "../TagLabel";
-import "./styles.scss";
+import { useDispatch } from "react-redux";
 
+import CardCommon from "../CardCommon";
+import { constant, setSelectedItem, setTitle, setView } from "../duck/action";
+import { Job } from "../duck/type";
+import "./styles.scss";
 interface Props {
   job: Job;
 }
 
 const JobCard: React.FC<Props> = ({ job }) => {
-  const {
-    Description,
-    Duration,
-    Address,
-    Contact,
-    Urgency,
-    JobTimeConstraints,
-    JobStatus,
-    Timezone,
-  } = job;
+  const dispatch = useDispatch();
+
+  const onScheduleJob = () => {
+    dispatch(setView({ view: constant.VIEW_SCHEDULE_JOB }));
+    dispatch(setTitle({ title: constant.TITLE_SCHEDULE_JOB }));
+    dispatch(setSelectedItem({ selectedItem: {...job, Start: job.Start ? getTimeValue(job.Start, job.Timezone) : null, End: job.End ? getTimeValue(job.End, job.Timezone) : null }}));
+  };
 
   return (
     <div className="job-card">
-      <div className="description">{Description}</div>
-      {Duration && (
-        <div className="normal-text duration">
-          {toHoursAndMinutes(Duration)}
+      <CardCommon job={job} />
+      <div className="divider"></div>
+      <div className="card-footer">
+        <div className="btn-text" onClick={onScheduleJob}>
+          Schedule Job
         </div>
-      )}
-      {Contact?.FullName && (
-        <div className="normal-text">{Contact.FullName}</div>
-      )}
-      {Address && <div className="normal-text">{Address}</div>}
-      {JobTimeConstraints[0]?.StartBefore && (
-        <div className="normal-text">
-          Start before {formatDate(JobTimeConstraints[0].StartBefore, Timezone)}
-        </div>
-      )}
-
-      {JobTimeConstraints[0]?.StartAfter && (
-        <div className="normal-text">
-          Start after {formatDate(JobTimeConstraints[0].StartAfter, Timezone)}
-        </div>
-      )}
-      
-      {JobTimeConstraints[0]?.EndBefore && (
-        <div className="normal-text">
-          End before {formatDate(JobTimeConstraints[0].EndBefore, Timezone)}
-        </div>
-      )}
-
-      <div className="tag-label-wrapper">
-        {JobStatus && (
-          <TagLabel label={JobStatus} className="job-status"></TagLabel>
-        )}
-        {Urgency && <TagLabel label={Urgency} className="urgency"></TagLabel>}
       </div>
-      <hr />
-      <div className="btn-text">Schedule Job</div>
     </div>
   );
 };

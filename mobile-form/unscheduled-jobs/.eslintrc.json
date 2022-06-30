@@ -1,0 +1,104 @@
+{
+  "settings": {
+    "react": {
+      "version": "latest"
+    },
+    "import/resolver": {
+      "node": {
+        "moduleDirectory": ["./public/signature", "./public/stylesheets"],
+        "extensions": ["*", ".js", ".json", ".node", ".scss"],
+        "tryExtensions": ["*", ".js", ".json", ".node", ".scss"]
+      },
+      "webpack": {
+        "config": "./tools/make.webpack.config.js"
+      }
+    }
+  },
+  "env": {
+    "browser": true,
+    "jest": true
+  },
+  "plugins": ["node", "react"],
+  "extends": [
+    "eslint:recommended",
+    "plugin:node/recommended",
+    "plugin:react/recommended",
+    "plugin:react-hooks/recommended"
+  ],
+  "parser": "@typescript-eslint/parser",
+  "parserOptions": {
+    "ecmaVersion": "latest",
+    "sourceType": "module",
+    "ecmaFeatures": {
+      "jsx": true
+    }
+  },
+  "rules": {
+    "semi": "warn",
+    "eol-last": "warn",
+    "react/display-name": "off",
+    "node/no-unsupported-features/es-builtins": [
+      "error",
+      {
+        "version": ">=15.0.0",
+        "ignores": []
+      }
+    ],
+    "node/no-unsupported-features/es-syntax": [
+      "error",
+      {
+        "version": ">=15.0.0",
+        "ignores": ["modules"]
+      }
+    ],
+    "node/no-unpublished-import": [
+      "error",
+      {
+        "allowModules": [
+          "angular",
+          "@skedulo/uranium",
+          "styled-components",
+          "react-transition-group"
+        ],
+        "tryExtensions": [".js", ".json", ".node", ".scss"],
+        "convertPath": {}
+      }
+    ],
+    "node/no-missing-require": [
+      "error",
+      {
+        "resolvePaths": ["public/stylesheets/sass"],
+        "tryExtensions": [".ts", ".js", ".json", ".node", ".scss"]
+      }
+    ],
+    "node/no-missing-import": [
+      "error",
+      {
+        "allowModules": [],
+        "resolvePaths": ["public/stylesheets/sass", "public/signature"],
+        "tryExtensions": [
+          ".ts",
+          ".tsx",
+          ".js",
+          ".jsx",
+          ".json",
+          ".node",
+          ".scss"
+        ]
+      }
+    ],
+    "node/no-extraneous-require": [
+      "error",
+      {
+        "allowModules": ["babel-polyfill", "lodash"]
+      }
+    ],
+    "node/no-extraneous-import": [
+      "error",
+      {
+        "allowModules": ["lodash", "moment-timezone"]
+      }
+    ],
+    "react/jsx-key": "off"
+  }
+}
