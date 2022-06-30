@@ -10,10 +10,6 @@ import { FunctionRoute } from '@skedulo/sdk-utilities'
 import * as getResourceAvailable from './getResourceAvailable';
 import * as getGridSchedule from './getGridSchedule';
 
-// tslint:disable-next-line:no-empty-interface
-interface RequestPayload {
-}
-
 export function getCompiledRoutes() {
   return getRoutes().map(route => {
 

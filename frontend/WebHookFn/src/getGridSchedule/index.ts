@@ -16,7 +16,7 @@ export const handler = async (body: { [K: string]: any }, headers: any) => {
     .then(response => {
       return {
         status: 200,
-        body: { url: (response as any).data }
+        body: { url: response?.data }
       }
     })
     .catch(async (error) => {
