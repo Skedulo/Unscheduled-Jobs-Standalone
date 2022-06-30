@@ -160,7 +160,7 @@ const ScheduleJob = () => {
           </div>
         </div>
         <div className="add-date-time footer-btn">
-          <button className={`suggest-btn ${isEnableSuggestBtn ? 'suggest-btn-enable' : 'suggest-btn-disabled' }`} type="submit" disabled={!isEnableSuggestBtn}>
+          <button className={`suggest-btn ${isEnableSuggestBtn ? 'suggest-btn-enable' : 'suggest-btn-disabled' }`} type="submit" disabled={!isEnableSuggestBtn} onClick={onSeeSuggestedTime}>
             See suggested times
           </button>
         </div>
@@ -168,7 +168,6 @@ const ScheduleJob = () => {
           View your agenda to see where this job could be scheduled
         </div>
       </div>
-
     </>
   );
 };
