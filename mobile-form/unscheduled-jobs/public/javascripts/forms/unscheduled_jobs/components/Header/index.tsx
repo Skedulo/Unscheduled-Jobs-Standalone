@@ -1,5 +1,5 @@
 import { controls } from "@skedulo/custom-form-controls";
-import axios from "axios";
+
 import React, { useCallback } from "react";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -16,14 +16,15 @@ import {
   setSelectedItem,
 } from "../duck/action";
 import { Job } from "../duck/type";
-import { queryJob, updateJobsMutation } from "../../query/index";
-import { constants } from "../../constants";
+
 //@ts-ignore
 import SuccessIcon from "../../images/Union.svg";
 import "react-toastify/dist/ReactToastify.min.css";
 import "./styles.scss";
-import { useMutation, useQuery } from "react-query";
+import { useMutation } from "react-query";
 import useGetAvailableResource from "../../hooks/useGetAvailableResource";
+import useGetJobs from "../../hooks/useGetJobs";
+import { updateJobsMutation } from "../../query";
 
 const { PopUp } = controls;
 interface IProps {
@@ -31,8 +32,6 @@ interface IProps {
   onSaveFn?: Function;
   showConfirm?: Function;
 }
-
-const GET_JOBS_KEY = "GET_JOBS_KEY";
 
 const Header: React.FC<IProps> = ({ onGobackFn }: IProps) => {
   const dispatch = useDispatch();
@@ -56,6 +55,7 @@ const Header: React.FC<IProps> = ({ onGobackFn }: IProps) => {
     };
   });
   const { Start, End, UID } = storeProps.selectedItem;
+
   const [isShowPopup, setIsShowPopup] = useState(false);
   const [availableJobs, setAvailableJobs] = useState<Job[]>([]);
 
@@ -195,30 +195,25 @@ const Header: React.FC<IProps> = ({ onGobackFn }: IProps) => {
     },
   });
 
-  async function getJobs() {
-    const res = await widgets.GraphQL({
-      query: queryJob,
-      variables: {
-        filterJob: `End >= ${Start} AND Start <= ${End}`,
-      },
+  function onGetJobsSuccess(jobs: Job[]) {
+    const newArr = jobs.filter(function (element: Job) {
+      return element.JobAllocations.some(function (subElement: any) {
+        return (
+          subElement.ResourceId === resourceId &&
+          element.Region.Name == resourceRegion
+        );
+      });
     });
-    return res;
+    setAvailableJobs(newArr);
   }
 
-  const { isLoading: getJobsLoading } = useQuery(GET_JOBS_KEY, getJobs, {
-    onSuccess: (data) => {
-      const newArr = data.jobs.filter(function (element: Job) {
-        return element.JobAllocations.some(function (subElement: any) {
-          return (
-            subElement.ResourceId === resourceId &&
-            element.Region.Name == resourceRegion
-          );
-        });
-      });
-      setAvailableJobs(newArr);
+  const { getJobsLoading } = useGetJobs(
+    {
+      filterJob: `End >= ${Start} AND Start <= ${End}`,
     },
-    enabled: !!Start && !!End,
-  });
+    onGetJobsSuccess,
+    !!Start && !!End
+  );
 
   const handleAvailableSuccess = (data) => {
     const result = data?.data.url.result;
@@ -233,7 +228,9 @@ const Header: React.FC<IProps> = ({ onGobackFn }: IProps) => {
         );
       });
     }
-    if (!isEmpty(availableSlot) && isEmpty(availableJobs)) {
+    console.log("(availableSlot.length > 0 :>> ", availableSlot.length > 0);
+    console.log("isEmpty(availableJobs) :>> ", isEmpty(availableJobs));
+    if (availableSlot.length > 0 && isEmpty(availableJobs)) {
       mutate();
       setIsShowPopup(false);
     } else {

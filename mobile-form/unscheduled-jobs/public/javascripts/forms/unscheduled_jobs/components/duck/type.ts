@@ -120,6 +120,13 @@ export interface IActivity {
   sked__Resource__c: string
 }
 
+export interface JobAllocation {
+  ResourceId: string
+  UID: string
+  Status: string;
+  JobId: string;
+}
+
 export interface Job {
   UID: string,
   Name: string,
@@ -140,10 +147,7 @@ export interface Job {
   Urgency: string
   Timezone: string
   Address: string
-  JobAllocations: {
-    ResourceId: string
-    UID: string
-  }[]
+  JobAllocations: JobAllocation[]
   JobTimeConstraints: {
     StartAfter: string
     StartBefore: string

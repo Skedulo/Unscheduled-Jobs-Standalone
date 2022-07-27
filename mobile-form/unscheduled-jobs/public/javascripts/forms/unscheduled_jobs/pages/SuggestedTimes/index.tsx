@@ -76,7 +76,6 @@ const SuggestedTimes = () => {
     available,
     selectedItemStart
   );
-  console.log("gridSchedule :>> ", gridSchedule);
 
   const dateTimeArr = gridSchedule.map((item: GridInfo) => {
     return {
