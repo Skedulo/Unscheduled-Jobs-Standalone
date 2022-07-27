@@ -1,9 +1,6 @@
-import axios from "axios";
 import moment from "moment";
-import React, { useEffect, useMemo, useState, useCallback } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { constants } from "../../constants";
-import formContext from "../../formContext";
 import "./styles.scss";
 //@ts-ignore
 import CheckIcon from "../../images/Shape.png";
@@ -14,8 +11,10 @@ import {
 } from "../../components/duck/action";
 import { isEmpty, isEqual } from "lodash";
 import { Loading } from "@skedulo/custom-form-controls/dist/controls";
+import useGetAvailableResource from "../../hooks/useGetAvailableResource";
+import useGetGridSchedule from "../../hooks/useGetGridSchedule";
 
-interface GridInfo {
+export interface GridInfo {
   availableResources: string[];
   start: string;
   end: string;
@@ -28,53 +27,7 @@ interface SlotInfo {
   endOrigin: string;
 }
 
-const useGetAvailableResource = (
-  config: any,
-  resourceId: string,
-  startDate: string,
-  endDate: string
-) => {
-  const API_GET_AVAILABLE_RESOURCE = `${constants.API_ROOT}/${constants.API_GET_AVAILABLE_RESOURCE}`;
-  const [available, setAvailable] = useState<{ start: string; end: string }[]>(
-    []
-  );
-  const getAvailableResource = useCallback(
-    async (startDate: string, endDate: string) => {
-      try {
-        const res = await axios.post(
-          API_GET_AVAILABLE_RESOURCE,
-          {
-            start: startDate,
-            end: endDate,
-            resourceIds: [resourceId],
-            availability: true,
-            unavailability: true,
-          },
-          config
-        );
-        if (res.status === constants.SUCCESS_CODE) {
-          const result = res.data.url?.result;
-          const resourceInfo = Object.values(result) as any;
-          if (resourceInfo[0].available.length !== 0) {
-            setAvailable(resourceInfo[0].available);
-          }
-        }
-      } catch (error) {
-        console.log("error", error);
-      }
-    },
-    [API_GET_AVAILABLE_RESOURCE, config, resourceId]
-  );
-
-  useEffect(() => {
-    getAvailableResource(startDate, endDate);
-  }, [getAvailableResource, startDate, endDate]);
-
-  return { available, refetch: getAvailableResource };
-};
-
 const SuggestedTimes = () => {
-  const context = React.useContext(formContext);
   const dispatch = useDispatch();
   const storeProps = useSelector(({ reducer }: any) => {
     return {
@@ -82,27 +35,10 @@ const SuggestedTimes = () => {
       slotSelected: reducer.slotSelected,
     };
   });
-  const {
-    common,
-    main: { resourceIds },
-  } = context;
-  const token = useMemo(
-    () =>
-      common.authData.skeduloAccess.token
-        ? common.authData.skeduloAccess.token
-        : constants.sessionToken,
-    [common.authData.skeduloAccess.token]
+
+  const [available, setAvailable] = useState<{ start: string; end: string }[]>(
+    []
   );
-  const config = useMemo(
-    () => ({
-      headers: {
-        Authorization: `Bearer ${token}`,
-        ["Content-Type"]: `application/json`,
-      },
-    }),
-    [token]
-  );
-  const [showLoading, setShowLoading] = useState(true);
 
   const selectedItemStart = storeProps.selectedItem.Start as string;
   const currentDateStart = useMemo(
@@ -120,122 +56,27 @@ const SuggestedTimes = () => {
     [selectedItemStart]
   );
 
-  const { available } = useGetAvailableResource(
-    config,
-    resourceIds[0],
+  const handleAvailableSuccess = (data) => {
+    const result = data.data.url?.result;
+    const resourceInfo = Object.values(result) as any;
+    if (resourceInfo[0].available.length !== 0) {
+      setAvailable(resourceInfo[0].available);
+    }
+  };
+  const { getAvailableResourceLoading } = useGetAvailableResource(
     currentDateStart,
-    currentDateEnd
+    currentDateEnd,
+    true,
+    handleAvailableSuccess
   );
 
-  const today = useMemo(() => moment().toISOString(), []);
   const todayFormated = moment().format("dddd, MMMM DD");
 
-  const [gridSchedule, setGridSchedule] = useState([] as any);
-  const [count, setCount] = useState(0);
-
-  const { JobTimeConstraints } = storeProps.selectedItem;
-  const StartBefore = JobTimeConstraints[0]?.StartBefore;
-  const EndBefore = JobTimeConstraints[0]?.EndBefore;
-  const StartAfter = JobTimeConstraints[0]?.StartAfter;
-
-  //selectDate > StartAfter
-  const isValidStartAfter = useCallback(
-    (scheduleStart: string) => {
-      return (
-        !StartAfter || (StartAfter && moment(scheduleStart).isAfter(StartAfter))
-      );
-    },
-    [StartAfter]
+  const { gridSchedule, getGridScheduleLoading } = useGetGridSchedule(
+    available,
+    selectedItemStart
   );
-
-  const isValidEndBefore = useCallback(
-    (scheduleStart: string) => {
-      return (
-        !EndBefore || (EndBefore && moment(scheduleStart).isBefore(EndBefore))
-      );
-    },
-    [EndBefore]
-  );
-
-  const isValidStartBefore = useCallback(
-    (scheduleStart: string) => {
-      return (
-        !StartBefore ||
-        (StartBefore &&
-          moment(today).isSameOrBefore(scheduleStart) &&
-          moment(scheduleStart).isBefore(StartBefore))
-      );
-    },
-    [StartBefore, today]
-  );
-
-  const isNotInPast = useCallback(
-    (scheduleStart: string) => {
-      return moment(today).isBefore(scheduleStart);
-    },
-    [today]
-  );
-
-  const API_GET_GRID_SCHEDULE = `${constants.API_ROOT}/${constants.API_GET_GRID_SCHEDULE}`;
-
-  const getAvailableCountStart = useCallback((count: number, availableStart: any) => {
-    let startTime = availableStart;
-    if (count === 0 && moment(availableStart).isBefore(selectedItemStart)) {
-      startTime = selectedItemStart;
-    }
-    return startTime;
-  }, [selectedItemStart]);
-
-  useEffect(() => {
-    async function getGridSchedule() {
-      try {
-        const res = await axios.post(
-          API_GET_GRID_SCHEDULE,
-          {
-            scheduleStart: getAvailableCountStart(count, available[count]?.start || ""),
-            scheduleEnd: available[count]?.end || "",
-            resourceIds: [resourceIds[0]],
-            job: {
-              location: {
-                lat: storeProps.selectedItem.GeoLatitude,
-                lng: storeProps.selectedItem.GeoLongitude,
-              },
-            },
-            gridSize: storeProps.selectedItem.Duration * 60,
-          },
-          config
-        );
-        if (res.status === constants.SUCCESS_CODE) {
-          const validResult = res.data.url.result.filter((item: GridInfo) => {
-            return item.availableResources.includes(resourceIds[0]);
-          });
-          const matchJCTResult = validResult.filter((item: any) => {
-            return (
-              isValidStartAfter(item.start) &&
-              isValidStartBefore(item.start) &&
-              isValidEndBefore(item.start) &&
-              isNotInPast(item.start)
-            );
-          });
-
-          setGridSchedule((prev: any) => {
-            if ([...prev, ...matchJCTResult].length < 30) {
-              setCount((prev) => prev + 1);
-            }
-            setShowLoading(false);
-            return [...prev, ...matchJCTResult];
-          });
-        }
-      } catch (error) {
-        console.log("error :>> ", error);
-      }
-    }
-
-    if (available.length !== 0 && available[count]) {
-      getGridSchedule();
-    }
-  }, [available, config, count, isNotInPast, isValidEndBefore, isValidStartAfter, isValidStartBefore, resourceIds, storeProps.selectedItem.GeoLatitude, storeProps.selectedItem.GeoLongitude, storeProps.selectedItem.Duration, getAvailableCountStart, API_GET_GRID_SCHEDULE]);
-
+  console.log("gridSchedule :>> ", gridSchedule);
 
   const dateTimeArr = gridSchedule.map((item: GridInfo) => {
     return {
@@ -306,9 +147,12 @@ const SuggestedTimes = () => {
 
   return (
     <>
-      {showLoading ? (
-        <Loading loading={showLoading} />
-      ) : isEmpty(newDateTimeArr) ? (
+      {(getAvailableResourceLoading || getGridScheduleLoading) && (
+        <Loading
+          loading={getAvailableResourceLoading || getGridScheduleLoading}
+        />
+      )}
+      {isEmpty(newDateTimeArr) ? (
         <div className="empty-list">
           <div className="empty-msg">
             There is no availability matching the Job requirements

@@ -49,7 +49,7 @@ export default function reducer(state: AppState = {
       const { params } = action;
       return {
         ...state,
-        selectedItem: { ...params.selectedItem }
+        selectedItem: {...state.selectedItem, ...params.selectedItem }
       };
     }
     case constant.ACTION_SET_ENABLE_SAVE: {

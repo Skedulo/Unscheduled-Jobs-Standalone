@@ -8,7 +8,13 @@ import { isEmpty } from "lodash";
 import { toast, ToastContainer } from "react-toastify";
 
 import formContext from "../../formContext";
-import { constant, setView, setTitle, setSlotSelected, setSelectedItem } from "../duck/action";
+import {
+  constant,
+  setView,
+  setTitle,
+  setSlotSelected,
+  setSelectedItem,
+} from "../duck/action";
 import { Job } from "../duck/type";
 import { queryJob, updateJobsMutation } from "../../query/index";
 import { constants } from "../../constants";
@@ -16,6 +22,8 @@ import { constants } from "../../constants";
 import SuccessIcon from "../../images/Union.svg";
 import "react-toastify/dist/ReactToastify.min.css";
 import "./styles.scss";
+import { useMutation, useQuery } from "react-query";
+import useGetAvailableResource from "../../hooks/useGetAvailableResource";
 
 const { PopUp } = controls;
 interface IProps {
@@ -24,17 +32,17 @@ interface IProps {
   showConfirm?: Function;
 }
 
+const GET_JOBS_KEY = "GET_JOBS_KEY";
+
 const Header: React.FC<IProps> = ({ onGobackFn }: IProps) => {
   const dispatch = useDispatch();
   const context = React.useContext(formContext);
   const {
     widgets,
     main: { resourceIds, resources },
-    common,
   } = context;
+  const resourceId = resourceIds[0] as TimeRanges;
   const resourceRegion = resources[0].PrimaryRegion.Name;
-
-  const [isShowPopup, setIsShowPopup] = useState(false);
 
   const storeProps = useSelector(({ reducer }: any) => {
     return {
@@ -44,9 +52,12 @@ const Header: React.FC<IProps> = ({ onGobackFn }: IProps) => {
       selectedItem: reducer.selectedItem as Job,
       isEnable: reducer.isEnable as boolean,
       isEnableSuggest: reducer.isEnableSuggest as boolean,
-      slotSelected: reducer.slotSelected as any
+      slotSelected: reducer.slotSelected as any,
     };
   });
+  const { Start, End, UID } = storeProps.selectedItem;
+  const [isShowPopup, setIsShowPopup] = useState(false);
+  const [availableJobs, setAvailableJobs] = useState<Job[]>([]);
 
   const onGoBackHandler = React.useCallback(() => {
     if (!storeProps.view) {
@@ -71,26 +82,26 @@ const Header: React.FC<IProps> = ({ onGobackFn }: IProps) => {
 
   const onSuggestedTimeBack = React.useCallback(() => {
     dispatch(setTitle({ title: constant.TITLE_SCHEDULE_JOB }));
-          dispatch(setView({ view: constant.VIEW_SCHEDULE_JOB }));
-          dispatch(
-            setSlotSelected({
-              slotSelected: {
-                ...storeProps.slotSelected,
-                start: '',
-                end: '',
-                date: ''
-              },
-            })
-          );
-          dispatch(
-            setSelectedItem({
-              selectedItem: {
-                ...storeProps.selectedItem,
-                Start: null,
-                End: null
-              },
-            })
-          );
+    dispatch(setView({ view: constant.VIEW_SCHEDULE_JOB }));
+    dispatch(
+      setSlotSelected({
+        slotSelected: {
+          ...storeProps.slotSelected,
+          start: "",
+          end: "",
+          date: "",
+        },
+      })
+    );
+    dispatch(
+      setSelectedItem({
+        selectedItem: {
+          ...storeProps.selectedItem,
+          Start: null,
+          End: null,
+        },
+      })
+    );
   }, [storeProps, dispatch]);
 
   useEffect(() => {
@@ -149,115 +160,104 @@ const Header: React.FC<IProps> = ({ onGobackFn }: IProps) => {
         setTitleHeader("Unscheduled work");
         break;
     }
-  }, [storeProps.title]) ;
+  }, [storeProps.title]);
 
   useEffect(() => {
     displayTitle();
   }, [displayTitle]);
 
-  const start = storeProps.selectedItem.Start;
-  const end = storeProps.selectedItem.End;
-
-  const saveJobToDB = async () => {
-    await widgets
-      .GraphQL({
-        query: updateJobsMutation,
-        variables: {
-          input: {
-            UID: storeProps.selectedItem.UID,
-            Start: storeProps.selectedItem.Start,
-            End: storeProps.selectedItem.End,
-          },
+  async function updateJob() {
+    await widgets.GraphQL({
+      query: updateJobsMutation,
+      variables: {
+        input: {
+          UID: UID,
+          Start: Start,
+          End: End,
         },
-      })
-      .then(() => {
-        onGoBackHandler();
-        dispatch(setTitle({ title: constant.TITLE_MY_JOBS }));
-        toast(
-          <div className="content-msg">
-            <img src={SuccessIcon} alt="React Logo" />
-            {storeProps.selectedItem.Name} has been scheduled
-          </div>
-        );
-      })
-      .catch((e: any) => console.log("e", e));
-  };
-
-  const token = common.authData.skeduloAccess.token
-    ? common.authData.skeduloAccess.token
-    : constants.sessionToken;
-
-  const config = {
-    headers: {
-      Authorization: `Bearer ${token}`,
-      ["Content-Type"]: `application/json`,
-    },
-  };
-
-  const API_GET_AVAILABLE_RESOURCE = `${constants.API_ROOT}/${constants.API_GET_AVAILABLE_RESOURCE}`;
-  const onSaveJob = async () => {
-    const resourceId = resourceIds[0] as TimeRanges;
-    const res = await axios.post(
-      API_GET_AVAILABLE_RESOURCE,
-      {
-        start: start,
-        end: end,
-        resourceIds: [resourceId],
-        availability: true,
-        unavailability: true,
       },
-      config
-    );
+    });
+  }
 
-    if (res.status === constants.SUCCESS_CODE) {
-      const result = res.data.url.result;
-
-      const resourceInfo = Object.values(result) as any;
-      const resourceAvalability = resourceInfo[0].available;
-
-      let availableSlot = [];
-      if (resourceAvalability.length !== []) {
-        availableSlot = resourceAvalability.filter((item: any) => {
-          return (
-            moment(`${storeProps.selectedItem.Start}`).isSameOrAfter(
-              `${item.start}`
-            ) &&
-            moment(`${storeProps.selectedItem.End}`).isSameOrBefore(
-              `${item.end}`
-            )
-          );
-        });
-      }
-
-      const { jobs } = await widgets.GraphQL({
-        query: queryJob,
-        variables: {
-          filterJob: `End >= ${start} AND Start <= ${end}`,
-        },
-      });
-
-    const newArr = jobs.filter(function (element: Job) {
-      return element.JobAllocations.some( function (subElement: any) {
-          return subElement.ResourceId === resourceId && element.Region.Name == resourceRegion;
-      });
+  const { mutate, isLoading: updateJobLoading } = useMutation(updateJob, {
+    onSuccess: () => {
+      onGoBackHandler();
+      dispatch(setTitle({ title: constant.TITLE_MY_JOBS }));
+      toast(
+        <div className="content-msg">
+          <img src={SuccessIcon} alt="React Logo" />
+          {storeProps.selectedItem.Name} has been scheduled
+        </div>
+      );
+    },
+    onError: (error) => {
+      console.log("error :>> ", error);
+    },
   });
 
-      if (!isEmpty(availableSlot) && isEmpty(newArr)) {
-        saveJobToDB();
-        setIsShowPopup(false);
-      } else {
-        setIsShowPopup(true);
-      }
+  async function getJobs() {
+    const res = await widgets.GraphQL({
+      query: queryJob,
+      variables: {
+        filterJob: `End >= ${Start} AND Start <= ${End}`,
+      },
+    });
+    return res;
+  }
+
+  const { isLoading: getJobsLoading } = useQuery(GET_JOBS_KEY, getJobs, {
+    onSuccess: (data) => {
+      const newArr = data.jobs.filter(function (element: Job) {
+        return element.JobAllocations.some(function (subElement: any) {
+          return (
+            subElement.ResourceId === resourceId &&
+            element.Region.Name == resourceRegion
+          );
+        });
+      });
+      setAvailableJobs(newArr);
+    },
+    enabled: !!Start && !!End,
+  });
+
+  const handleAvailableSuccess = (data) => {
+    const result = data?.data.url.result;
+    const resourceInfo = Object.values(result) as any;
+    const resourceAvalability = resourceInfo[0].available;
+    let availableSlot = [];
+    if (resourceAvalability.length !== []) {
+      availableSlot = resourceAvalability.filter((item: any) => {
+        return (
+          moment(`${Start}`).isSameOrAfter(`${item.start}`) &&
+          moment(`${End}`).isSameOrBefore(`${item.end}`)
+        );
+      });
+    }
+    if (!isEmpty(availableSlot) && isEmpty(availableJobs)) {
+      mutate();
+      setIsShowPopup(false);
+    } else {
+      setIsShowPopup(true);
     }
   };
-  const onSave = () => {
-    saveJobToDB();
-  };
 
+  const { refetchAvailableResource, getAvailableResourceLoading } =
+    useGetAvailableResource(Start, End, false, handleAvailableSuccess);
+
+  const onSaveJob = () => {
+    refetchAvailableResource();
+  };
 
   return (
     <header className="bar-title">
-      <button className="btn transparent fl" onClick={storeProps.title === constant.TITLE_SUGGESTED_TIME ? onSuggestedTimeBack : onGoBackHandler}>
+      <button
+        className="btn transparent fl"
+        onClick={
+          storeProps.title === constant.TITLE_SUGGESTED_TIME
+            ? onSuggestedTimeBack
+            : onGoBackHandler
+        }
+      >
         <i className="sk sk-chevron-left color-white " />
       </button>
 
@@ -270,9 +270,13 @@ const Header: React.FC<IProps> = ({ onGobackFn }: IProps) => {
       {storeProps.view === constant.VIEW_SCHEDULE_JOB && (
         <button
           className="btn transparent fr"
-          disabled={!storeProps.isEnable}
+          disabled={
+            !storeProps.isEnable ||
+            getAvailableResourceLoading ||
+            getJobsLoading ||
+            updateJobLoading
+          }
           onClick={onSaveJob}
-          
         >
           <span
             className={`btn-save ${
@@ -327,7 +331,7 @@ const Header: React.FC<IProps> = ({ onGobackFn }: IProps) => {
             {
               primary: true,
               action: () => {
-                onSave();
+                mutate();
                 setIsShowPopup(false);
               },
               caption: "Save anyway",

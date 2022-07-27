@@ -1,42 +1,54 @@
-import * as React from 'react';
-import Header from './Header';
-import Routers from './router';
-import { controls } from '@skedulo/custom-form-controls';
-import { connect } from 'react-redux';
+import * as React from "react";
+import Header from "./Header";
+import Routers from "./router";
+import { controls } from "@skedulo/custom-form-controls";
+import { connect } from "react-redux";
+import { QueryClient, QueryClientProvider } from "react-query";
+import { ReactQueryDevtools } from "react-query/devtools";
+
+const queryClient = new QueryClient();
 
 const { GoBackConfirmModal, Loading } = controls;
 
 interface IState {
-  showConfirm?: boolean,
-  dimension?: number
+  showConfirm?: boolean;
+  dimension?: number;
 }
 
 interface IProps {
-  showLoading?: boolean,
-  view: string
+  showLoading?: boolean;
+  view: string;
 }
 class Main extends React.Component<IProps, IState> {
-
   state: IState = {
     showConfirm: false,
-    dimension: Main.getDimension()
-  }
+    dimension: Main.getDimension(),
+  };
 
   render() {
     return (
-      <div>
-        <Header onSaveFn={this.saveFn.bind(this)} onGobackFn={this.goBackFn.bind(this)} showConfirm={() => this.setState({ showConfirm: true })} />
-        <section>
-          {/*------------------ common items ---------------------*/}
-          <div className="scroll-touch" style={{ overflowY: "scroll" }}>
-            <Routers view={this.props.view} />
-          </div>
-        </section>
+      <QueryClientProvider client={queryClient}>
+        <div>
+          <Header
+            onSaveFn={this.saveFn.bind(this)}
+            onGobackFn={this.goBackFn.bind(this)}
+            showConfirm={() => this.setState({ showConfirm: true })}
+          />
+          <section>
+            {/*------------------ common items ---------------------*/}
+            <div className="scroll-touch" style={{ overflowY: "scroll" }}>
+              <Routers view={this.props.view} />
+            </div>
+          </section>
 
-        <GoBackConfirmModal show={!!this.state.showConfirm} onConfirmGoBack={(val: boolean) => this.confirmGoBack(val)} />
-        <Loading loading={this.props.showLoading} />
-
-      </div>
+          <GoBackConfirmModal
+            show={!!this.state.showConfirm}
+            onConfirmGoBack={(val: boolean) => this.confirmGoBack(val)}
+          />
+          <Loading loading={this.props.showLoading} />
+        </div>
+        <ReactQueryDevtools initialIsOpen={false} position="bottom-right" />
+      </QueryClientProvider>
     );
   }
 
@@ -52,12 +64,16 @@ class Main extends React.Component<IProps, IState> {
 
   confirmGoBack(confirm: boolean) {
     this.setState({
-      showConfirm: confirm
+      showConfirm: confirm,
     });
   }
 
   componentDidMount() {
-    window.addEventListener('orientationchange', () => this.handleScreenRotate(), false);
+    window.addEventListener(
+      "orientationchange",
+      () => this.handleScreenRotate(),
+      false
+    );
     this.handleScreenRotate();
   }
 
@@ -76,5 +92,5 @@ class Main extends React.Component<IProps, IState> {
 
 export default connect((state: any) => ({
   view: state.reducer.view,
-  showLoading: state.reducer.showLoading
+  showLoading: state.reducer.showLoading,
 }))(Main);
