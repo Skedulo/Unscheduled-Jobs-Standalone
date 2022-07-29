@@ -128,7 +128,7 @@ const useGetGridSchedule = (available: { start: string; end: string }[], selecte
     storeProps.selectedItem.GeoLongitude,
   ]);
 
-  const { isLoading: getGridScheduleLoading, refetch: refetchGridSchedule } =
+  const { isLoading: getGridScheduleLoading, refetch: refetchGridSchedule, isFetching: fetchchingGridSchedule } =
     useQuery(GET_GRID_SCHEDULE_KEY, getGridSchedule, {
       enabled: available.length !== 0 && !!available[count],
       onSuccess: (data) => {
@@ -151,7 +151,7 @@ const useGetGridSchedule = (available: { start: string; end: string }[], selecte
         });
       },
     });
-  return { gridSchedule, getGridScheduleLoading, refetchGridSchedule };
+  return { gridSchedule, getGridScheduleLoading, refetchGridSchedule, fetchchingGridSchedule };
 };
 
 export default useGetGridSchedule;

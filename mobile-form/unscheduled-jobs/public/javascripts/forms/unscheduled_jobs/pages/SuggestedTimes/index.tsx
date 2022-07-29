@@ -5,6 +5,7 @@ import "./styles.scss";
 //@ts-ignore
 import CheckIcon from "../../images/Shape.png";
 import {
+  constant,
   setEnableSaveSlot,
   setSelectedItem,
   setSlotSelected,
@@ -13,7 +14,6 @@ import { isEmpty, isEqual } from "lodash";
 import { Loading } from "@skedulo/custom-form-controls/dist/controls";
 import useGetAvailableResource from "../../hooks/useGetAvailableResource";
 import useGetGridSchedule from "../../hooks/useGetGridSchedule";
-
 export interface GridInfo {
   availableResources: string[];
   start: string;
@@ -33,6 +33,7 @@ const SuggestedTimes = () => {
     return {
       selectedItem: reducer.selectedItem,
       slotSelected: reducer.slotSelected,
+      view: reducer.view as string,
     };
   });
 
@@ -63,16 +64,27 @@ const SuggestedTimes = () => {
       setAvailable(resourceInfo[0].available);
     }
   };
-  const { getAvailableResourceLoading } = useGetAvailableResource(
+  const {
+    getAvailableResourceLoading,
+    refetchAvailableResource,
+    fetchingAvailableResource,
+  } = useGetAvailableResource(
+    "GET_AVAILABLE_RESOURCES_KEY",
     currentDateStart,
     currentDateEnd,
-    true,
+    false,
     handleAvailableSuccess
   );
 
+  useEffect(() => {
+    if (storeProps.view === constant.VIEW_SUGGESTED_TIMES) {
+      refetchAvailableResource();
+    }
+  }, [refetchAvailableResource, storeProps.view]);
+
   const todayFormated = moment().format("dddd, MMMM DD");
 
-  const { gridSchedule, getGridScheduleLoading } = useGetGridSchedule(
+  const { gridSchedule, fetchchingGridSchedule } = useGetGridSchedule(
     available,
     selectedItemStart
   );
@@ -146,9 +158,9 @@ const SuggestedTimes = () => {
 
   return (
     <>
-      {(getAvailableResourceLoading || getGridScheduleLoading) && (
+      {(fetchchingGridSchedule || fetchingAvailableResource) && (
         <Loading
-          loading={getAvailableResourceLoading || getGridScheduleLoading}
+          loading={fetchingAvailableResource || fetchchingGridSchedule}
         />
       )}
       {isEmpty(newDateTimeArr) ? (

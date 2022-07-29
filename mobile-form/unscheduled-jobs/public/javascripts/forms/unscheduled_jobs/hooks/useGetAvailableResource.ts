@@ -5,8 +5,7 @@ import { constants } from "../constants";
 import formContext from "../formContext";
 
 const API_GET_AVAILABLE_RESOURCE = `${constants.API_ROOT}/${constants.API_GET_AVAILABLE_RESOURCE}`;
-const GET_AVAILABLE_RESOURCES_KEY = "GET_AVAILABLE_RESOURCES_KEY";
-const useGetAvailableResource = (startDate: string, endDate: string, isEnableCall: boolean, onSuccess: any) => {
+const useGetAvailableResource = (key: string, startDate: string, endDate: string, isEnableCall: boolean, onSuccess: any) => {
   const context = useContext(formContext);
   const {
     main: { resourceIds },
@@ -49,7 +48,8 @@ const useGetAvailableResource = (startDate: string, endDate: string, isEnableCal
     data: availableResource,
     isSuccess: isGetAvailableResourceSuccess,
     isError: isGetAvailableResourceError,
-  } = useQuery(GET_AVAILABLE_RESOURCES_KEY, getAvailableResource, {
+    isFetching: fetchingAvailableResource
+  } = useQuery(key, getAvailableResource, {
     enabled: isEnableCall,
     onSuccess: (data) => {
         onSuccess(data);
@@ -65,6 +65,7 @@ const useGetAvailableResource = (startDate: string, endDate: string, isEnableCal
     availableResource,
     isGetAvailableResourceSuccess,
     isGetAvailableResourceError,
+    fetchingAvailableResource
   };
 };
 

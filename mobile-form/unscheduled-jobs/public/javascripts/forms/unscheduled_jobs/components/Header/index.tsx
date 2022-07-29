@@ -215,7 +215,7 @@ const Header: React.FC<IProps> = ({ onGobackFn }: IProps) => {
     !!Start && !!End
   );
 
-  const handleAvailableSuccess = (data) => {
+  const handleGetAvailableSuccess = (data) => {
     const result = data?.data.url.result;
     const resourceInfo = Object.values(result) as any;
     const resourceAvalability = resourceInfo[0].available;
@@ -228,8 +228,7 @@ const Header: React.FC<IProps> = ({ onGobackFn }: IProps) => {
         );
       });
     }
-    console.log("(availableSlot.length > 0 :>> ", availableSlot.length > 0);
-    console.log("isEmpty(availableJobs) :>> ", isEmpty(availableJobs));
+
     if (availableSlot.length > 0 && isEmpty(availableJobs)) {
       mutate();
       setIsShowPopup(false);
@@ -239,7 +238,13 @@ const Header: React.FC<IProps> = ({ onGobackFn }: IProps) => {
   };
 
   const { refetchAvailableResource, getAvailableResourceLoading } =
-    useGetAvailableResource(Start, End, false, handleAvailableSuccess);
+    useGetAvailableResource(
+      "GET_AVAILABLE_RESOURCES",
+      Start,
+      End,
+      false,
+      handleGetAvailableSuccess
+    );
 
   const onSaveJob = () => {
     refetchAvailableResource();
